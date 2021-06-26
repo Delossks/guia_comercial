@@ -22,6 +22,7 @@ class RegistroController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $usuario->setValidez(validez: 'pendiente');
             $usuario->setFechaAlta(getdate());
+            $usuario->setRoles(['ROLE_USER']);
             $usuario->setPassword($passwordEncoder->encodePassword($usuario,$form['password']->getData()));
             $em->persist($usuario);
             $em->flush();
