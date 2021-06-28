@@ -23,9 +23,14 @@ class RegistroController extends AbstractController
             $usuario->setValidez(validez: 'pendiente');
             $usuario->setFechaAlta(getdate());
             $usuario->setRoles(['ROLE_USER']);
+
+            //Se codifica la contraseña
             $usuario->setPassword($passwordEncoder->encodePassword($usuario,$form['password']->getData()));
+
+            //Se guarda el usuario en la base de datos
             $em->persist($usuario);
             $em->flush();
+
             $this->addFlash(type: 'exito', message: 'El usuario se ha registrado correctamente');
             return $this->redirectToRoute(route: 'registro');
         }

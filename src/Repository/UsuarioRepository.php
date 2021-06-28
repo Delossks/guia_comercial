@@ -64,4 +64,15 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         ;
     }
     */
+
+/*
+    public function BuscarTodosLosUsuarios()
+    {
+        return $this->getEntityManager()
+            ->createQuery( dql: '
+            SELECT usuario.email, usuario.nombre, usuario.apellidos, usuario.telefono
+            FROM App:Usuario usuario
+            ')->getResult();
+    }
+*/
 }
