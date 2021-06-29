@@ -1,49 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'administrador/index.html.twig' %}
 
-{% block title %}{{parent()}} - Administrador{% endblock %}
+{% block title %}{{parent()}} - Restaurar copia de seguridad{% endblock %}
 
 {% block body %}
 
+{{parent()}}
+
 {# Barra de navegación #}
+{#
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Guía Comercial</a>
             </div>
             <ul class="nav navbar-nav">
-                <li {#class="active"#}><a href="{{path('administrador')}}">Inicio</a></li>
+                <li><a href="{{path('administrador')}}">Inicio</a></li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuarios <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('buscarUsuario')}}">Buscar usuario</a></li>
-                        <li><a href="{{path('registrarUsuario')}}">Registrar usuario</a></li>
+                        <li><a href="#">Buscar usuario</a></li>
+                        <li><a href="#">Registrar usuario</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Empresas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('buscarEmpresaAdmin')}}">Buscar empresa</a></li>
-                        <li><a href="{{path('registrarEmpresaAdmin')}}">Registrar empresa</a></li>
+                        <li><a href="#">Buscar empresa</a></li>
+                        <li><a href="#">Registrar empresa</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Comercios <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('buscarComercioAdmin')}}">Buscar comercio</a></li>
-                        <li><a href="{{path('registrarComercioAdmin')}}">Registrar comercio</a></li>
+                        <li><a href="#">Buscar comercio</a></li>
+                        <li><a href="#">Registrar comercio</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Ofertas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('administradorOfertas')}}">Mis Ofertas</a></li>
-                        <li><a href="{{path('buscarOfertaAdmin')}}">Buscar oferta</a></li>
-                        <li><a href="{{path('registrarOfertaAdmin')}}">Registrar oferta</a></li>
+                        <li><a href="#">Buscar oferta</a></li>
+                        <li><a href="#">Registrar oferta</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Notificaciones <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{path('administradorNotificaciones')}}">Notificaciones activadas</a></li>
-                        <li><a href="{{path('buscarComercioAdmin')}}">Buscar un comercio</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Copias de seguridad <span class="caret"></span></a>
+                <li><a href="#">Notificaciones</a></li>
+                <li class="active"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Copias de seguridad <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{path('crearCopiaSeguridad')}}">Crear copia de seguridad</a></li>
                         <li><a href="{{path('restaurarCopiaSeguridad')}}">Restaurar copia de seguridad</a></li>
@@ -69,7 +66,10 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper" style="margin-top:60px">
+<div class="example-wrapper">
     <h1>{{ controller_name }}! ✅</h1>
 </div>
+
+#}
+
 {% endblock %}

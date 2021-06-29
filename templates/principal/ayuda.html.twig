@@ -1,0 +1,40 @@
+{% extends 'principal/index.html.twig' %}
+
+{% block title %}{{parent()}} - Ayuda{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+{# Barra de navegación #}
+
+{#
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Guía Comercial</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{path('principal')}}">Inicio</a></li>
+                    <li><a href="#">Consultar Comercio</a></li>
+                    <li class="active"><a href="{{path('ayudaPublico')}}">Ayuda</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{path('registro')}}"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión</a></li>
+                </ul>
+            </div>
+        </nav>
+
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{ controller_name }} ✅</h1>
+</div>
+
+#}
+
+{% endblock %}

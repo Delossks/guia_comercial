@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EmpresaController extends AbstractController
 {
-    #[Route('/empresa', name: 'empresa')]
+    #[Route('/empresa_registro', name: 'registroEmpresa')]
     public function index(Request $request)
     {
         $empresa = new Empresa();

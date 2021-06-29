@@ -15,4 +15,20 @@ class PrincipalController extends AbstractController
             'controller_name' => 'Esta es la página principal',
         ]);
     }
+
+    #[Route('/ayuda', name: 'ayudaPublico')]
+    public function ayudaUsuarioPublico(): Response
+    {
+        return $this->render('principal/ayuda.html.twig', [
+            'controller_name' => 'Esta es la página de ayuda para el Usuario Público',
+        ]);
+    }
+
+    #[Route('/comercio/buscar', name: 'buscarComercio')]
+    public function buscarComercio(): Response
+    {
+        return $this->render('principal/buscarComercio.html.twig', [
+            'controller_name' => 'Esta es la página para buscar un Comercio',
+        ]);
+    }
 }

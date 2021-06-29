@@ -1,25 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'cliente/index.html.twig' %}
 
-{% block title %}{{parent()}} - Cliente{% endblock %}
+{% block title %}{{parent()}} - Ayuda{% endblock %}
 
 {% block body %}
 
-    {# Barra de navegación #}
-    <nav class="navbar navbar-default navbar-fixed-top">
+{{parent()}}
+
+{# Barra de navegación #}
+
+{#
+    <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Guía Comercial</a>
             </div>
             <ul class="nav navbar-nav">
-                <li {#class="active"#}><a href="{{path('cliente')}}">Inicio</a></li>
-                <li><a href="{{path('clienteOfertas')}}">Mis Ofertas</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Notificaciones <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{path('clienteNotificaciones')}}">Notificaciones activadas</a></li>
-                        <li><a href="{{path('buscarComercioCli')}}">Buscar un comercio</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{path('ayudaCliente')}}">Ayuda</a></li>
+                <li><a href="{{path('cliente')}}">Inicio</a></li>
+                <li><a href="#">Mis Ofertas</a></li>
+                <li><a href="#">Notificaciones</a></li>
+                <li class="active"><a href="{{path('ayudaCliente')}}">Ayuda</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Mi perfil</a>
@@ -39,8 +38,10 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper" style="margin-top:60px">
+<div class="example-wrapper">
     <h1>{{ controller_name }}! ✅</h1>
 </div>
+
+#}
 
 {% endblock %}

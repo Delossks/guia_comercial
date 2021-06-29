@@ -22,7 +22,7 @@ class RegistroController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $usuario->setValidez(validez: 'pendiente');
             $usuario->setFechaAlta(getdate());
-            $usuario->setRoles(['ROLE_USER']);
+            $usuario->setRoles(['ROLE_CLIENTE']);
 
             //Se codifica la contraseña
             $usuario->setPassword($passwordEncoder->encodePassword($usuario,$form['password']->getData()));
@@ -32,7 +32,7 @@ class RegistroController extends AbstractController
             $em->flush();
 
             $this->addFlash(type: 'exito', message: 'El usuario se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'registro');
+            return $this->redirectToRoute(route: 'principal');
         }
 
         return $this->render('registro/index.html.twig', [

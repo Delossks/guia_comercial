@@ -1,43 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'empresario/index.html.twig' %}
 
-{% block title %}{{parent()}} - Empresario{% endblock %}
+{% block title %}{{parent()}} - Ayuda{% endblock %}
 
 {% block body %}
 
+{{parent()}}
+
 {# Barra de navegación #}
-    <nav class="navbar navbar-default navbar-fixed-top">
+
+{#
+    <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Guía Comercial</a>
             </div>
             <ul class="nav navbar-nav">
-                <li {#class="active"#}><a href="{{path('empresario')}}">Inicio</a></li>
+                <li><a href="{{path('empresario')}}">Inicio</a></li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Empresas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('buscarEmpresaEmp')}}">Buscar empresa</a></li>
-                        <li><a href="{{path('registrarEmpresaEmp')}}">Registrar empresa</a></li>
+                        <li><a href="#">Buscar empresa</a></li>
+                        <li><a href="#">Registrar empresa</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Comercios <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('buscarComercioEmp')}}">Buscar comercio</a></li>
-                        <li><a href="{{path('registrarComercioEmp')}}">Registrar comercio</a></li>
+                        <li><a href="#">Buscar comercio</a></li>
+                        <li><a href="#">Registrar comercio</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Ofertas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('empresarioOfertas')}}">Mis Ofertas</a></li>
-                        <li><a href="{{path('buscarOfertaEmp')}}">Buscar oferta</a></li>
-                        <li><a href="{{path('registrarOfertaEmp')}}">Registrar oferta</a></li>
+                        <li><a href="#">Buscar oferta</a></li>
+                        <li><a href="#">Registrar oferta</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Notificaciones <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{path('empresarioNotificaciones')}}">Notificaciones activadas</a></li>
-                        <li><a href="{{path('buscarComercioEmp')}}">Buscar un comercio</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{path('ayudaEmpresario')}}">Ayuda</a></li>
+                <li><a href="#">Notificaciones</a></li>
+                <li class="active"><a href="{{path('ayudaEmpresario')}}">Ayuda</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Mi perfil</a>
@@ -57,8 +55,11 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper" style="margin-top:60px">
+<div class="example-wrapper">
     <h1>{{ controller_name }}! ✅</h1>
 
 </div>
+
+#}
+
 {% endblock %}
