@@ -3,10 +3,18 @@
 {% block title %}Registrar un usuario - Guia Comercial{% endblock %}
 
 {% block body %}
+
+{{parent()}}
+
+<div class="example-wrapper" style="margin-top:60px">
+    <center>
     {% for message in app.flashes('exito') %}
         <div class="alert alert-success">
             {{message}}
         </div>
     {% endfor %}
     {{form(formulario)}}
+    </center>
+</div>
+
 {% endblock %}

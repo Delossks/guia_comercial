@@ -208,4 +208,19 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function esAdministrador(): bool
+    {
+        return in_array(self::ROLE_ADMINISTRADOR, $this->getRoles());
+    }
+
+    public function esEmpresario(): bool
+    {
+        return in_array(self::ROLE_EMPRESARIO, $this->getRoles());
+    }
+
+    public function esCliente(): bool
+    {
+        return in_array(self::ROLE_CLIENTE, $this->getRoles());
+    }
 }

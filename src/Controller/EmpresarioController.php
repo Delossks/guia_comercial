@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Empresario
+//#[IsGranted(ROLE_EMPRESARIO)]
 class EmpresarioController extends AbstractController
 {
     #[Route('/empresario', name: 'empresario')]
@@ -85,6 +87,30 @@ class EmpresarioController extends AbstractController
     {
         return $this->render('empresario/notificaciones.html.twig', [
             'controller_name' => 'Esta página muestra los comercios en los que se tienen las notificaciones activadas',
+        ]);
+    }
+
+    #[Route('/empresario/perfil', name: 'verPerfilEmp')]
+    public function verPerfil(): Response
+    {
+        return $this->render('empresario/verPerfil.html.twig', [
+            'controller_name' => 'Esta es la página para ver el perfil',
+        ]);
+    }
+
+    #[Route('/empresario/perfil/editar', name: 'editarPerfilEmp')]
+    public function editarPerfil(): Response
+    {
+        return $this->render('empresario/editarPerfil.html.twig', [
+            'controller_name' => 'Esta es la página para editar el perfil',
+        ]);
+    }
+
+    #[Route('/empresario/perfil/borrar', name: 'borrarPerfilEmp')]
+    public function borrarPerfil(): Response
+    {
+        return $this->render('empresario/borrarPerfil.html.twig', [
+            'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
         ]);
     }
 }

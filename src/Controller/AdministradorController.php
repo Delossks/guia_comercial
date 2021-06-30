@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+//Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Administrador
+//#[IsGranted(ROLE_ADMINISTRADOR)]
 class AdministradorController extends AbstractController
 {
     #[Route('/administrador', name: 'administrador')]
@@ -117,6 +119,30 @@ class AdministradorController extends AbstractController
     {
         return $this->render('administrador/notificaciones.html.twig', [
             'controller_name' => 'Esta página muestra los comercios en los que se tienen las notificaciones activadas',
+        ]);
+    }
+
+    #[Route('/administrador/perfil', name: 'verPerfilAdmin')]
+    public function verPerfil(): Response
+    {
+        return $this->render('administrador/verPerfil.html.twig', [
+            'controller_name' => 'Esta es la página para ver el perfil',
+        ]);
+    }
+
+    #[Route('/administrador/perfil/editar', name: 'editarPerfilAdmin')]
+    public function editarPerfil(): Response
+    {
+        return $this->render('administrador/editarPerfil.html.twig', [
+            'controller_name' => 'Esta es la página para editar el perfil',
+        ]);
+    }
+
+    #[Route('/administrador/perfil/borrar', name: 'borrarPerfilAdmin')]
+    public function borrarPerfil(): Response
+    {
+        return $this->render('administrador/borrarPerfil.html.twig', [
+            'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
         ]);
     }
 }
