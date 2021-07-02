@@ -2,9 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Oferta;
+use App\Entity\Empresa;
+use App\Entity\Comercio;
+use App\Form\OfertaType;
+use App\Form\EmpresaType;
+use App\Form\ComercioType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 //Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Empresario
 //#[IsGranted(ROLE_EMPRESARIO)]
@@ -35,10 +42,25 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/empresa/registrar', name: 'registrarEmpresaEmp')]
-    public function registrarEmpresa(): Response
+    public function registrarEmpresa(Request $request): Response
     {
+        $empresa = new Empresa();
+        $form = $this->createForm(EmpresaType::class, $empresa);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $empresa->setValidez(validez: 'pendiente');
+            //$empresa->setIdEmpresa();
+            //$empresa->setIdUsuario();
+            $em->persist($empresa);
+            $em->flush();
+            $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');
+            return $this->redirectToRoute(route: 'empresa');
+        }
+
         return $this->render('empresario/registrarEmpresa.html.twig', [
             'controller_name' => 'Esta es la página para registrar una Empresa',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -51,10 +73,25 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/comercio/registrar', name: 'registrarComercioEmp')]
-    public function registrarComercio(): Response
+    public function registrarComercio(Request $request): Response
     {
+        $comercio = new Comercio();
+        $form = $this->createForm(ComercioType::class, $comercio);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $comercio->setValidez(validez: 'pendiente');
+            //$comercio->setIdComercio();
+            //$comercio->setIdEmpresa();
+            $em->persist($comercio);
+            $em->flush();
+            $this->addFlash(type: 'exito', message: 'El comercio se ha registrado correctamente');
+            return $this->redirectToRoute(route: 'registro');
+        }
+
         return $this->render('empresario/registrarComercio.html.twig', [
             'controller_name' => 'Esta es la página para registrar un Comercio',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -67,10 +104,26 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/oferta/registrar', name: 'registrarOfertaEmp')]
-    public function registrarOferta(): Response
+    public function registrarOferta(Request $request): Response
     {
+        $oferta = new Oferta();
+        $form = $this->createForm(OfertaType::class, $oferta);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $oferta->setValidez(validez: 'pendiente');
+            //$oferta->setIdOferta();
+            //$oferta->setCif();
+            //$oferta->setIdComercio();
+            $em->persist($oferta);
+            $em->flush();
+            $this->addFlash(type: 'exito', message: 'El oferta se ha registrado correctamente');
+            return $this->redirectToRoute(route: 'registro');
+        }
+
         return $this->render('empresario/registrarOferta.html.twig', [
             'controller_name' => 'Esta es la página para registrar una Oferta',
+            'formulario' => $form->createView()
         ]);
     }
 

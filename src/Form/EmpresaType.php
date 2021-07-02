@@ -6,6 +6,11 @@ use App\Entity\Empresa;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EmpresaType extends AbstractType
 {
@@ -13,18 +18,65 @@ class EmpresaType extends AbstractType
     {
         $builder
             //->add('id_empresa')
-            ->add('cif')
-            ->add('nombre_empresa')
-            ->add('direccion_empresa')
-            ->add('localidad_empresa')
-            ->add('provincia_empresa')
-            ->add('cp_empresa')
-            ->add('telefono_empresa')
-            ->add('actividad_economica')
-            ->add('web_empresa')
+            ->add('cif', TextType::class, array(
+                'label' => 'CIF',
+                'required' => true,
+                'attr' => array('maxlength' => 9),
+                'help' => 'Código de Identificación Fiscal (8 números y 1 letra)'))
+
+            ->add('nombre_empresa', TextType::class, array(
+                'label' => 'Nombre',
+                'required' => true,
+                'attr' => array('maxlength' => 64)))
+
+            ->add('direccion_empresa', TextType::class, array(
+                'label' => 'Dirección',
+                'required' => true,
+                'attr' => array('maxlength' => 64),
+                'help' => 'Dirección completa del callejero municipal'))
+
+            ->add('localidad_empresa', TextType::class, array(
+                'label' => 'Localidad',
+                'required' => true,
+                'attr' => array('maxlength' => 64)))
+
+            ->add('provincia_empresa', TextType::class, array(
+                'label' => 'Provincia',
+                'required' => true,
+                'attr' => array('maxlength' => 20)))
+
+            ->add('cp_empresa', NumberType::class, array(
+                'label' => 'Código Postal', 
+                'required' => false,
+                'attr' => array('maxlenght' => 5)))
+
+            ->add('telefono_empresa', NumberType::class, array(
+                'label' => 'Teléfono', 
+                'required' => true,
+                'attr' => array('maxlenght' => 9)))
+
+            ->add('actividad_economica', TextareaType::class, array(
+                'label' => 'Actividad Económica',
+                'required' => true,
+                'attr' => array('maxlength' => 255)))
+
+            ->add('web_empresa', UrlType::class, array(
+                'label' => 'Página Web',
+                'required' => false,
+                'attr' => array('maxlength' => 255),
+                'help' => 'URL de la página web de la empresa (opcional)'))
+
             //->add('validez')
-            ->add('logotipo')
+
+            ->add('logotipo', UrlType::class, array(
+                'label' => 'Logotipo',
+                'required' => false,
+                'attr' => array('maxlength' => 255),
+                'help' => 'URL que aloja la imagen de la empresa (opcional)'))
+
             //->add('id_usuario')
+
+            ->add('Registrar', type: SubmitType::class)
         ;
     }
 
