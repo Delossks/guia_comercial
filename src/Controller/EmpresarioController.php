@@ -36,8 +36,12 @@ class EmpresarioController extends AbstractController
     #[Route('/empresario/empresa/buscar', name: 'buscarEmpresaEmp')]
     public function buscarEmpresa(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $empresas = $em->getRepository(Empresa::class)->buscarEmpresasEmpresario();
+
         return $this->render('empresario/buscarEmpresa.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Empresa',
+            'empresas' => $empresas
         ]);
     }
 
@@ -55,11 +59,11 @@ class EmpresarioController extends AbstractController
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'empresa');
+            return $this->redirectToRoute(route: 'empresario');
         }
 
         return $this->render('empresario/registrarEmpresa.html.twig', [
-            'controller_name' => 'Esta es la página para registrar una Empresa',
+            'controller_name' => '',
             'formulario' => $form->createView()
         ]);
     }
@@ -67,8 +71,12 @@ class EmpresarioController extends AbstractController
     #[Route('/empresario/comercio/buscar', name: 'buscarComercioEmp')]
     public function buscarComercio(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $comercios = $em->getRepository(Comercio::class)->buscarComerciosEmpresario();
+
         return $this->render('empresario/buscarComercio.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
+            'comercios' => $comercios
         ]);
     }
 
@@ -86,11 +94,11 @@ class EmpresarioController extends AbstractController
             $em->persist($comercio);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'El comercio se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'registro');
+            return $this->redirectToRoute(route: 'empresario');
         }
 
         return $this->render('empresario/registrarComercio.html.twig', [
-            'controller_name' => 'Esta es la página para registrar un Comercio',
+            'controller_name' => '',
             'formulario' => $form->createView()
         ]);
     }
@@ -98,8 +106,12 @@ class EmpresarioController extends AbstractController
     #[Route('/empresario/oferta/buscar', name: 'buscarOfertaEmp')]
     public function buscarOferta(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        //$ofertas = $em->getRepository(Oferta::class)->buscarOfertasEmpresario();
+
         return $this->render('empresario/buscarOferta.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Oferta',
+            //'ofertas' => $ofertas
         ]);
     }
 
@@ -117,12 +129,12 @@ class EmpresarioController extends AbstractController
             //$oferta->setIdComercio();
             $em->persist($oferta);
             $em->flush();
-            $this->addFlash(type: 'exito', message: 'El oferta se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'registro');
+            $this->addFlash(type: 'exito', message: 'La oferta se ha registrado correctamente');
+            return $this->redirectToRoute(route: 'empresario');
         }
 
         return $this->render('empresario/registrarOferta.html.twig', [
-            'controller_name' => 'Esta es la página para registrar una Oferta',
+            'controller_name' => '',
             'formulario' => $form->createView()
         ]);
     }

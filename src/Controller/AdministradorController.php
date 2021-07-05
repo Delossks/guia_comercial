@@ -68,8 +68,39 @@ class AdministradorController extends AbstractController
     #[Route('/administrador/empresa/buscar', name: 'buscarEmpresaAdmin')]
     public function buscarEmpresa(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        //Obtener todos los datos de todas las empresas de la base de datos
+        $empresas = $em->getRepository(Empresa::class)->findAll();
+
+        /*
+        $empresas = $em->getRepository(Empresa::class)->findBy($id_empresa);
+        */
+
         return $this->render('administrador/buscarEmpresa.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Empresa',
+            'empresas' => $empresas
+        ]);
+    }
+
+    #[Route('/administrador/empresa/consultar', name: 'consultarEmpresaAdmin')]
+    public function consultarEmpresa(int $id_empresa): Response
+    {
+        /*
+        $em = $this->getDoctrine()->getManager();
+        
+        //Se busca la empresa que se va a consultar
+        $empresa = $em->getRepository(Empresa::class)->find($id_empresa);
+        if (!$empresa) {
+            throw $this->createNotFoundException(
+                'No se han encontrado empresas que coincidan con los criterios de búsqueda '
+            );
+        }
+        
+        */
+
+        return $this->render('administrador/consultarEmpresa.html.twig', [
+            'controller_name' => 'Esta es la página para consultar una Empresa',
+            'empresa' => $empresa
         ]);
     }
 
@@ -87,11 +118,11 @@ class AdministradorController extends AbstractController
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'empresa');
+            return $this->redirectToRoute(route: 'administrador');
         }
 
         return $this->render('administrador/registrarEmpresa.html.twig', [
-            'controller_name' => 'Esta es la página para registrar una Empresa',
+            'controller_name' => '',
             'formulario' => $form->createView()
         ]);
     }
@@ -99,8 +130,39 @@ class AdministradorController extends AbstractController
     #[Route('/administrador/comercio/buscar', name: 'buscarComercioAdmin')]
     public function buscarComercio(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        //Obtener todos los datos de todos los comercios de la base de datos
+        $comercios = $em->getRepository(Comercio::class)->findAll();
+
+        /*
+        $comercios = $em->getRepository(Comercio::class)->findBy($id_empresa);
+        */
+
         return $this->render('administrador/buscarComercio.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
+            'comercios' => $comercios
+        ]);
+    }
+
+    #[Route('/administrador/comercio/consultar', name: 'consultarComercioAdmin')]
+    public function consultarComercio(int $id_comercio): Response
+    {
+        /*
+        $em = $this->getDoctrine()->getManager();
+        
+        //Se busca el comercio que se va a consultar
+        $comercio = $em->getRepository(Comercio::class)->find($id_comercio);
+        if (!$comercio) {
+            throw $this->createNotFoundException(
+                'No se han encontrado comercios que coincidan con los criterios de búsqueda '
+            );
+        }
+        
+        */
+
+        return $this->render('administrador/consultarComercio.html.twig', [
+            'controller_name' => 'Esta es la página para consultar un Comercio',
+            'comercio' => $comercio
         ]);
     }
 
@@ -118,11 +180,11 @@ class AdministradorController extends AbstractController
             $em->persist($comercio);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'El comercio se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'registro');
+            return $this->redirectToRoute(route: 'administrador');
         }
 
         return $this->render('administrador/registrarComercio.html.twig', [
-            'controller_name' => 'Esta es la página para registrar un Comercio',
+            'controller_name' => '',
             'formulario' => $form->createView()
         ]);
     }
@@ -130,8 +192,39 @@ class AdministradorController extends AbstractController
     #[Route('/administrador/oferta/buscar', name: 'buscarOfertaAdmin')]
     public function buscarOferta(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        //Obtener todos los datos de todas las ofertas de la base de datos
+        $ofertas = $em->getRepository(Oferta::class)->findAll();
+
+        /*
+        $ofertas = $em->getRepository(Oferta::class)->findBy($id_oferta);
+        */
+
         return $this->render('administrador/buscarOferta.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Oferta',
+            'ofertas' => $ofertas
+        ]);
+    }
+
+    #[Route('/administrador/oferta/consultar', name: 'consultarOfertaAdmin')]
+    public function consultarOferta(int $id_oferta): Response
+    {
+        /*
+        $em = $this->getDoctrine()->getManager();
+        
+        //Se busca la oferta que se va a consultar
+        $oferta = $em->getRepository(Oferta::class)->find($id_oferta);
+        if (!$oferta) {
+            throw $this->createNotFoundException(
+                'No se han encontrado ofertas que coincidan con los criterios de búsqueda '
+            );
+        }
+        
+        */
+
+        return $this->render('administrador/consultarOferta.html.twig', [
+            'controller_name' => 'Esta es la página para consultar una Oferta',
+            'oferta' => $oferta
         ]);
     }
 
@@ -149,12 +242,12 @@ class AdministradorController extends AbstractController
             //$oferta->setIdComercio();
             $em->persist($oferta);
             $em->flush();
-            $this->addFlash(type: 'exito', message: 'El oferta se ha registrado correctamente');
-            return $this->redirectToRoute(route: 'registro');
+            $this->addFlash(type: 'exito', message: 'La oferta se ha registrado correctamente');
+            return $this->redirectToRoute(route: 'administrador');
         }
 
         return $this->render('administrador/registrarOferta.html.twig', [
-            'controller_name' => 'Esta es la página para registrar una Oferta',
+            'controller_name' => '',
             'formulario' => $form->createView()
         ]);
     }

@@ -101,8 +101,8 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // guarantee every user at least has ROLE_CLIENTE
+        $roles[] = 'ROLE_CLIENTE';
 
         return array_unique($roles);
     }

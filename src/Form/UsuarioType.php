@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -45,7 +46,15 @@ class UsuarioType extends AbstractType
                 'label' => 'Teléfono', 
                 'required' => true,
                 'attr' => array('maxlenght' => 9)))
-
+/*            
+            ->add('roles', ChoiceType::class, array(
+                'label' => 'Rol',
+                'required' => true,
+                'choices' => array(
+                    'Cliente' => array('ROLE_CLIENTE'),
+                    'Empresario' => array('ROLE_EMPRESARIO')),
+                ))
+*/            
             ->add('Registrar', type: SubmitType::class)
         ;
     }
