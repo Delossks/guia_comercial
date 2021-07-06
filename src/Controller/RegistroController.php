@@ -20,9 +20,10 @@ class RegistroController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
+
+            //Se añade la información que el usuario no puede modificar
             $usuario->setValidez(validez: 'pendiente');
-            $usuario->setFechaAlta(getdate());
-            $usuario->setRoles(['ROLE_CLIENTE']);
+            $usuario->setFechaAlta(\DateTime::createFromFormat('Y-m-d h:i:s',date('Y-m-d h:i:s')));
 
             //Se codifica la contraseña
             $usuario->setPassword($passwordEncoder->encodePassword($usuario,$form['password']->getData()));

@@ -46,12 +46,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-/*
+
         if ($token->getUser()->esAdministrador()) {
-            return new RedirectResponse($this->urlGenerator->generate('admnistrador')); //Redirección ADMINISTRADOR
+            return new RedirectResponse($this->urlGenerator->generate('administrador')); //Redirección ADMINISTRADOR
         }
 
         if ($token->getUser()->esEmpresario()) {
@@ -61,8 +62,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         if ($token->getUser()->esCliente()) {
             return new RedirectResponse($this->urlGenerator->generate('cliente')); //Redirección CLIENTE
         }
-*/
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+
+        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(Request $request): string

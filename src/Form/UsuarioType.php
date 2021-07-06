@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Usuario;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -46,17 +47,31 @@ class UsuarioType extends AbstractType
                 'label' => 'Teléfono', 
                 'required' => true,
                 'attr' => array('maxlenght' => 9)))
-/*            
-            ->add('roles', ChoiceType::class, array(
-                'label' => 'Rol',
+           
+            ->add('roles', ChoiceType::class, [
+                'label' => 'Tipo de usuario',
                 'required' => true,
-                'choices' => array(
-                    'Cliente' => array('ROLE_CLIENTE'),
-                    'Empresario' => array('ROLE_EMPRESARIO')),
-                ))
-*/            
+                'multiple' => false,
+                'choices' => [
+                    'Cliente' => 'ROLE_CLIENTE',
+                    'Empresario' => 'ROLE_EMPRESARIO',],
+                ])
+            
             ->add('Registrar', type: SubmitType::class)
         ;
+
+        //Conversión para el campo de elección de roles
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($rolesArray) {
+                     //Transformar el array en string
+                     return count($rolesArray)? $rolesArray[0]: null;
+                },
+                function ($rolesString) {
+                     //Volver a transformar el string en array
+                     return [$rolesString];
+                }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -12,6 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const ROLE_ADMINISTRADOR = 'ROLE_ADMINISTRADOR';
+    const ROLE_EMPRESARIO = 'ROLE_EMPRESARIO';
+    const ROLE_CLIENTE = 'ROLE_CLIENTE';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -100,11 +104,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_CLIENTE
-        $roles[] = 'ROLE_CLIENTE';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     public function setRoles(array $roles): self
@@ -209,18 +209,19 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function esAdministrador(): bool
+    public function esAdministrador(): bool //Comprueba que el usuario sea un Administrador validado
     {
-        return in_array(self::ROLE_ADMINISTRADOR, $this->getRoles());
+        return (in_array(self::ROLE_ADMINISTRADOR, $this->getRoles()) && ($this->getValidez() == 'sí'));
     }
 
-    public function esEmpresario(): bool
+    public function esEmpresario(): bool //Comprueba que el usuario sea un Empresario validado
     {
-        return in_array(self::ROLE_EMPRESARIO, $this->getRoles());
+        return (in_array(self::ROLE_EMPRESARIO, $this->getRoles()) && ($this->getValidez() == 'sí'));
     }
 
-    public function esCliente(): bool
+    public function esCliente(): bool //Comprueba que el usuario sea un Cliente validado
     {
-        return in_array(self::ROLE_CLIENTE, $this->getRoles());
+        return (in_array(self::ROLE_CLIENTE, $this->getRoles()) && ($this->getValidez() == 'sí'));
     }
+
 }
