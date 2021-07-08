@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Oferta;
 use App\Entity\Empresa;
+use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\OfertaType;
 use App\Form\EmpresaType;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Loader\Configurator\security;
 
 //Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Empresario
 //#[IsGranted(ROLE_EMPRESARIO)]
@@ -54,8 +56,8 @@ class EmpresarioController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
+            $empresa->setIdUsuario($this->getUser()->getId());
             //$empresa->setIdEmpresa();
-            //$empresa->setIdUsuario();
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');
@@ -158,8 +160,12 @@ class EmpresarioController extends AbstractController
     #[Route('/empresario/perfil', name: 'verPerfilEmp')]
     public function verPerfil(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+
         return $this->render('empresario/verPerfil.html.twig', [
             'controller_name' => 'Esta es la página para ver el perfil',
+            'usuario' => $usuario
         ]);
     }
 

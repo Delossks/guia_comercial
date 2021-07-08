@@ -7,16 +7,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ComercioType extends AbstractType
+class ComercioAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('id_comercio')
             ->add('cif', TextType::class, array(
                 'label' => 'CIF',
                 'required' => true,
@@ -27,7 +25,7 @@ class ComercioType extends AbstractType
                 'label' => 'Nombre',
                 'required' => true,
                 'attr' => array('maxlength' => 64)))
-                
+
             ->add('direccion_comercio', TextType::class, array(
                 'label' => 'Dirección',
                 'required' => true,
@@ -51,9 +49,11 @@ class ComercioType extends AbstractType
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL de la página web del comercio (opcional)'))
-                
-            //->add('validez')
-            //->add('id_empresa')
+            
+            ->add('id_empresa', NumberType::class, array(
+                'label' => 'Id Empresa', 
+                'required' => true,
+                'help' => 'Identificador de la empresa a la que pertenece el comercio'))
 
             ->add('Registrar', type: SubmitType::class)
         ;

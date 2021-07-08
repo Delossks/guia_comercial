@@ -12,12 +12,11 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class EmpresaType extends AbstractType
+class EmpresaAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            //->add('id_empresa')
+        $builder    
             ->add('cif', TextType::class, array(
                 'label' => 'CIF',
                 'required' => true,
@@ -29,7 +28,7 @@ class EmpresaType extends AbstractType
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Ej: Supermercados Corzo S.L.'))
-
+                
             ->add('direccion_empresa', TextType::class, array(
                 'label' => 'Dirección',
                 'required' => true,
@@ -47,12 +46,12 @@ class EmpresaType extends AbstractType
                 'required' => true,
                 'attr' => array('maxlength' => 20),
                 'help' => 'Ej: Córdoba'))
-
+            
             ->add('cp_empresa', NumberType::class, array(
                 'label' => 'Código Postal', 
                 'required' => false,
                 'attr' => array('maxlenght' => 5),
-                'help' => 'Ej: 14850'))
+                'help' => 'Ej: 14850 (opcional)'))
 
             ->add('telefono_empresa', NumberType::class, array(
                 'label' => 'Teléfono', 
@@ -63,7 +62,8 @@ class EmpresaType extends AbstractType
             ->add('actividad_economica', TextareaType::class, array(
                 'label' => 'Actividad Económica',
                 'required' => true,
-                'attr' => array('maxlength' => 255)))
+                'attr' => array('maxlength' => 255),
+                'help' => 'Ej: Venta de productos alimenticios'))
 
             ->add('web_empresa', UrlType::class, array(
                 'label' => 'Página Web',
@@ -71,15 +71,16 @@ class EmpresaType extends AbstractType
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL de la página web de la empresa (opcional)'))
 
-            //->add('validez')
-
             ->add('logotipo', UrlType::class, array(
                 'label' => 'Logotipo',
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la empresa (opcional)'))
 
-            //->add('id_usuario')
+            ->add('id_usuario', NumberType::class, array(
+                'label' => 'Id Usuario',
+                'required' => true,
+                'help' => 'Identificador del empresario al que pertenece la empresa'))
 
             ->add('Registrar', type: SubmitType::class)
         ;

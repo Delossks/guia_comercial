@@ -53,8 +53,12 @@ class ClienteController extends AbstractController
     #[Route('/cliente/perfil', name: 'verPerfilCli')]
     public function verPerfil(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+
         return $this->render('cliente/verPerfil.html.twig', [
             'controller_name' => 'Esta es la página para ver el perfil',
+            'usuario' => $usuario
         ]);
     }
 

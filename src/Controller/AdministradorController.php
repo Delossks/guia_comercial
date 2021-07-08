@@ -4,14 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Oferta;
 use App\Entity\Empresa;
+use App\Entity\Usuario;
+//use App\Form\OfertaType;
+//use App\Form\EmpresaType;
+//use App\Form\ComercioType;
 use App\Entity\Comercio;
-use App\Form\OfertaType;
-use App\Form\EmpresaType;
-use App\Form\ComercioType;
+use App\Form\OfertaAdminType;
+use App\Form\EmpresaAdminType;
+use App\Form\UsuarioAdminType;
+use App\Form\ComercioAdminType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 //Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Administrador
 //#[IsGranted(ROLE_ADMINISTRADOR)]
@@ -25,7 +31,7 @@ class AdministradorController extends AbstractController
         ]);
     }
 
-    #[Route('/ayuda_administrador', name: 'ayudaAdministrador')]
+    #[Route('/administrador/ayuda_administrador', name: 'ayudaAdministrador')]
     public function ayudaAdministrador(): Response
     {
         return $this->render('administrador/ayuda.html.twig', [
@@ -57,11 +63,33 @@ class AdministradorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrador/usuario/registrar', name: 'registrarUsuario')]
-    public function registrarUsuario(): Response
+    #[Route('/administrador/usuario/registrar', name: 'registrarUsuarioAdmin')]
+    public function registrarUsuarioAdmin(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $usuario = new Usuario();
+        $form = $this->createForm(UsuarioAdminType::class, $usuario);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+
+            //Se añade la información que el usuario no puede modificar
+            $usuario->setValidez(validez: 'pendiente');
+            $usuario->setFechaAlta(\DateTime::createFromFormat('Y-m-d h:i:s',date('Y-m-d h:i:s')));
+
+            //Se codifica la contraseña
+            $usuario->setPassword($passwordEncoder->encodePassword($usuario,$form['password']->getData()));
+
+            //Se guarda el usuario en la base de datos
+            $em->persist($usuario);
+            $em->flush();
+
+            $this->addFlash(type: 'exito', message: 'El usuario se ha registrado correctamente');
+            return $this->redirectToRoute(route: 'administrador');
+        }
+
         return $this->render('administrador/registrarUsuario.html.twig', [
-            'controller_name' => 'Esta es la página para registrar un Usuario',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -108,13 +136,12 @@ class AdministradorController extends AbstractController
     public function registrarEmpresa(Request $request): Response
     {
         $empresa = new Empresa();
-        $form = $this->createForm(EmpresaType::class, $empresa);
+        $form = $this->createForm(EmpresaAdminType::class, $empresa);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
             //$empresa->setIdEmpresa();
-            //$empresa->setIdUsuario();
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');
@@ -170,13 +197,12 @@ class AdministradorController extends AbstractController
     public function registrarComercio(Request $request): Response
     {
         $comercio = new Comercio();
-        $form = $this->createForm(ComercioType::class, $comercio);
+        $form = $this->createForm(ComercioAdminType::class, $comercio);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $comercio->setValidez(validez: 'pendiente');
             //$comercio->setIdComercio();
-            //$comercio->setIdEmpresa();
             $em->persist($comercio);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'El comercio se ha registrado correctamente');
@@ -232,14 +258,12 @@ class AdministradorController extends AbstractController
     public function registrarOferta(Request $request): Response
     {
         $oferta = new Oferta();
-        $form = $this->createForm(OfertaType::class, $oferta);
+        $form = $this->createForm(OfertaAdminType::class, $oferta);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $oferta->setValidez(validez: 'pendiente');
             //$oferta->setIdOferta();
-            //$oferta->setCif();
-            //$oferta->setIdComercio();
             $em->persist($oferta);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La oferta se ha registrado correctamente');
@@ -271,8 +295,12 @@ class AdministradorController extends AbstractController
     #[Route('/administrador/perfil', name: 'verPerfilAdmin')]
     public function verPerfil(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+
         return $this->render('administrador/verPerfil.html.twig', [
             'controller_name' => 'Esta es la página para ver el perfil',
+            'usuario' => $usuario
         ]);
     }
 
