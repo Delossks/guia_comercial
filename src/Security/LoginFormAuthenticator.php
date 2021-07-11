@@ -51,15 +51,15 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        if ($token->getUser()->esAdministrador()) {
+        if ($token->getUser()->esAdministradorValido()) {
             return new RedirectResponse($this->urlGenerator->generate('administrador')); //Redirección ADMINISTRADOR
         }
 
-        if ($token->getUser()->esEmpresario()) {
+        if ($token->getUser()->esEmpresarioValido()) {
             return new RedirectResponse($this->urlGenerator->generate('empresario')); //Redirección EMPRESARIO
         }
 
-        if ($token->getUser()->esCliente()) {
+        if ($token->getUser()->esClienteValido()) {
             return new RedirectResponse($this->urlGenerator->generate('cliente')); //Redirección CLIENTE
         }
 

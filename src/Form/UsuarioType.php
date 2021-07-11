@@ -54,7 +54,8 @@ class UsuarioType extends AbstractType
                 'multiple' => false,
                 'choices' => [
                     'Cliente' => 'ROLE_CLIENTE',
-                    'Empresario' => 'ROLE_EMPRESARIO',],
+                    'Empresario' => 'ROLE_EMPRESARIO',
+                    'Administrador' => 'ROLE_ADMINISTRADOR',],
                 ])
             
             ->add('Registrar', type: SubmitType::class)

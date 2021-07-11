@@ -3,15 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Oferta;
+use App\Entity\Cliente;
 use App\Entity\Empresa;
 use App\Entity\Usuario;
-//use App\Form\OfertaType;
-//use App\Form\EmpresaType;
-//use App\Form\ComercioType;
 use App\Entity\Comercio;
+use App\Form\ClienteType;
+use App\Entity\Empresario;
+use App\Form\EmpresarioType;
+use App\Entity\Administrador;
 use App\Form\OfertaAdminType;
 use App\Form\EmpresaAdminType;
 use App\Form\UsuarioAdminType;
+use App\Form\AdministradorType;
 use App\Form\ComercioAdminType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +70,13 @@ class AdministradorController extends AbstractController
     public function registrarUsuarioAdmin(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $usuario = new Usuario();
+        $cliente = new Cliente();
+        $empresario = new Empresario();
+        $administrador = new Administrador();
         $form = $this->createForm(UsuarioAdminType::class, $usuario);
+        $formC = $this->createForm(ClienteType::class, $cliente);
+        $formE = $this->createForm(EmpresarioType::class, $empresario);
+        $formA = $this->createForm(AdministradorType::class, $administrador);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
@@ -83,13 +92,41 @@ class AdministradorController extends AbstractController
             $em->persist($usuario);
             $em->flush();
 
+            //Se crea la tupla del tipo de usuario según el tipo elegido en el formulario
+            if ($usuario->esCliente()) {
+                $formC->handleRequest($request);
+                $em = $this->getDoctrine()->getManager();
+                $cliente->setIdUsuario($usuario);
+                $em->persist($cliente);
+                $em->flush();
+            }
+
+            if ($usuario->esEmpresario()) {
+                $formE->handleRequest($request);
+                $em = $this->getDoctrine()->getManager();
+                $empresario->setIdUsuario($usuario);
+                $em->persist($empresario);
+                $em->flush();
+            }
+
+            if ($usuario->esAdministrador()) {
+                $formA->handleRequest($request);
+                $em = $this->getDoctrine()->getManager();
+                $administrador->setIdUsuario($usuario);
+                $em->persist($administrador);
+                $em->flush();
+            }
+
             $this->addFlash(type: 'exito', message: 'El usuario se ha registrado correctamente');
             return $this->redirectToRoute(route: 'administrador');
         }
 
         return $this->render('administrador/registrarUsuario.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'formC' => $formC->createView(),
+            'formE' => $formE->createView(),
+            'formA' => $formA->createView()
         ]);
     }
 

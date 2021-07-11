@@ -17,10 +17,7 @@ class Empresa
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $id_empresa;
+    
 
     /**
      * @ORM\Column(type="string", length=9)
@@ -232,15 +229,21 @@ class Empresa
         return $this;
     }
 
-    public function getIdUsuario(): ?Empresario
+    public function getIdEmpresario(): ?Empresario
     {
         return $this->id_usuario;
     }
 
-    public function setIdUsuario(?Empresario $id_usuario): self
+    public function setIdEmpresario(?Empresario $id_usuario): self
     {
         $this->id_usuario = $id_usuario;
 
         return $this;
+    }
+
+    public function removeFromEmpresario(Empresario $id = null){
+        if ($id and $this->Empresario->contains($id)) {
+            $this->Empresario->removeElement($id);
+        }
     }
 }

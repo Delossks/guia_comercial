@@ -209,17 +209,32 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function esAdministrador(): bool //Comprueba que el usuario sea un Administrador validado
+    public function esAdministrador(): bool //Comprueba que el usuario sea un Administrador
+    {
+        return in_array(self::ROLE_ADMINISTRADOR, $this->getRoles());
+    }
+
+    public function esAdministradorValido(): bool //Comprueba que el usuario sea un Administrador validado
     {
         return (in_array(self::ROLE_ADMINISTRADOR, $this->getRoles()) && ($this->getValidez() == 'sí'));
     }
 
-    public function esEmpresario(): bool //Comprueba que el usuario sea un Empresario validado
+    public function esEmpresario(): bool //Comprueba que el usuario sea un Empresario
+    {
+        return in_array(self::ROLE_EMPRESARIO, $this->getRoles());
+    }
+
+    public function esEmpresarioValido(): bool //Comprueba que el usuario sea un Empresario validado
     {
         return (in_array(self::ROLE_EMPRESARIO, $this->getRoles()) && ($this->getValidez() == 'sí'));
     }
 
-    public function esCliente(): bool //Comprueba que el usuario sea un Cliente validado
+    public function esCliente(): bool //Comprueba que el usuario sea un Cliente
+    {
+        return in_array(self::ROLE_CLIENTE, $this->getRoles());
+    }
+
+    public function esClienteValido(): bool //Comprueba que el usuario sea un Cliente validado
     {
         return (in_array(self::ROLE_CLIENTE, $this->getRoles()) && ($this->getValidez() == 'sí'));
     }

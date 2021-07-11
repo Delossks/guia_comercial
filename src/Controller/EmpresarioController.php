@@ -8,6 +8,7 @@ use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\OfertaType;
 use App\Form\EmpresaType;
+use App\Entity\Empresario;
 use App\Form\ComercioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,13 +52,18 @@ class EmpresarioController extends AbstractController
     public function registrarEmpresa(Request $request): Response
     {
         $empresa = new Empresa();
+        $empresario = new Empresario();
         $form = $this->createForm(EmpresaType::class, $empresa);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
-            $empresa->setIdUsuario($this->getUser()->getId());
-            //$empresa->setIdEmpresa();
+            
+            //Se obtiene el usuario empresario actual
+            $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+            $empresa->setIdEmpresario($empresario);
+            
+            //Se guarda la empresa en la base de datos
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');
