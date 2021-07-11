@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -38,8 +39,11 @@ class OfertaType extends AbstractType
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la oferta (opcional)'))
                 
-            //->add('cif')
-            //->add('id_comercio')
+            ->add('id_comercio', NumberType::class, array(
+                'label' => 'Id Comercio',
+                'required' => true,
+                'attr' => array('maxlength' => 11),
+                'help' => 'Identificador del comercio al que pertenece la oferta'))
 
             ->add('Registrar', type: SubmitType::class)
         ;

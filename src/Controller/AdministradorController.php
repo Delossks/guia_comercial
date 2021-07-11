@@ -178,7 +178,6 @@ class AdministradorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
-            //$empresa->setIdEmpresa();
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');

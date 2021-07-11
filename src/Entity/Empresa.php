@@ -240,10 +240,4 @@ class Empresa
 
         return $this;
     }
-
-    public function removeFromEmpresario(Empresario $id = null){
-        if ($id and $this->Empresario->contains($id)) {
-            $this->Empresario->removeElement($id);
-        }
-    }
 }

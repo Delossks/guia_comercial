@@ -19,6 +19,7 @@ class ComercioRepository extends ServiceEntityRepository
         parent::__construct($registry, Comercio::class);
     }
 
+    //Buscar todos los comercios de un empresario
     public function buscarComerciosEmpresario()
     {
         return $this->getEntityManager()

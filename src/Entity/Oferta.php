@@ -18,11 +18,6 @@ class Oferta
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $id_oferta;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Comercio::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -62,18 +57,6 @@ class Oferta
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdOferta(): ?int
-    {
-        return $this->id_oferta;
-    }
-
-    public function setIdOferta(int $id_oferta): self
-    {
-        $this->id_oferta = $id_oferta;
-
-        return $this;
     }
 
     public function getCif(): ?string

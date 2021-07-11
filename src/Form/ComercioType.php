@@ -16,7 +16,6 @@ class ComercioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('id_comercio')
             ->add('cif', TextType::class, array(
                 'label' => 'CIF',
                 'required' => true,
@@ -51,9 +50,6 @@ class ComercioType extends AbstractType
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL de la página web del comercio (opcional)'))
-                
-            //->add('validez')
-            //->add('id_empresa')
 
             ->add('Registrar', type: SubmitType::class)
         ;

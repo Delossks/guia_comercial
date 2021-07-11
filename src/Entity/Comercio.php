@@ -18,11 +18,6 @@ class Comercio
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $id_comercio;
-
-    /**
      * @ORM\Column(type="string", length=9)
      */
     private $cif;
@@ -66,18 +61,6 @@ class Comercio
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdComercio(): ?int
-    {
-        return $this->id_comercio;
-    }
-
-    public function setIdComercio(int $id_comercio): self
-    {
-        $this->id_comercio = $id_comercio;
-
-        return $this;
     }
 
     public function getCif(): ?string

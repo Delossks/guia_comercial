@@ -77,11 +77,13 @@ class EmpresaAdminType extends AbstractType
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la empresa (opcional)'))
 
+            //Hay que corregir un error: << Can't get a way to read the property "id_usuario" in class "App\Entity\Empresa". >>
+/*
             ->add('id_usuario', NumberType::class, array(
                 'label' => 'Id Usuario',
                 'required' => true,
                 'help' => 'Identificador del empresario al que pertenece la empresa'))
-
+*/
             ->add('Registrar', type: SubmitType::class)
         ;
     }

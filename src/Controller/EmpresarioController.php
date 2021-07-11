@@ -92,13 +92,18 @@ class EmpresarioController extends AbstractController
     public function registrarComercio(Request $request): Response
     {
         $comercio = new Comercio();
+        $empresa = new Empresa();
         $form = $this->createForm(ComercioType::class, $comercio);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $comercio->setValidez(validez: 'pendiente');
-            //$comercio->setIdComercio();
-            //$comercio->setIdEmpresa();
+
+            //Se obtiene la empresa cuyo CIF ha sido introducido por el usuario
+            $empresa = $em->getRepository(Empresa::class)->findOneBy(array('cif' => $comercio->getCif()));
+            $comercio->setIdEmpresa($empresa);
+
+            //Se guarda el comercio en la base de datos
             $em->persist($comercio);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'El comercio se ha registrado correctamente');
@@ -127,14 +132,19 @@ class EmpresarioController extends AbstractController
     public function registrarOferta(Request $request): Response
     {
         $oferta = new Oferta();
+        $comercio = new Comercio();
         $form = $this->createForm(OfertaType::class, $oferta);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $oferta->setValidez(validez: 'pendiente');
-            //$oferta->setIdOferta();
-            //$oferta->setCif();
-            //$oferta->setIdComercio();
+            
+            //Se obtiene el comercio cuyo id ha sido introducido por el usuario
+            $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $oferta->getIdComercio()));
+            $oferta->setIdComercio($comercio);
+            $oferta->setCif($comercio->getCif());
+
+            //Se guarda la oferta en la base de datos
             $em->persist($oferta);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La oferta se ha registrado correctamente');
