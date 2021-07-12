@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Empresa;
 use App\Entity\Comercio;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,15 +17,22 @@ class ComercioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        $builder                
+            ->add('id_empresa', EntityType::class, array(
+                'class' => Empresa::class,
+                'label' => 'Empresa',
+                'choice_label' => 'nombre_empresa',
+                'required' => true,
+                'help' => 'Seleccionar la empresa'))
+/*
             ->add('cif', TextType::class, array(
                 'label' => 'CIF',
                 'required' => true,
                 'attr' => array('maxlength' => 9),
                 'help' => 'Código de Identificación Fiscal de la empresa a la que pertenece el comercio (8 números y 1 letra)'))
-
+*/
             ->add('nombre_comercio', TextType::class, array(
-                'label' => 'Nombre',
+                'label' => 'Nombre del comercio',
                 'required' => true,
                 'attr' => array('maxlength' => 64)))
                 
