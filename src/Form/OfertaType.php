@@ -3,11 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Oferta;
+use App\Entity\Empresa;
+use App\Entity\Comercio;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -38,12 +40,20 @@ class OfertaType extends AbstractType
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la oferta (opcional)'))
-                
-            ->add('id_comercio', NumberType::class, array(
-                'label' => 'Id Comercio',
+/*                
+            ->add('cif', EntityType::class, array(
+                'class' => Empresa::class,
+                'label' => 'Empresa',
+                'choice_label' => 'nombre_empresa',
                 'required' => true,
-                'attr' => array('maxlength' => 11),
-                'help' => 'Identificador del comercio al que pertenece la oferta'))
+                'help' => 'Seleccionar la empresa'))
+*/
+            ->add('id_comercio', EntityType::class, array(
+                'class' => Comercio::class,
+                'label' => 'Comercio',
+                'choice_label' => 'nombre_comercio',
+                'required' => true,
+                'help' => 'Seleccionar el comercio al que pertenece la oferta'))
 
             ->add('Registrar', type: SubmitType::class)
         ;

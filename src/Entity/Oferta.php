@@ -18,8 +18,7 @@ class Oferta
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Comercio::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=9)
      */
     private $cif;
 

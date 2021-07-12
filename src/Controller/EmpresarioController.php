@@ -139,9 +139,8 @@ class EmpresarioController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $oferta->setValidez(validez: 'pendiente');
             
-            //Se obtiene el comercio cuyo id ha sido introducido por el usuario
+            //Se obtiene el CIF del comercio cuyo nombre ha sido seleccionado por el usuario
             $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $oferta->getIdComercio()));
-            $oferta->setIdComercio($comercio);
             $oferta->setCif($comercio->getCif());
 
             //Se guarda la oferta en la base de datos
