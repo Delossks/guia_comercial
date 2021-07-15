@@ -19,7 +19,13 @@ class OfertaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('id_oferta')
+            ->add('id_comercio', EntityType::class, array(
+                'class' => Comercio::class,
+                'label' => 'Comercio',
+                'choice_label' => 'nombre_comercio',
+                'required' => true,
+                'help' => 'Seleccionar el comercio al que pertenece la oferta'))
+
             ->add('descripcion', TextareaType::class, array(
                 'label' => 'Descripción',
                 'required' => true,
@@ -48,13 +54,6 @@ class OfertaType extends AbstractType
                 'required' => true,
                 'help' => 'Seleccionar la empresa'))
 */
-            ->add('id_comercio', EntityType::class, array(
-                'class' => Comercio::class,
-                'label' => 'Comercio',
-                'choice_label' => 'nombre_comercio',
-                'required' => true,
-                'help' => 'Seleccionar el comercio al que pertenece la oferta'))
-
             ->add('Registrar', type: SubmitType::class)
         ;
     }

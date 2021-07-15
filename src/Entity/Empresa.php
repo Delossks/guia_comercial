@@ -85,18 +85,6 @@ class Empresa
         return $this->id;
     }
 
-    public function getIdEmpresa(): ?Empresario
-    {
-        return $this->id_empresa;
-    }
-
-    public function setIdEmpresa(?Empresario $id_empresa): self
-    {
-        $this->id_empresa = $id_empresa;
-
-        return $this;
-    }
-
     public function getCif(): ?string
     {
         return $this->cif;

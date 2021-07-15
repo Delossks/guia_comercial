@@ -37,10 +37,888 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/empresa/buscar', name: 'buscarEmpresaEmp')]
-    public function buscarEmpresa(): Response
+    public function buscarEmpresa(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $empresas = $em->getRepository(Empresa::class)->buscarEmpresasEmpresario();
+        //$empresas = $em->getRepository(Empresa::class)->buscarEmpresasEmpresario();
+        $empresas = "";
+        $empresasTemp = "";
+
+        //Parámetros de búsqueda
+        $nombre_empresa = $request->request->get('nombre_empresa');
+        $direccion_empresa = $request->request->get('direccion_empresa');
+        $localidad_empresa = $request->request->get('localidad_empresa');
+        $provincia_empresa = $request->request->get('provincia_empresa');
+        $cp_empresa = $request->request->get('cp_empresa');
+        $telefono_empresa = $request->request->get('telefono_empresa');
+
+        //Búsquedas según los parámetros introducidos
+        if(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad, provincia y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad, y código postal 
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, provincia y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad, provincia y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        if((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección, localidad, provincia y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, localidad y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección, localidad, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección, localidad, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por localidad, provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección y localidad
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección, localidad y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección, localidad y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por provincia, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, localidad y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por localidad, código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por localidad, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por localidad, provincia y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre, dirección y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre, provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección, localidad y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre y dirección
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre y localidad
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por nombre y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección y localidad
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por dirección y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por localidad y provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por localidad y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por localidad y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.localidad_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por provincia y código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por provincia y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por código postal y teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.telefono_empresa', 'ASC')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por nombre
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->where('e.nombre_empresa LIKE :nombre')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por dirección
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.direccion_empresa LIKE :direccion')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('direccion','%'.$direccion_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && !empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por localidad
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.localidad_empresa LIKE :localidad')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('localidad','%'.$localidad_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && !empty($provincia_empresa) && empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por provincia
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.provincia_empresa LIKE :provincia')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('provincia','%'.$provincia_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+            //Buscar Empresa por código postal
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.cp_empresa LIKE :cp')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('cp','%'.$cp_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($nombre_empresa)) && empty($direccion_empresa) && empty($localidad_empresa) && empty($provincia_empresa) && empty($cp_empresa) && !empty($telefono_empresa)){
+            //Buscar Empresa por teléfono
+            $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
+                                                              ->andWhere('e.telefono_empresa LIKE :telefono')
+                                                              ->orderBy('e.nombre_empresa', 'ASC')
+                                                              ->setParameter('telefono','%'.$telefono_empresa.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        else {
+            //Buscar todas las empresas
+            $empresasTemp = $em->getRepository(Empresa::class)->findBy(array(), array('nombre_empresa' => 'ASC'));
+        }
+
+        $empresas = $empresasTemp;
 
         return $this->render('empresario/buscarEmpresa.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Empresa',
@@ -77,10 +955,24 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/comercio/buscar', name: 'buscarComercioEmp')]
-    public function buscarComercio(): Response
+    public function buscarComercio(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $comercios = $em->getRepository(Comercio::class)->buscarComerciosEmpresario();
+
+        $comercios = "";
+        $comerciosTemp = "";
+
+        //Parámetros de búsqueda
+        $nombre_comercio = $request->request->get('nombre_comercio');
+        $direccion_comercio = $request->request->get('direccion_comercio');
+        $cp_comercio = $request->request->get('codigo_postal');
+        $telefono_comercio = $request->request->get('telefono_comercio');
+
+        //Buscar todos los comercios
+        $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array(), array('nombre_comercio' => 'ASC'));
+        //$comerciosTemp = $em->getRepository(Comercio::class)->buscarComerciosEmpresario();
+
+        $comercios = $comerciosTemp;
 
         return $this->render('empresario/buscarComercio.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
@@ -117,14 +1009,27 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/oferta/buscar', name: 'buscarOfertaEmp')]
-    public function buscarOferta(): Response
+    public function buscarOferta(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
         //$ofertas = $em->getRepository(Oferta::class)->buscarOfertasEmpresario();
 
+        $ofertas = "";
+        $ofertasTemp = "";
+
+        //Parámetros de búsqueda
+        $fecha_inicio = $request->request->get('fecha_inicio');
+        $fecha_fin = $request->request->get('fecha_fin');
+        $descripcion = $request->request->get('descripcion');
+
+        //Buscar todos los comercios
+        $ofertasTemp = $em->getRepository(Oferta::class)->findBy(array(), array('descripcion' => 'ASC'));
+
+        $ofertas = $ofertasTemp;
+
         return $this->render('empresario/buscarOferta.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Oferta',
-            //'ofertas' => $ofertas
+            'ofertas' => $ofertas
         ]);
     }
 

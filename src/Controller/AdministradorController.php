@@ -61,8 +61,12 @@ class AdministradorController extends AbstractController
     #[Route('/administrador/usuario/buscar', name: 'buscarUsuario')]
     public function buscarUsuario(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $usuarios = $em->getRepository(Usuario::class)->findAll();
+
         return $this->render('administrador/buscarUsuario.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Usuario',
+            'usuarios' => $usuarios
         ]);
     }
 
@@ -173,11 +177,20 @@ class AdministradorController extends AbstractController
     public function registrarEmpresa(Request $request): Response
     {
         $empresa = new Empresa();
+        $empresario = new Empresario();
         $form = $this->createForm(EmpresaAdminType::class, $empresa);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
+
+            //Se obtiene el ID del empresario al que se le va a asignar la empresa
+            $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+            //$empresario = $em->getRepository(Empresario::class)->find($empresa->getIdEmpresario());
+            //$empresario = $form->getData()->getIdEmpresario();
+            $empresa->setIdEmpresario($empresario);
+
+            //Se guarda la empresa en la base de datos
             $em->persist($empresa);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La empresa se ha registrado correctamente');

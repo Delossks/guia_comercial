@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Empresa;
+use App\Entity\Empresario;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +19,22 @@ class EmpresaAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder    
+/*            ->add('id_usuario',NumberType::class, array(
+                'label' => 'Id Usuario',
+                'mapped' => false,
+                'required' => true,
+                'help' => 'ID del empresario al que pertenece la empresa'))
+*/
+
+            ->add('id_usuario', EntityType::class, array(
+                'class' => Empresario::class,
+                'label' => 'Id Empresario',
+                'choice_label' => 'id',
+                'mapped' => false,
+                'required' => true,
+                'help' => 'Seleccionar el ID del empresario al que pertenece la empresa'))
+
+
             ->add('cif', TextType::class, array(
                 'label' => 'CIF',
                 'required' => true,
@@ -77,13 +95,6 @@ class EmpresaAdminType extends AbstractType
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la empresa (opcional)'))
 
-            //Hay que corregir un error: << Can't get a way to read the property "id_usuario" in class "App\Entity\Empresa". >>
-/*
-            ->add('id_usuario', NumberType::class, array(
-                'label' => 'Id Usuario',
-                'required' => true,
-                'help' => 'Identificador del empresario al que pertenece la empresa'))
-*/
             ->add('Registrar', type: SubmitType::class)
         ;
     }
