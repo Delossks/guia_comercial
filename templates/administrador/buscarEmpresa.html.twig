@@ -5,6 +5,134 @@
 {% block body %}
 
 {{parent()}}
-{{dump(empresas)}}
+
+<div class="container h-100 " style="margin-top:40px">
+
+    <div class="form-row">
+        <div id="campo_nombre_empresa" class="form-group col-md-4">
+            <label>Nombre </label>
+            <input type="text" class="form-control" id="nombre_empresa" name="nombre_empresa" placeholder="Nombre de la empresa a buscar" >
+        </div>
+        <div id="campo_direccion_empresa" class="form-group col-md-8">
+            <label>Direccion </label>
+            <input type="text" class="form-control" id="direccion_empresa" name="direccion_empresa" placeholder="Dirección de la empresa a buscar" >
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div id="campo_localidad_empresa" class="form-group col-md-4">
+            <label>Localidad </label>
+            <input type="text" class="form-control" id="localidad_empresa" name="localidad_empresa" placeholder="Localidad de la empresa a buscar" >
+        </div>
+        <div id="campo_provincia_empresa" class="form-group col-md-8">
+            <label>Provincia </label>
+            <input type="text" class="form-control" id="provincia_empresa" name="provincia_empresa" placeholder="Provincia de la empresa a buscar" >
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div id="campo_cp_empresa" class="form-group col-md-4">
+            <label>Código Postal </label>
+            <input type="text" class="form-control" id="cp_empresa" name="cp_empresa" placeholder="Código postal de la empresa a buscar" >
+        </div>
+        <div id="campo_telefono_empresa" class="form-group col-md-8">
+            <label>Teléfono </label>
+            <input type="text" class="form-control" id="telefono_empresa" name="telefono_empresa" placeholder="Teléfono de la empresa a buscar" >
+        </div>
+    </div>
+    
+    <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button>
+    
+</div>
+
+<script>
+    function buscar(){
+        nombre_empresa = $("#nombre_empresa").val();
+        direccion_empresa = $("#direccion_empresa").val();
+        localidad_empresa = $("#localidad_empresa").val();
+        provincia_empresa = $("#provincia_empresa").val();
+        cp_empresa = $("#cp_empresa").val();
+        telefono_empresa = $("#telefono_empresa").val();
+        $("#empresasEncontradas").empty();
+        $.ajax
+        ({
+            type: "POST",
+            cache: true,
+            dataType: 'html',
+            url: "{{path('buscarEmpresaEmp')}}", 
+            data: {nombre_empresa: nombre_empresa, direccion_empresa: direccion_empresa, localidad_empresa: localidad_empresa, provincia_empresa: provincia_empresa, cp_empresa: cp_empresa, telefono_empresa: telefono_empresa},
+            success: function(html)
+            {
+                // Mostrar el resultado de la búsqueda
+                if(html !== ""){
+                    $("#empresasEncontradas").empty();
+                    $("#empresasEncontradas").html(html);
+                }
+            }
+        });
+    }
+</script>
+
+{# {{dump(empresas)}} #}
+
+
+{% if empresas is not same as("") and empresas is not null and empresas is not empty %}
+<div class="container h-100 " style="margin-top:40px">
+    <table id="tbEmpresa" class="table table-sm">
+        <thead style="border-bottom-style:2px solid #24a690;">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>CIF</th>
+                <th>Dirección</th>
+                <th>Localidad</th>
+                <th>Provincia</th>
+                <th>Código Postal</th>
+                <th>Teléfono</th>
+                <th>Actividad Económica</th>
+                <th>Web</th>
+                {#<th>Logotipo</th>#}
+                <th>Validez</th>
+                <th style="width:20%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7">
+                    <div class="scrollit">
+                        <table id="tbResultadoEmpresa" class="subtable table-hover table-sm">
+                            {% for empresa in empresas %}
+                                <tr id ='{{empresa.id}}'>
+                                    <td>{{empresa.id}}</td>
+                                    <td>{{empresa.nombreEmpresa}}</td>
+                                    <td>{{empresa.cif}}</td>
+                                    <td>{{empresa.direccionEmpresa}}</td>
+                                    <td>{{empresa.localidadEmpresa}}</td>
+                                    <td>{{empresa.provinciaEmpresa}}</td>
+                                    <td>{{empresa.cpEmpresa}}</td>
+                                    <td>{{empresa.telefonoEmpresa}}</td>
+                                    <td>{{empresa.actividadEconomica}}</td>
+                                    <td>{{empresa.webEmpresa}}</td>
+                                    {#<td>{{empresa.logotipo}}</td>#}
+                                    <td>{{empresa.validez}}</td>
+                                    <td style="width:19%" align="center">                                   
+                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_modificarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lapizAmarillo.png') }}" title="Modificar"/></button> 
+                                        <button type="button" class="open-Modal btn btn-link" data-toggle="modal" data-target="#deleteDocente" data-myvar="{{docente.idDocente}}" data-myvalue="{{docente.nombreDocente}}"><img height="25px" src="{{ asset('public/images/papeleraRojaN.png') }}" title="Eliminar"/></button> #}
+                                    </td> 
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="container h-100 " style="margin-top:40px">
+    <p style="text-align:center">No se ha encontrado ninguna empresa que satisfaga los criterios seleccionados</p>
+</div>
+{% endif %}
 
 {% endblock %}

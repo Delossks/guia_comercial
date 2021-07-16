@@ -1238,8 +1238,92 @@ class EmpresarioController extends AbstractController
         $fecha_fin = $request->request->get('fecha_fin');
         $descripcion = $request->request->get('descripcion');
 
-        //Buscar todos los comercios
-        $ofertasTemp = $em->getRepository(Oferta::class)->findBy(array(), array('descripcion' => 'ASC'));
+        //Búsquedas según los parámetros introducidos
+        if(!(empty($fecha_inicio)) && !empty($fecha_fin) && !empty($descripcion)){
+            //Buscar Oferta por fecha inicio, fecha fin y descripcion
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->where('o.fecha_inicio LIKE :fInicio')
+                                                              ->andWhere('o.fecha_fin LIKE :fFin')
+                                                              ->andWhere('o.descripcion LIKE :descripcion')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('fInicio','%'.$fecha_inicio.'%')
+                                                              ->setParameter('fFin','%'.$fecha_fin.'%')
+                                                              ->setParameter('descripcion','%'.$descripcion.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($fecha_inicio)) && !empty($fecha_fin) && empty($descripcion)){
+            //Buscar Oferta por fecha inicio y fecha fin
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->where('o.fecha_inicio LIKE :fInicio')
+                                                              ->andWhere('o.fecha_fin LIKE :fFin')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('fInicio','%'.$fecha_inicio.'%')
+                                                              ->setParameter('fFin','%'.$fecha_fin.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($fecha_inicio)) && empty($fecha_fin) && !empty($descripcion)){
+            //Buscar Oferta por fecha inicio y descripcion
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->where('o.fecha_inicio LIKE :fInicio')
+                                                              ->andWhere('o.descripcion LIKE :descripcion')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('fInicio','%'.$fecha_inicio.'%')
+                                                              ->setParameter('descripcion','%'.$descripcion.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($fecha_inicio)) && !empty($fecha_fin) && !empty($descripcion)){
+            //Buscar Oferta por fecha fin y descripcion
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->andWhere('o.fecha_fin LIKE :fFin')
+                                                              ->andWhere('o.descripcion LIKE :descripcion')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('fFin','%'.$fecha_fin.'%')
+                                                              ->setParameter('descripcion','%'.$descripcion.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($fecha_inicio)) && empty($fecha_fin) && empty($descripcion)){
+            //Buscar Oferta por fecha inicio
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->where('o.fecha_inicio LIKE :fInicio')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('fInicio','%'.$fecha_inicio.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($fecha_inicio)) && !empty($fecha_fin) && empty($descripcion)){
+            //Buscar Oferta por fecha fin
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->andWhere('o.fecha_fin LIKE :fFin')
+                                                              ->andWhere('o.descripcion LIKE :descripcion')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('fFin','%'.$fecha_fin.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($fecha_inicio)) && empty($fecha_fin) && !empty($descripcion)){
+            //Buscar Oferta por descripcion
+            $ofertasTemp = $em->getRepository(Oferta::class)->createQueryBuilder('o')
+                                                              ->andWhere('o.descripcion LIKE :descripcion')
+                                                              ->orderBy('o.fecha_inicio', 'ASC')
+                                                              ->setParameter('descripcion','%'.$descripcion.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        else {
+            //Buscar todas las ofertas
+            $ofertasTemp = $em->getRepository(Oferta::class)->findBy(array(), array('fecha_inicio' => 'ASC'));
+        }
 
         $ofertas = $ofertasTemp;
 

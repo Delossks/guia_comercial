@@ -5,6 +5,98 @@
 {% block body %}
 
 {{parent()}}
-{{dump(ofertas)}}
+
+<div class="container h-100 " style="margin-top:40px">
+
+    <div class="form-row">
+        <div id="campo_fecha_inicio" class="form-group col-md-4">
+            <label>Fecha Inicio </label>
+            <input type="datetime" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="Fecha de inicio de la oferta a buscar" >
+        </div>
+        <div id="campo_fecha_fin" class="form-group col-md-8">
+            <label>Fecha Fin </label>
+            <input type="datetime" class="form-control" id="fecha_fin" name="fecha_fin" placeholder="Fecha de finalización de la oferta a buscar" >
+        </div>
+        <div id="campo_descripcion" class="form-group col-md-4">
+            <label>Descripción </label>
+            <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción de la oferta a buscar" >
+        </div>
+    </div>
+    
+    <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button>
+    
+</div>
+
+<script>
+    function buscar(){
+        fecha_inicio = $("#fecha_inicio").val();
+        fecha_fin = $("#fecha_fin").val();
+        descripción = $("#descripcion").val();
+        $("#ofertasEncontradas").empty();
+        $.ajax
+        ({
+            type: "POST",
+            cache: true,
+            dataType: 'html',
+            url: "{{path('buscarOfertaEmp')}}", 
+            data: {fecha_inicio: fecha_inicio, fecha_fin: fecha_fin, descripcion: descripcion},
+            success: function(html)
+            {
+                // Mostrar el resultado de la búsqueda
+                if(html !== ""){
+                    $("#ofertasEncontradas").empty();
+                    $("#ofertasEncontradas").html(html);
+                }
+            }
+        });
+    }
+</script>
+
+{# {{dump(ofertas)}} #}
+
+{% if ofertas is not same as("") and ofertas is not null and ofertas is not empty %}
+<div class="container h-100 " style="margin-top:40px">
+    <table id="tbOferta" class="table table-sm">
+        <thead style="border-bottom-style:2px solid #24a690;">
+            <tr>
+                <th>CIF</th>
+                <th>Descripción</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                {#<th>Imagen</th>#}
+                <th style="width:20%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7">
+                    <div class="scrollit">
+                        <table id="tbResultadoOferta" class="subtable table-hover table-sm">
+                            {% for oferta in ofertas %}
+                                <tr id ='{{oferta.id}}'>
+                                    <td>{{oferta.cif}}</td>
+                                    <td>{{oferta.descripcion}}</td>
+                                    <td>{{oferta.fechaInicio | date('d-m-Y : h-m-s')}}</td>
+                                    <td>{{oferta.fechaFin | date('d-m-Y : h-m-s')}}</td>
+                                    {#<td>{{oferta.imgOferta}}</td>#}
+                                    <td style="width:19%" align="center">                                   
+                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_modificarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lapizAmarillo.png') }}" title="Modificar"/></button> 
+                                        <button type="button" class="open-Modal btn btn-link" data-toggle="modal" data-target="#deleteDocente" data-myvar="{{docente.idDocente}}" data-myvalue="{{docente.nombreDocente}}"><img height="25px" src="{{ asset('public/images/papeleraRojaN.png') }}" title="Eliminar"/></button> #}
+                                    </td> 
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="container h-100 " style="margin-top:40px">
+    <p style="text-align:center">No se ha encontrado ninguna oferta que satisfaga los criterios seleccionados</p>
+</div>
+{% endif %}
 
 {% endblock %}
