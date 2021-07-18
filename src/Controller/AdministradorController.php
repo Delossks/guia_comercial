@@ -59,10 +59,435 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/usuario/buscar', name: 'buscarUsuario')]
-    public function buscarUsuario(): Response
+    public function buscarUsuario(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $usuarios = $em->getRepository(Usuario::class)->findAll();
+
+        $usuarios = "";
+        $usuariosTemp = "";
+
+        //Parámetros de búsqueda
+        $email = $request->request->get('email');
+        $nombre = $request->request->get('nombre');
+        $apellidos = $request->request->get('apellidos');
+        $telefono = $request->request->get('telefono');
+        $validez = $request->request->get('validez');
+
+        //Búsquedas según los parámetros introducidos
+        if(!(empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, nombre, apellidos, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por email, nombre, apellidos y teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, nombre, apellidos y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por email, nombre y apellidos
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, nombre, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por email, nombre y teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, nombre y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por email y nombre
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.nombre LIKE :nombre')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, apellidos, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por email, apellidos y teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, apellidos y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por email y apellidos
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por email y teléfono 
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por email y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por email
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.email LIKE :email')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('email','%'.$email.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por nombre, apellidos, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por nombre, apellidos y teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por nombre, apellidos y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por nombre y apellidos
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por nombre, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por nombre y teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por nombre y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por nombre
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.nombre LIKE :nombre')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('nombre','%'.$nombre.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por apellidos, teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por apellidos y teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por apellidos y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.apellidos LIKE :apellidos')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
+            //Buscar Usuario por apellidos
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->andWhere('u.apellidos LIKE :apellidos')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('apellidos','%'.$apellidos.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
+            //Buscar Usuario por teléfono y validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.telefono LIKE :telefono')
+                                                              ->andWhere('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
+            //Buscar Usuario por teléfono
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->andWhere('u.telefono LIKE :telefono')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('telefono','%'.$telefono.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        elseif((empty($email)) && empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
+            //Buscar Usuario por validez
+            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+                                                              ->where('u.validez LIKE :validez')
+                                                              ->orderBy('u.apellidos', 'ASC')
+                                                              ->setParameter('validez','%'.$validez.'%')
+                                                              ->getQuery()
+                                                              ->getResult();
+        }
+
+        else {
+            //Buscar todos los usuarios
+            $usuariosTemp = $em->getRepository(Usuario::class)->findBy(array(), array('apellidos' => 'ASC'));
+        }
+
+        $usuarios = $usuariosTemp;
 
         return $this->render('administrador/buscarUsuario.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Usuario',

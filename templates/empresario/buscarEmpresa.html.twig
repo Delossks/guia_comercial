@@ -78,7 +78,7 @@
 
 {% if empresas is not same as("") and empresas is not null and empresas is not empty %}
 <div class="container h-100 " style="margin-top:40px">
-    <table id="tbEmpresa" class="table table-sm">
+    <table id="tbEmpresa" class="table table-hover table-sm">
         <thead style="border-bottom-style:2px solid #24a690;">
             <tr>
                 <th>Nombre</th>
@@ -96,9 +96,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="7">
                     <div class="scrollit">
-                        <table id="tbResultadoEmpresa" class="subtable table-hover table-sm">
                             {% for empresa in empresas %}
                                 <tr id ='{{empresa.id}}'>
                                     <td>{{empresa.nombreEmpresa}}</td>

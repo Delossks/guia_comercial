@@ -56,7 +56,7 @@
 
 {% if ofertas is not same as("") and ofertas is not null and ofertas is not empty %}
 <div class="container h-100 " style="margin-top:40px">
-    <table id="tbOferta" class="table table-sm">
+    <table id="tbOferta" class="table table-hover table-sm">
         <thead style="border-bottom-style:2px solid #24a690;">
             <tr>
                 <th>ID</th>
@@ -71,20 +71,19 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="7">
                     <div class="scrollit">
-                        <table id="tbResultadoOferta" class="subtable table-hover table-sm">
                             {% for oferta in ofertas %}
                                 <tr id ='{{oferta.id}}'>
                                     <td>{{oferta.id}}</td>
                                     <td>{{oferta.cif}}</td>
                                     <td>{{oferta.descripcion}}</td>
-                                    <td>{{oferta.fechaInicio | date('d-m-Y : h-m-s')}}</td>
-                                    <td>{{oferta.fechaFin | date('d-m-Y : h-m-s')}}</td>
+                                    <td>{{oferta.fechaInicio | date('d-m-Y  h:m:s')}}</td>
+                                    <td>{{oferta.fechaFin | date('d-m-Y : h:m:s')}}</td>
                                     {#<td>{{oferta.imgOferta}}</td>#}
                                     <td>{{oferta.validez}}</td>
                                     <td style="width:19%" align="center">                                   
-                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button>
+                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Validar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button>
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_modificarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lapizAmarillo.png') }}" title="Modificar"/></button> 
                                         <button type="button" class="open-Modal btn btn-link" data-toggle="modal" data-target="#deleteDocente" data-myvar="{{docente.idDocente}}" data-myvalue="{{docente.nombreDocente}}"><img height="25px" src="{{ asset('public/images/papeleraRojaN.png') }}" title="Eliminar"/></button> #}
                                     </td> 
