@@ -496,14 +496,15 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/usuario/consultar', name: 'consultarUsuario')]
-    public function consultarUsuario(Request $request, $id): Response
+    public function consultarUsuario(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar el usuario a consultar
         $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
 
-        $form = $this->createForm(UsuarioType::class, $usuario);
+        $form = $this->createForm(UsuarioAdminType::class, $usuario);
 
         return $this->render('administrador/consultarUsuario.html.twig', [
             'controller_name' => 'Datos del usuario',
@@ -1519,14 +1520,15 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/empresa/consultar', name: 'consultarEmpresaAdmin')]
-    public function consultarEmpresa(Request $request, $id): Response
+    public function consultarEmpresa(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar la empresa a consultar
         $empresa = $em->getRepository(Empresa::class)->findOneBy(array('id' => $id));
 
-        $form = $this->createForm(EmpresaType::class, $empresa);
+        $form = $this->createForm(EmpresaAdminType::class, $empresa);
 
         return $this->render('administrador/consultarEmpresa.html.twig', [
             'controller_name' => 'Datos de la empresa',
@@ -1804,14 +1806,15 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/comercio/consultar', name: 'consultarComercioAdmin')]
-    public function consultarComercio(Request $request, $id): Response
+    public function consultarComercio(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
 
-        $form = $this->createForm(ComercioType::class, $comercio);
+        $form = $this->createForm(ComercioAdminType::class, $comercio);
 
         return $this->render('administrador/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
@@ -1975,14 +1978,15 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/oferta/consultar', name: 'consultarOfertaAdmin')]
-    public function consultarOferta(Request $request, $id): Response
+    public function consultarOferta(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar la oferta a consultar
         $oferta = $em->getRepository(Oferta::class)->findOneBy(array('id' => $id));
 
-        $form = $this->createForm(OfertaType::class, $oferta);
+        $form = $this->createForm(OfertaAdminType::class, $oferta);
 
         return $this->render('administrador/consultarOferta.html.twig', [
             'controller_name' => 'Datos de la oferta',

@@ -35,7 +35,7 @@ class OfertaAdminType extends AbstractType
                 'required' => true))
 
             ->add('img_oferta', UrlType::class, array(
-                'label' => 'Logotipo',
+                'label' => 'Imagen Oferta',
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la oferta (opcional)'))

@@ -955,9 +955,10 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/empresa/consultar', name: 'consultarEmpresaEmp')]
-    public function consultarEmpresa(Request $request, $id): Response
+    public function consultarEmpresa(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar la empresa a consultar
         $empresa = $em->getRepository(Empresa::class)->findOneBy(array('id' => $id));
@@ -1230,9 +1231,10 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/comercio/consultar', name: 'consultarComercioEmp')]
-    public function consultarComercio(Request $request, $id): Response
+    public function consultarComercio(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
@@ -1400,9 +1402,10 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/oferta/consultar', name: 'consultarOfertaEmp')]
-    public function consultarOferta(Request $request, $id): Response
+    public function consultarOferta(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar la oferta a consultar
         $oferta = $em->getRepository(Oferta::class)->findOneBy(array('id' => $id));
