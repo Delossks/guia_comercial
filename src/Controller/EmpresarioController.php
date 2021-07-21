@@ -954,6 +954,39 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
+    #[Route('/empresario/empresa/consultar', name: 'consultarEmpresaEmp')]
+    public function consultarEmpresa(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la empresa a consultar
+        $empresa = $em->getRepository(Empresa::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(EmpresaType::class, $empresa);
+
+        return $this->render('empresario/consultarEmpresa.html.twig', [
+            'controller_name' => 'Datos de la empresa',
+            'formulario' => $form->createView(),
+            'empresa' => $empresa
+        ]);
+    }
+
+    #[Route('/empresario/empresa/modificar', name: 'modificarEmpresaEmp')]
+    public function modificarEmpresa(): Response
+    {
+        return $this->render('empresario/modificarEmpresa.html.twig', [
+            'controller_name' => 'Modificar Empresa',
+        ]);
+    }
+
+    #[Route('/empresario/empresa/eliminar', name: 'eliminarEmpresaEmp')]
+    public function eliminarEmpresa(): Response
+    {
+        return $this->render('empresario/eliminarEmpresa.html.twig', [
+            'controller_name' => 'Eliminar Empresa',
+        ]);
+    }
+
     #[Route('/empresario/empresa/registrar', name: 'registrarEmpresaEmp')]
     public function registrarEmpresa(Request $request): Response
     {
@@ -1196,6 +1229,39 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
+    #[Route('/empresario/comercio/consultar', name: 'consultarComercioEmp')]
+    public function consultarComercio(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a consultar
+        $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(ComercioType::class, $comercio);
+
+        return $this->render('empresario/consultarComercio.html.twig', [
+            'controller_name' => 'Datos del comercio',
+            'formulario' => $form->createView(),
+            'comercio' => $comercio
+        ]);
+    }
+
+    #[Route('/empresario/comercio/modificar', name: 'modificarComercioEmp')]
+    public function modificarComercio(): Response
+    {
+        return $this->render('empresario/modificarComercio.html.twig', [
+            'controller_name' => 'Modificar Comercio',
+        ]);
+    }
+
+    #[Route('/empresario/comercio/eliminar', name: 'eliminarComercioEmp')]
+    public function eliminarComercio(): Response
+    {
+        return $this->render('empresario/eliminarComercio.html.twig', [
+            'controller_name' => 'Eliminar Comercio',
+        ]);
+    }
+
     #[Route('/empresario/comercio/registrar', name: 'registrarComercioEmp')]
     public function registrarComercio(Request $request): Response
     {
@@ -1330,6 +1396,39 @@ class EmpresarioController extends AbstractController
         return $this->render('empresario/buscarOferta.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Oferta',
             'ofertas' => $ofertas
+        ]);
+    }
+
+    #[Route('/empresario/oferta/consultar', name: 'consultarOfertaEmp')]
+    public function consultarOferta(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a consultar
+        $oferta = $em->getRepository(Oferta::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(OfertaType::class, $oferta);
+
+        return $this->render('empresario/consultarOferta.html.twig', [
+            'controller_name' => 'Datos de la oferta',
+            'formulario' => $form->createView(),
+            'oferta' => $oferta
+        ]);
+    }
+
+    #[Route('/empresario/oferta/modificar', name: 'modificarOfertaEmp')]
+    public function modificarOferta(): Response
+    {
+        return $this->render('empresario/modificarOferta.html.twig', [
+            'controller_name' => 'Modificar Oferta',
+        ]);
+    }
+
+    #[Route('/empresario/oferta/eliminar', name: 'eliminarOfertaEmp')]
+    public function eliminarOferta(): Response
+    {
+        return $this->render('empresario/eliminarOferta.html.twig', [
+            'controller_name' => 'Eliminar Oferta',
         ]);
     }
 

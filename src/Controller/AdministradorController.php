@@ -490,8 +490,49 @@ class AdministradorController extends AbstractController
         $usuarios = $usuariosTemp;
 
         return $this->render('administrador/buscarUsuario.html.twig', [
-            'controller_name' => 'Esta es la página para buscar un Usuario',
+            'controller_name' => 'Buscar un Usuario',
             'usuarios' => $usuarios
+        ]);
+    }
+
+    #[Route('/administrador/usuario/consultar', name: 'consultarUsuario')]
+    public function consultarUsuario(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el usuario a consultar
+        $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(UsuarioType::class, $usuario);
+
+        return $this->render('administrador/consultarUsuario.html.twig', [
+            'controller_name' => 'Datos del usuario',
+            'formulario' => $form->createView(),
+            'usuario' => $usuario
+        ]);
+    }
+
+    #[Route('/administrador/usuario/modificar', name: 'modificarUsuario')]
+    public function modificarUsuario(): Response
+    {
+        return $this->render('administrador/modificarUsuario.html.twig', [
+            'controller_name' => 'Modificar Usuario',
+        ]);
+    }
+
+    #[Route('/administrador/usuario/eliminar', name: 'eliminarUsuario')]
+    public function eliminarUsuario(): Response
+    {
+        return $this->render('administrador/eliminarUsuario.html.twig', [
+            'controller_name' => 'Eliminar Usuario',
+        ]);
+    }
+
+    #[Route('/administrador/usuario/validar', name: 'validarUsuario')]
+    public function validarUsuario(): Response
+    {
+        return $this->render('administrador/validarUsuario.html.twig', [
+            'controller_name' => 'Validar Usuario',
         ]);
     }
 
@@ -1478,24 +1519,43 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/empresa/consultar', name: 'consultarEmpresaAdmin')]
-    public function consultarEmpresa(int $id_empresa): Response
+    public function consultarEmpresa(Request $request, $id): Response
     {
-        /*
         $em = $this->getDoctrine()->getManager();
-        
-        //Se busca la empresa que se va a consultar
-        $empresa = $em->getRepository(Empresa::class)->find($id_empresa);
-        if (!$empresa) {
-            throw $this->createNotFoundException(
-                'No se han encontrado empresas que coincidan con los criterios de búsqueda '
-            );
-        }
-        
-        */
+
+        //Buscar la empresa a consultar
+        $empresa = $em->getRepository(Empresa::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(EmpresaType::class, $empresa);
 
         return $this->render('administrador/consultarEmpresa.html.twig', [
-            'controller_name' => 'Esta es la página para consultar una Empresa',
+            'controller_name' => 'Datos de la empresa',
+            'formulario' => $form->createView(),
             'empresa' => $empresa
+        ]);
+    }
+
+    #[Route('/administrador/empresa/modificar', name: 'modificarEmpresaAdmin')]
+    public function modificarEmpresa(): Response
+    {
+        return $this->render('administrador/modificarEmpresa.html.twig', [
+            'controller_name' => 'Modificar Empresa',
+        ]);
+    }
+
+    #[Route('/administrador/empresa/eliminar', name: 'eliminarEmpresaAdmin')]
+    public function eliminarEmpresa(): Response
+    {
+        return $this->render('administrador/eliminarEmpresa.html.twig', [
+            'controller_name' => 'Eliminar Empresa',
+        ]);
+    }
+
+    #[Route('/administrador/empresa/validar', name: 'validarEmpresa')]
+    public function validarEmpresa(): Response
+    {
+        return $this->render('administrador/validarEmpresa.html.twig', [
+            'controller_name' => 'Validar Empresa',
         ]);
     }
 
@@ -1744,24 +1804,43 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/comercio/consultar', name: 'consultarComercioAdmin')]
-    public function consultarComercio(int $id_comercio): Response
+    public function consultarComercio(Request $request, $id): Response
     {
-        /*
         $em = $this->getDoctrine()->getManager();
-        
-        //Se busca el comercio que se va a consultar
-        $comercio = $em->getRepository(Comercio::class)->find($id_comercio);
-        if (!$comercio) {
-            throw $this->createNotFoundException(
-                'No se han encontrado comercios que coincidan con los criterios de búsqueda '
-            );
-        }
-        
-        */
+
+        //Buscar el comercio a consultar
+        $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(ComercioType::class, $comercio);
 
         return $this->render('administrador/consultarComercio.html.twig', [
-            'controller_name' => 'Esta es la página para consultar un Comercio',
+            'controller_name' => 'Datos del comercio',
+            'formulario' => $form->createView(),
             'comercio' => $comercio
+        ]);
+    }
+
+    #[Route('/administrador/comercio/modificar', name: 'modificarComercioAdmin')]
+    public function modificarComercio(): Response
+    {
+        return $this->render('administrador/modificarComercio.html.twig', [
+            'controller_name' => 'Modificar Comercio',
+        ]);
+    }
+
+    #[Route('/administrador/comercio/eliminar', name: 'eliminarComercioAdmin')]
+    public function eliminarComercio(): Response
+    {
+        return $this->render('administrador/eliminarComercio.html.twig', [
+            'controller_name' => 'Eliminar Comercio',
+        ]);
+    }
+
+    #[Route('/administrador/comercio/validar', name: 'validarComercio')]
+    public function validarComercio(): Response
+    {
+        return $this->render('administrador/validarComercio.html.twig', [
+            'controller_name' => 'Validar Comercio',
         ]);
     }
 
@@ -1896,24 +1975,43 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/oferta/consultar', name: 'consultarOfertaAdmin')]
-    public function consultarOferta(int $id_oferta): Response
+    public function consultarOferta(Request $request, $id): Response
     {
-        /*
         $em = $this->getDoctrine()->getManager();
-        
-        //Se busca la oferta que se va a consultar
-        $oferta = $em->getRepository(Oferta::class)->find($id_oferta);
-        if (!$oferta) {
-            throw $this->createNotFoundException(
-                'No se han encontrado ofertas que coincidan con los criterios de búsqueda '
-            );
-        }
-        
-        */
+
+        //Buscar la oferta a consultar
+        $oferta = $em->getRepository(Oferta::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(OfertaType::class, $oferta);
 
         return $this->render('administrador/consultarOferta.html.twig', [
-            'controller_name' => 'Esta es la página para consultar una Oferta',
+            'controller_name' => 'Datos de la oferta',
+            'formulario' => $form->createView(),
             'oferta' => $oferta
+        ]);
+    }
+
+    #[Route('/administrador/oferta/modificar', name: 'modificarOfertaAdmin')]
+    public function modificarOferta(): Response
+    {
+        return $this->render('administrador/modificarOferta.html.twig', [
+            'controller_name' => 'Modificar Oferta',
+        ]);
+    }
+
+    #[Route('/administrador/oferta/eliminar', name: 'eliminarOfertaAdmin')]
+    public function eliminarOferta(): Response
+    {
+        return $this->render('administrador/eliminarOferta.html.twig', [
+            'controller_name' => 'Eliminar Oferta',
+        ]);
+    }
+
+    #[Route('/administrador/oferta/validar', name: 'validarOferta')]
+    public function validarOferta(): Response
+    {
+        return $this->render('administrador/validarOferta.html.twig', [
+            'controller_name' => 'Validar Oferta',
         ]);
     }
 

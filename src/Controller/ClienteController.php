@@ -242,6 +242,23 @@ class ClienteController extends AbstractController
         ]);
     }
 
+    #[Route('/cliente/comercio/consultar', name: 'consultarComercioCli')]
+    public function consultarComercio(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a consultar
+        $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(ComercioType::class, $comercio);
+
+        return $this->render('cliente/consultarComercio.html.twig', [
+            'controller_name' => 'Datos del comercio',
+            'formulario' => $form->createView(),
+            'comercio' => $comercio
+        ]);
+    }
+
     #[Route('/cliente/mis-ofertas', name: 'clienteOfertas')]
     public function clienteOfertas(): Response
     {

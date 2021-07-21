@@ -14,7 +14,7 @@
             <input type="text" class="form-control" id="nombre_comercio" name="nombre_comercio" placeholder="Nombre del comercio a buscar" >
         </div>
         <div id="campo_direccion_comercio" class="form-group col-md-8">
-            <label>Direccion </label>
+            <label>Dirección </label>
             <input type="text" class="form-control" id="direccion_comercio" name="direccion_comercio" placeholder="Dirección del comercio a buscar" >
         </div>
     </div>
@@ -92,10 +92,10 @@
                                     <td>{{comercio.webComercio}}</td>
                                     <td>{{comercio.validez}}</td>
                                     <td style="width:19%" align="center">                                   
-                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Validar"/></button>
-                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button>
-                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_modificarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lapizAmarillo.png') }}" title="Modificar"/></button> 
-                                        <button type="button" class="open-Modal btn btn-link" data-toggle="modal" data-target="#deleteDocente" data-myvar="{{docente.idDocente}}" data-myvalue="{{docente.nombreDocente}}"><img height="25px" src="{{ asset('public/images/papeleraRojaN.png') }}" title="Eliminar"/></button> #}
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('validarComercio', {'id': comercio.id})}}'"><img height="24px" src="{{ asset('images/checks.png') }}" title="Validar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercioAdmin', {'id': comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('modificarComercioAdmin', {'id': comercio.id})}}'"><img height="24px" src="{{ asset('images/contract.png') }}" title="Modificar"/></button> 
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('eliminarComercioAdmin', {'id': comercio.id})}}'"><img height="24px" src="{{ asset('images/delete2.png') }}" title="Eliminar"/></button>
                                     </td> 
                                 </tr>
                             {% endfor %}

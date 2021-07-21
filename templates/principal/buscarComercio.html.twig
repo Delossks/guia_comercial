@@ -14,7 +14,7 @@
             <input type="text" class="form-control" id="nombre_comercio" name="nombre_comercio" placeholder="Nombre del comercio a buscar" >
         </div>
         <div id="campo_direccion_comercio" class="form-group col-md-8">
-            <label>Direccion </label>
+            <label>Dirección </label>
             <input type="text" class="form-control" id="direccion_comercio" name="direccion_comercio" placeholder="Dirección del comercio a buscar" >
         </div>
     </div>
@@ -86,7 +86,7 @@
                                     <td>{{comercio.telefonoComercio}}</td>
                                     <td>{{comercio.webComercio}}</td>
                                     <td style="width:19%" align="center">
-                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercio', {'id': comercio.id})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button> #}
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercio', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
                                     </td> 
                                 </tr>
                             {% endfor %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comercio;
+use App\Form\ComercioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -241,12 +242,17 @@ class PrincipalController extends AbstractController
     }
 
     #[Route('/comercio/consultar', name: 'consultarComercio')]
-    public function consultarComercio(Request $request, $id): Response
+    public function consultarComercio(Request $request): Response
+    //public function consultarComercio($id): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $id = $request->request->get('id');
 
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
+        //$comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $request->request->get('id')));
+        //$comercio = $em->getRepository(Comercio::class)->find($id);
+        //$comercio = $em->getRepository(Comercio::class)->find($request->request->get('id'));
 
         $form = $this->createForm(ComercioType::class, $comercio);
 

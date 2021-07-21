@@ -78,9 +78,9 @@
                                     <td>{{oferta.fechaFin | date('d-m-Y  h:m:s')}}</td>
                                     {#<td>{{oferta.imgOferta}}</td>#}
                                     <td style="width:19%" align="center">                                   
-                                        {# <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_consultarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lupaVerde.jpg') }}" title="Consultar"/></button>
-                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('gestion_modificarDocente', {'correo_docente': docente.correoDocente})}}'"><img height="25px" src="{{ asset('public/images/lapizAmarillo.png') }}" title="Modificar"/></button> 
-                                        <button type="button" class="open-Modal btn btn-link" data-toggle="modal" data-target="#deleteDocente" data-myvar="{{docente.idDocente}}" data-myvalue="{{docente.nombreDocente}}"><img height="25px" src="{{ asset('public/images/papeleraRojaN.png') }}" title="Eliminar"/></button> #}
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarOfertaEmp', {'id': oferta.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('modificarOfertaEmp', {'id': oferta.id})}}'"><img height="24px" src="{{ asset('images/contract.png') }}" title="Modificar"/></button> 
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('eliminarOfertaEmp', {'id': oferta.id})}}'"><img height="24px" src="{{ asset('images/delete2.png') }}" title="Eliminar"/></button>
                                     </td> 
                                 </tr>
                             {% endfor %}
