@@ -17,7 +17,11 @@ use App\Form\EmpresaAdminType;
 use App\Form\UsuarioAdminType;
 use App\Form\AdministradorType;
 use App\Form\ComercioAdminType;
+use App\Form\ValidarOfertaType;
 use App\Form\OfertaConsultaType;
+use App\Form\ValidarEmpresaType;
+use App\Form\ValidarUsuarioType;
+use App\Form\ValidarComercioType;
 use App\Form\ComercioConsultaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -531,13 +535,59 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/usuario/validar/{id}', name: 'validarUsuario')]
-    public function validarUsuario($id): Response
+    public function validarUsuario(Request $request, $id): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el usuario a validar
+        $usuario = $em->getRepository(Usuario::class)->find($id);
+        $form = $this->createForm(ValidarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $usuario->setValidez(validez: 'sí');
+
+            //Se actualiza el usuario en la base de datos
+            $em->persist($usuario);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarUsuario');
+        }
+
         return $this->render('administrador/validarUsuario.html.twig', [
-            'controller_name' => 'Validar Usuario',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
+/*
+    #[Route('/administrador/usuario/rechazar/{id}', name: 'rechazarUsuario')]
+    public function rechazarUsuario(Request $request, $id): Response
+    {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
 
+        //Buscar el usuario a validar
+        $usuario = $em->getRepository(Usuario::class)->find($id);
+        $form = $this->createForm(ValidarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $usuario->setValidez(validez: 'no');
+
+            //Se actualiza el usuario en la base de datos
+            $em->persist($usuario);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarUsuario');
+        }
+
+        return $this->render('administrador/rechazarUsuario.html.twig', [
+            'controller_name' => '',
+            'formulario' => $form->createView(),
+        ]);
+    }
+*/
     #[Route('/administrador/usuario/registrar', name: 'registrarUsuarioAdmin')]
     public function registrarUsuarioAdmin(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -1532,7 +1582,7 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/consultarEmpresa.html.twig', [
             'controller_name' => 'Datos de la empresa',
-            'formulario' => $form->createView(),
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1553,10 +1603,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/empresa/validar/{id}', name: 'validarEmpresa')]
-    public function validarEmpresa($id): Response
+    public function validarEmpresa(Request $request, $id): Response
     {
+        $empresa = new Empresa();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la empresa a validar
+        $empresa = $em->getRepository(Empresa::class)->find($id);
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $empresa->setValidez(validez: 'sí');
+
+            //Se actualiza la empresa en la base de datos
+            $em->persist($empresa);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarEmpresaAdmin');
+        }
+
         return $this->render('administrador/validarEmpresa.html.twig', [
-            'controller_name' => 'Validar Empresa',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1834,10 +1903,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/comercio/validar/{id}', name: 'validarComercio')]
-    public function validarComercio($id): Response
+    public function validarComercio(Request $request, $id): Response
     {
+        $comercio = new Comercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a validar
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+        $form = $this->createForm(ValidarComercioType::class, $comercio);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $comercio->setValidez(validez: 'sí');
+
+            //Se actualiza el comercio en la base de datos
+            $em->persist($comercio);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarComercioAdmin');
+        }
+
         return $this->render('administrador/validarComercio.html.twig', [
-            'controller_name' => 'Validar Comercio',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -2004,10 +2092,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/oferta/validar/{id}', name: 'validarOferta')]
-    public function validarOferta($id): Response
+    public function validarOferta(Request $request, $id): Response
     {
+        $oferta = new Oferta();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a validar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+        $form = $this->createForm(ValidarOfertaType::class, $oferta);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $oferta->setValidez(validez: 'sí');
+
+            //Se actualiza la oferta en la base de datos
+            $em->persist($oferta);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarOfertaAdmin');
+        }
+
         return $this->render('administrador/validarOferta.html.twig', [
-            'controller_name' => 'Validar Oferta',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
