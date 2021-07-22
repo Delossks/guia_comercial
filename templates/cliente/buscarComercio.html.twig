@@ -60,8 +60,6 @@
     }
 </script>
 
-{# {{dump(comercios)}} #}
-
 {% if comercios is not same as("") and comercios is not null and comercios is not empty %}
 <div class="container h-100 " style="margin-top:40px">
     <table id="tbComercio" class="table table-hover table-sm">
@@ -86,7 +84,7 @@
                                     <td>{{comercio.telefonoComercio}}</td>
                                     <td>{{comercio.webComercio}}</td>
                                     <td style="width:19%" align="center">                                   
-                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercioCli', {'id': comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercioCli', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
                                     </td> 
                                 </tr>
                             {% endfor %}

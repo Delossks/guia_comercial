@@ -17,6 +17,8 @@ use App\Form\EmpresaAdminType;
 use App\Form\UsuarioAdminType;
 use App\Form\AdministradorType;
 use App\Form\ComercioAdminType;
+use App\Form\OfertaConsultaType;
+use App\Form\ComercioConsultaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -496,42 +498,40 @@ class AdministradorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrador/usuario/consultar', name: 'consultarUsuario')]
-    public function consultarUsuario(Request $request): Response
+    #[Route('/administrador/usuario/consultar/{id}', name: 'consultarUsuario')]
+    public function consultarUsuario($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('id');
 
         //Buscar el usuario a consultar
-        $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
+        $usuario = $em->getRepository(Usuario::class)->find($id);
 
         $form = $this->createForm(PerfilType::class, $usuario);
 
         return $this->render('administrador/consultarUsuario.html.twig', [
             'controller_name' => 'Datos del usuario',
             'formulario' => $form->createView(),
-            'usuario' => $usuario
         ]);
     }
 
-    #[Route('/administrador/usuario/modificar', name: 'modificarUsuario')]
-    public function modificarUsuario(): Response
+    #[Route('/administrador/usuario/modificar/{id}', name: 'modificarUsuario')]
+    public function modificarUsuario($id): Response
     {
         return $this->render('administrador/modificarUsuario.html.twig', [
             'controller_name' => 'Modificar Usuario',
         ]);
     }
 
-    #[Route('/administrador/usuario/eliminar', name: 'eliminarUsuario')]
-    public function eliminarUsuario(): Response
+    #[Route('/administrador/usuario/eliminar/{id}', name: 'eliminarUsuario')]
+    public function eliminarUsuario($id): Response
     {
         return $this->render('administrador/eliminarUsuario.html.twig', [
             'controller_name' => 'Eliminar Usuario',
         ]);
     }
 
-    #[Route('/administrador/usuario/validar', name: 'validarUsuario')]
-    public function validarUsuario(): Response
+    #[Route('/administrador/usuario/validar/{id}', name: 'validarUsuario')]
+    public function validarUsuario($id): Response
     {
         return $this->render('administrador/validarUsuario.html.twig', [
             'controller_name' => 'Validar Usuario',
@@ -1520,42 +1520,40 @@ class AdministradorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrador/empresa/consultar', name: 'consultarEmpresaAdmin')]
-    public function consultarEmpresa(Request $request): Response
+    #[Route('/administrador/empresa/consultar/{id}', name: 'consultarEmpresaAdmin')]
+    public function consultarEmpresa($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('id');
 
         //Buscar la empresa a consultar
-        $empresa = $em->getRepository(Empresa::class)->findOneBy(array('id' => $id));
+        $empresa = $em->getRepository(Empresa::class)->find($id);
 
         $form = $this->createForm(EmpresaAdminType::class, $empresa);
 
         return $this->render('administrador/consultarEmpresa.html.twig', [
             'controller_name' => 'Datos de la empresa',
             'formulario' => $form->createView(),
-            'empresa' => $empresa
         ]);
     }
 
-    #[Route('/administrador/empresa/modificar', name: 'modificarEmpresaAdmin')]
-    public function modificarEmpresa(): Response
+    #[Route('/administrador/empresa/modificar/{id}', name: 'modificarEmpresaAdmin')]
+    public function modificarEmpresa($id): Response
     {
         return $this->render('administrador/modificarEmpresa.html.twig', [
             'controller_name' => 'Modificar Empresa',
         ]);
     }
 
-    #[Route('/administrador/empresa/eliminar', name: 'eliminarEmpresaAdmin')]
-    public function eliminarEmpresa(): Response
+    #[Route('/administrador/empresa/eliminar/{id}', name: 'eliminarEmpresaAdmin')]
+    public function eliminarEmpresa($id): Response
     {
         return $this->render('administrador/eliminarEmpresa.html.twig', [
             'controller_name' => 'Eliminar Empresa',
         ]);
     }
 
-    #[Route('/administrador/empresa/validar', name: 'validarEmpresa')]
-    public function validarEmpresa(): Response
+    #[Route('/administrador/empresa/validar/{id}', name: 'validarEmpresa')]
+    public function validarEmpresa($id): Response
     {
         return $this->render('administrador/validarEmpresa.html.twig', [
             'controller_name' => 'Validar Empresa',
@@ -1575,8 +1573,6 @@ class AdministradorController extends AbstractController
 
             //Se obtiene el ID del empresario al que se le va a asignar la empresa
             $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
-            //$empresario = $em->getRepository(Empresario::class)->find($empresa->getIdEmpresario());
-            //$empresario = $form->getData()->getIdEmpresario();
             $empresa->setIdEmpresario($empresario);
 
             //Se guarda la empresa en la base de datos
@@ -1795,7 +1791,6 @@ class AdministradorController extends AbstractController
         else {
             //Buscar todos los comercios
             $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array(), array('nombre_comercio' => 'ASC'));
-            //$comerciosTemp = $em->getRepository(Comercio::class)->buscarComerciosEmpresario();
         }
 
         $comercios = $comerciosTemp;
@@ -1806,42 +1801,40 @@ class AdministradorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrador/comercio/consultar', name: 'consultarComercioAdmin')]
-    public function consultarComercio(Request $request): Response
+    #[Route('/administrador/comercio/consultar/{id}', name: 'consultarComercioAdmin')]
+    public function consultarComercio($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('id');
 
         //Buscar el comercio a consultar
-        $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
+        $comercio = $em->getRepository(Comercio::class)->find($id);
 
-        $form = $this->createForm(ComercioAdminType::class, $comercio);
+        $form = $this->createForm(ComercioConsultaType::class, $comercio);
 
         return $this->render('administrador/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
-            'formulario' => $form->createView(),
-            'comercio' => $comercio
+            'formulario' => $form->createView()
         ]);
     }
 
-    #[Route('/administrador/comercio/modificar', name: 'modificarComercioAdmin')]
-    public function modificarComercio(): Response
+    #[Route('/administrador/comercio/modificar/{id}', name: 'modificarComercioAdmin')]
+    public function modificarComercio($id): Response
     {
         return $this->render('administrador/modificarComercio.html.twig', [
             'controller_name' => 'Modificar Comercio',
         ]);
     }
 
-    #[Route('/administrador/comercio/eliminar', name: 'eliminarComercioAdmin')]
-    public function eliminarComercio(): Response
+    #[Route('/administrador/comercio/eliminar/{id}', name: 'eliminarComercioAdmin')]
+    public function eliminarComercio($id): Response
     {
         return $this->render('administrador/eliminarComercio.html.twig', [
             'controller_name' => 'Eliminar Comercio',
         ]);
     }
 
-    #[Route('/administrador/comercio/validar', name: 'validarComercio')]
-    public function validarComercio(): Response
+    #[Route('/administrador/comercio/validar/{id}', name: 'validarComercio')]
+    public function validarComercio($id): Response
     {
         return $this->render('administrador/validarComercio.html.twig', [
             'controller_name' => 'Validar Comercio',
@@ -1978,42 +1971,40 @@ class AdministradorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrador/oferta/consultar', name: 'consultarOfertaAdmin')]
-    public function consultarOferta(Request $request): Response
+    #[Route('/administrador/oferta/consultar/{id}', name: 'consultarOfertaAdmin')]
+    public function consultarOferta($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('id');
 
         //Buscar la oferta a consultar
-        $oferta = $em->getRepository(Oferta::class)->findOneBy(array('id' => $id));
+        $oferta = $em->getRepository(Oferta::class)->find($id);
 
-        $form = $this->createForm(OfertaAdminType::class, $oferta);
+        $form = $this->createForm(OfertaConsultaType::class, $oferta);
 
         return $this->render('administrador/consultarOferta.html.twig', [
             'controller_name' => 'Datos de la oferta',
-            'formulario' => $form->createView(),
-            'oferta' => $oferta
+            'formulario' => $form->createView()
         ]);
     }
 
-    #[Route('/administrador/oferta/modificar', name: 'modificarOfertaAdmin')]
-    public function modificarOferta(): Response
+    #[Route('/administrador/oferta/modificar/{id}', name: 'modificarOfertaAdmin')]
+    public function modificarOferta($id): Response
     {
         return $this->render('administrador/modificarOferta.html.twig', [
             'controller_name' => 'Modificar Oferta',
         ]);
     }
 
-    #[Route('/administrador/oferta/eliminar', name: 'eliminarOfertaAdmin')]
-    public function eliminarOferta(): Response
+    #[Route('/administrador/oferta/eliminar/{id}', name: 'eliminarOfertaAdmin')]
+    public function eliminarOferta($id): Response
     {
         return $this->render('administrador/eliminarOferta.html.twig', [
             'controller_name' => 'Eliminar Oferta',
         ]);
     }
 
-    #[Route('/administrador/oferta/validar', name: 'validarOferta')]
-    public function validarOferta(): Response
+    #[Route('/administrador/oferta/validar/{id}', name: 'validarOferta')]
+    public function validarOferta($id): Response
     {
         return $this->render('administrador/validarOferta.html.twig', [
             'controller_name' => 'Validar Oferta',

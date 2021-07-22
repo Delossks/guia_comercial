@@ -9,6 +9,13 @@
 <div id="informacionGeneral">
         
         <div class="form-row">
+            <div id="campo_id_empresa" class="form-group col-md-6">
+                {{ form_label(formulario.id_empresa)}}
+                {{ form_widget(formulario.id_empresa, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
             <div id="campo_nombreComercio" class="form-group col-md-6">
                 {{ form_label(formulario.nombre_comercio)}}
                 {{ form_widget(formulario.nombre_comercio, {'attr':{'disabled':'disabled'} })}}

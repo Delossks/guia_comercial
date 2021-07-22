@@ -230,7 +230,6 @@ class PrincipalController extends AbstractController
         else {
             //Buscar todos los comercios
             $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array(), array('nombre_comercio' => 'ASC'));
-            //$comerciosTemp = $em->getRepository(Comercio::class)->buscarComercios();
         }
 
         $comercios = $comerciosTemp;
@@ -241,25 +240,19 @@ class PrincipalController extends AbstractController
         ]);
     }
 
-    #[Route('/comercio/consultar', name: 'consultarComercio')]
-    public function consultarComercio(Request $request): Response
-    //public function consultarComercio($id): Response
+    #[Route('/comercio/consultar/{id}', name: 'consultarComercio')]
+    public function consultarComercio($id): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('id');
 
         //Buscar el comercio a consultar
-        $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $id));
-        //$comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $request->request->get('id')));
-        //$comercio = $em->getRepository(Comercio::class)->find($id);
-        //$comercio = $em->getRepository(Comercio::class)->find($request->request->get('id'));
+        $comercio = $em->getRepository(Comercio::class)->find($id);
 
         $form = $this->createForm(ComercioType::class, $comercio);
 
         return $this->render('principal/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
-            'formulario' => $form->createView(),
-            'comercio' => $comercio
+            'formulario' => $form->createView()
         ]);
     }
 }
