@@ -7,6 +7,7 @@ use App\Entity\Empresa;
 use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\OfertaType;
+use App\Form\PerfilType;
 use App\Form\EmpresaType;
 use App\Entity\Empresario;
 use App\Form\ComercioType;
@@ -1484,9 +1485,12 @@ class EmpresarioController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        
+        $form = $this->createForm(PerfilType::class, $usuario);
 
         return $this->render('empresario/verPerfil.html.twig', [
-            'controller_name' => 'Esta es la página para ver el perfil',
+            'controller_name' => 'Perfil del usuario',
+            'formulario' => $form->createView(),
             'usuario' => $usuario
         ]);
     }

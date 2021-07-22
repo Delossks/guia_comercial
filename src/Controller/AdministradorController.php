@@ -7,6 +7,7 @@ use App\Entity\Cliente;
 use App\Entity\Empresa;
 use App\Entity\Usuario;
 use App\Entity\Comercio;
+use App\Form\PerfilType;
 use App\Form\ClienteType;
 use App\Entity\Empresario;
 use App\Form\EmpresarioType;
@@ -504,7 +505,7 @@ class AdministradorController extends AbstractController
         //Buscar el usuario a consultar
         $usuario = $em->getRepository(Usuario::class)->findOneBy(array('id' => $id));
 
-        $form = $this->createForm(UsuarioAdminType::class, $usuario);
+        $form = $this->createForm(PerfilType::class, $usuario);
 
         return $this->render('administrador/consultarUsuario.html.twig', [
             'controller_name' => 'Datos del usuario',
@@ -2063,8 +2064,11 @@ class AdministradorController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
 
+        $form = $this->createForm(PerfilType::class, $usuario);
+
         return $this->render('administrador/verPerfil.html.twig', [
-            'controller_name' => 'Esta es la página para ver el perfil',
+            'controller_name' => 'Perfil del usuario',
+            'formulario' => $form->createView(),
             'usuario' => $usuario
         ]);
     }

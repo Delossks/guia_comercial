@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Usuario;
 use App\Entity\Comercio;
+use App\Form\PerfilType;
 use App\Form\ComercioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -283,8 +285,11 @@ class ClienteController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
 
+        $form = $this->createForm(PerfilType::class, $usuario);
+
         return $this->render('cliente/verPerfil.html.twig', [
-            'controller_name' => 'Esta es la página para ver el perfil',
+            'controller_name' => 'Perfil del Usuario',
+            'formulario' => $form->createView(),
             'usuario' => $usuario
         ]);
     }

@@ -5,6 +5,44 @@
 {% block body %}
 
 {{parent()}}
-{{dump(usuario)}}
+
+    <div id="informacionGeneral">
+        
+        <div class="form-row">
+            <div id="campo_email" class="form-group col-md-6">
+                {{ form_label(formulario.email)}}
+                {{ form_widget(formulario.email, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">    
+            <div id="campo_nombre" class="form-group col-md-6">
+                {{ form_label(formulario.nombre)}}
+                {{ form_widget(formulario.nombre, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_apellidos" class="form-group col-md-6">
+                {{ form_label(formulario.apellidos) }}
+                {{ form_widget(formulario.apellidos, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_telefono" class="form-group col-md-6">
+                {{ form_label(formulario.telefono) }}
+                {{ form_widget(formulario.telefono, {'attr':{'disabled':'disabled'} })}}
+            </div>    
+        </div>
+
+        <div class="form-row">
+            <div id="campo_fecha_alta" class="form-group col-md-6">
+                {{ form_label(formulario.fecha_alta) }}
+                {{ form_widget(formulario.fecha_alta, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+    </div>
 
 {% endblock %}
