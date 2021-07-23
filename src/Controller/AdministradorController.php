@@ -549,10 +549,53 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/usuario/eliminar/{id}', name: 'eliminarUsuario')]
-    public function eliminarUsuario($id): Response
+    public function eliminarUsuario(Request $request, $id): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el usuario a eliminar
+        $usuario = $em->getRepository(Usuario::class)->find($id);
+        $form = $this->createForm(ValidarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Se elimina el usuario de la base de datos
+            $em->remove($usuario);
+            $em->flush();
+
+            //Se elimina la tupla del tipo de usuario
+            if ($usuario->esCliente()) {
+                $cliente = new Cliente();
+                $id_cliente = $request->request->get('id_usuario');
+                $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $id_cliente));
+                $em->remove($cliente);
+                $em->flush();
+            }
+
+            if ($usuario->esEmpresario()) {
+                $empresario = new Empresario();
+                $id_empresario = $request->request->get('id_usuario');
+                $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $id_empresario));
+                $em->remove($empresario);
+                $em->flush();
+            }
+
+            if ($usuario->esAdministrador()) {
+                $administrador = new Cliente();
+                $id_administrador = $request->request->get('id_usuario');
+                $administrador = $em->getRepository(Administrador::class)->findOneBy(array('id_usuario' => $id_administrador));
+                $em->remove($administrador);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute(route: 'buscarUsuario');
+        }
+
         return $this->render('administrador/eliminarUsuario.html.twig', [
-            'controller_name' => 'Eliminar Usuario',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1636,10 +1679,28 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/empresa/eliminar/{id}', name: 'eliminarEmpresaAdmin')]
-    public function eliminarEmpresa($id): Response
+    public function eliminarEmpresa(Request $request, $id): Response
     {
+        $empresa = new Empresa();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la empresa a eliminar
+        $empresa = $em->getRepository(Empresa::class)->find($id);
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Se elimina la empresa de la base de datos
+            $em->remove($empresa);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarEmpresaAdmin');
+        }
+
         return $this->render('administrador/eliminarEmpresa.html.twig', [
-            'controller_name' => 'Eliminar Empresa',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1982,10 +2043,28 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/comercio/eliminar/{id}', name: 'eliminarComercioAdmin')]
-    public function eliminarComercio($id): Response
+    public function eliminarComercio(Request $request, $id): Response
     {
+        $comercio = new Comercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a eliminar
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+        $form = $this->createForm(ValidarComercioType::class, $comercio);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Se elimina el comercio de la base de datos
+            $em->remove($comercio);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarComercioAdmin');
+        }
+
         return $this->render('administrador/eliminarComercio.html.twig', [
-            'controller_name' => 'Eliminar Comercio',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -2218,10 +2297,28 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/oferta/eliminar/{id}', name: 'eliminarOfertaAdmin')]
-    public function eliminarOferta($id): Response
+    public function eliminarOferta(Request $request, $id): Response
     {
+        $oferta = new Oferta();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a eliminar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+        $form = $this->createForm(ValidarOfertaType::class, $oferta);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Se elimina la oferta de la base de datos
+            $em->remove($oferta);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarOfertaAdmin');
+        }
+
         return $this->render('administrador/eliminarOferta.html.twig', [
-            'controller_name' => 'Eliminar Oferta',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
