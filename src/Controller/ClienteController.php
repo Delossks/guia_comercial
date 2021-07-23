@@ -6,6 +6,7 @@ use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\PerfilType;
 use App\Form\ComercioType;
+use App\Form\ModificarUsuarioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -287,16 +288,34 @@ class ClienteController extends AbstractController
 
         return $this->render('cliente/verPerfil.html.twig', [
             'controller_name' => 'Perfil del Usuario',
-            'formulario' => $form->createView(),
-            'usuario' => $usuario
+            'formulario' => $form->createView()
         ]);
     }
 
     #[Route('/cliente/perfil/editar', name: 'editarPerfilCli')]
-    public function editarPerfil(): Response
+    public function editarPerfil(Request $request): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Obtener los datos del usuario
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $form = $this->createForm(ModificarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $usuario->setValidez(validez: 'pendiente');
+
+            //Se actualiza el usuario en la base de datos
+            $em->persist($usuario);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'cliente');
+        }
+
         return $this->render('cliente/editarPerfil.html.twig', [
-            'controller_name' => 'Esta es la página para editar el perfil',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 

@@ -2327,16 +2327,34 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/verPerfil.html.twig', [
             'controller_name' => 'Perfil del usuario',
-            'formulario' => $form->createView(),
-            'usuario' => $usuario
+            'formulario' => $form->createView()
         ]);
     }
 
     #[Route('/administrador/perfil/editar', name: 'editarPerfilAdmin')]
     public function editarPerfil(): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Obtener los datos del usuario
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $form = $this->createForm(ModificarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $usuario->setValidez(validez: 'pendiente');
+
+            //Se actualiza el usuario en la base de datos
+            $em->persist($usuario);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'administrador');
+        }
+
         return $this->render('administrador/editarPerfil.html.twig', [
-            'controller_name' => 'Esta es la página para editar el perfil',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
