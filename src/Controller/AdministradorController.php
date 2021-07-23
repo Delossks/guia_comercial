@@ -1614,7 +1614,7 @@ class AdministradorController extends AbstractController
         $empresa = new Empresa();
         $em = $this->getDoctrine()->getManager();
 
-        //Buscar la empresa a validar
+        //Buscar la empresa a modificar
         $empresa = $em->getRepository(Empresa::class)->find($id);
         $form = $this->createForm(EmpresaAdminType::class, $empresa);
 
@@ -1649,7 +1649,7 @@ class AdministradorController extends AbstractController
         $empresa = new Empresa();
         $em = $this->getDoctrine()->getManager();
 
-        //Buscar la empresa a modificar
+        //Buscar la empresa a validar
         $empresa = $em->getRepository(Empresa::class)->find($id);
         $form = $this->createForm(ValidarEmpresaType::class, $empresa);
 

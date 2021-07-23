@@ -972,11 +972,30 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('/empresario/empresa/modificar', name: 'modificarEmpresaEmp')]
-    public function modificarEmpresa(): Response
+    #[Route('/empresario/empresa/modificar/{id}', name: 'modificarEmpresaEmp')]
+    public function modificarEmpresa(Request $request, $id): Response
     {
+        $empresa = new Empresa();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la empresa a modificar
+        $empresa = $em->getRepository(Empresa::class)->find($id);
+        $form = $this->createForm(EmpresaType::class, $empresa);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $empresa->setValidez(validez: 'pendiente');
+
+            //Se actualiza la empresa en la base de datos
+            $em->persist($empresa);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarEmpresaEmp');
+        }
+
         return $this->render('empresario/modificarEmpresa.html.twig', [
-            'controller_name' => 'Modificar Empresa',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1246,11 +1265,30 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('/empresario/comercio/modificar', name: 'modificarComercioEmp')]
-    public function modificarComercio(): Response
+    #[Route('/empresario/comercio/modificar/{id}', name: 'modificarComercioEmp')]
+    public function modificarComercio(Request $request, $id): Response
     {
+        $comercio = new Comercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a modificar
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+        $form = $this->createForm(ComercioType::class, $comercio);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $comercio->setValidez(validez: 'pendiente');
+
+            //Se actualiza el comercio en la base de datos
+            $em->persist($comercio);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarComercioEmp');
+        }
+
         return $this->render('empresario/modificarComercio.html.twig', [
-            'controller_name' => 'Modificar Comercio',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1415,11 +1453,35 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('/empresario/oferta/modificar', name: 'modificarOfertaEmp')]
-    public function modificarOferta(): Response
+    #[Route('/empresario/oferta/modificar/{id}', name: 'modificarOfertaEmp')]
+    public function modificarOferta(Request $request, $id): Response
     {
+        $oferta = new Oferta();
+        $comercio = new Comercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a modificar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+        $form = $this->createForm(OfertaType::class, $oferta);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $oferta->setValidez(validez: 'pendiente');
+
+            //Se obtiene el CIF de la empresa a la que pertenece el comercio, cuyo nombre ha sido seleccionado por el usuario
+            $comercio = $em->getRepository(Comercio::class)->findOneBy(array('id' => $oferta->getIdComercio()));
+            $oferta->setCif($comercio->getCif());
+
+            //Se actualiza la oferta en la base de datos
+            $em->persist($oferta);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarOfertaEmp');
+        }
+
         return $this->render('empresario/modificarOferta.html.twig', [
-            'controller_name' => 'Modificar Oferta',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
