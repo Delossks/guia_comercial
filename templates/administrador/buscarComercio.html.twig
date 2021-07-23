@@ -93,9 +93,10 @@
                                     <td>{{comercio.validez}}</td>
                                     <td style="width:19%" align="center">                                   
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('validarComercio', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/checks.png') }}" title="Validar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('rechazarComercio', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/delete2.png') }}" title="Rechazar"/></button>
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('modificarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/contract.png') }}" title="Modificar"/></button> 
-                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('eliminarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/delete2.png') }}" title="Eliminar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('eliminarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/garbage.png') }}" title="Eliminar"/></button>
                                     </td> 
                                 </tr>
                             {% endfor %}
