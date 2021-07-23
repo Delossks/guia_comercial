@@ -21,8 +21,11 @@ use App\Form\ValidarOfertaType;
 use App\Form\OfertaConsultaType;
 use App\Form\ValidarEmpresaType;
 use App\Form\ValidarUsuarioType;
+use App\Form\ModificarOfertaType;
 use App\Form\ValidarComercioType;
 use App\Form\ComercioConsultaType;
+use App\Form\ModificarUsuarioType;
+use App\Form\ModificarComercioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -519,10 +522,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/usuario/modificar/{id}', name: 'modificarUsuario')]
-    public function modificarUsuario($id): Response
+    public function modificarUsuario(Request $request, $id): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el usuario a modificar
+        $usuario = $em->getRepository(Usuario::class)->find($id);
+        $form = $this->createForm(ModificarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $usuario->setValidez(validez: 'pendiente');
+
+            //Se actualiza el usuario en la base de datos
+            $em->persist($usuario);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarUsuario');
+        }
+
         return $this->render('administrador/modificarUsuario.html.twig', [
-            'controller_name' => 'Modificar Usuario',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1587,10 +1609,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/empresa/modificar/{id}', name: 'modificarEmpresaAdmin')]
-    public function modificarEmpresa($id): Response
+    public function modificarEmpresa(Request $request, $id): Response
     {
+        $empresa = new Empresa();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la empresa a validar
+        $empresa = $em->getRepository(Empresa::class)->find($id);
+        $form = $this->createForm(EmpresaAdminType::class, $empresa);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $empresa->setValidez(validez: 'pendiente');
+
+            //Se actualiza la empresa en la base de datos
+            $em->persist($empresa);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarEmpresaAdmin');
+        }
+
         return $this->render('administrador/modificarEmpresa.html.twig', [
-            'controller_name' => 'Modificar Empresa',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1608,7 +1649,7 @@ class AdministradorController extends AbstractController
         $empresa = new Empresa();
         $em = $this->getDoctrine()->getManager();
 
-        //Buscar la empresa a validar
+        //Buscar la empresa a modificar
         $empresa = $em->getRepository(Empresa::class)->find($id);
         $form = $this->createForm(ValidarEmpresaType::class, $empresa);
 
@@ -1914,10 +1955,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/comercio/modificar/{id}', name: 'modificarComercioAdmin')]
-    public function modificarComercio($id): Response
+    public function modificarComercio(Request $request, $id): Response
     {
+        $comercio = new Comercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a modificar
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+        $form = $this->createForm(ModificarComercioType::class, $comercio);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $comercio->setValidez(validez: 'pendiente');
+
+            //Se actualiza el comercio en la base de datos
+            $em->persist($comercio);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarComercioAdmin');
+        }
+
         return $this->render('administrador/modificarComercio.html.twig', [
-            'controller_name' => 'Modificar Comercio',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1992,7 +2052,8 @@ class AdministradorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $comercio->setValidez(validez: 'pendiente');
-            //$comercio->setIdComercio();
+
+            //Se guarda el comercio en la base de datos
             $em->persist($comercio);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'El comercio se ha registrado correctamente');
@@ -2130,10 +2191,29 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/oferta/modificar/{id}', name: 'modificarOfertaAdmin')]
-    public function modificarOferta($id): Response
+    public function modificarOferta(Request $request, $id): Response
     {
+        $oferta = new Oferta();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a modificar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+        $form = $this->createForm(ModificarOfertaType::class, $oferta);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $oferta->setValidez(validez: 'pendiente');
+
+            //Se actualiza la oferta en la base de datos
+            $em->persist($oferta);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarOfertaAdmin');
+        }
+
         return $this->render('administrador/modificarOferta.html.twig', [
-            'controller_name' => 'Modificar Oferta',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
