@@ -21,23 +21,23 @@ class OfertaType extends AbstractType
         $builder
             ->add('id_comercio', EntityType::class, array(
                 'class' => Comercio::class,
-                'label' => 'Comercio',
+                'label' => 'Comercio*',
                 'choice_label' => 'nombre_comercio',
                 'required' => true,
                 'help' => 'Seleccionar el comercio al que pertenece la oferta'))
 
             ->add('descripcion', TextareaType::class, array(
-                'label' => 'Descripción',
+                'label' => 'Descripción*',
                 'required' => true,
                 'attr' => array('maxlength' => 255)))
 
             ->add('fecha_inicio', DateTimeType::class, array(
-                'label' => 'Inicio de la oferta',
+                'label' => 'Inicio de la oferta*',
                 'widget' => 'choice',
                 'required' => true))
 
             ->add('fecha_fin', DateTimeType::class, array(
-                'label' => 'Fin de la oferta',
+                'label' => 'Fin de la oferta*',
                 'widget' => 'choice',
                 'required' => true))
 

@@ -17,33 +17,32 @@ class EmpresaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('id_empresa')
             ->add('cif', TextType::class, array(
-                'label' => 'CIF',
+                'label' => 'CIF*',
                 'required' => true,
                 'attr' => array('maxlength' => 9),
                 'help' => 'Código de Identificación Fiscal (8 números y 1 letra)'))
 
             ->add('nombre_empresa', TextType::class, array(
-                'label' => 'Nombre',
+                'label' => 'Nombre*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Ej: Supermercados Corzo S.L.'))
 
             ->add('direccion_empresa', TextType::class, array(
-                'label' => 'Dirección',
+                'label' => 'Dirección*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Dirección completa del callejero municipal'))
 
             ->add('localidad_empresa', TextType::class, array(
-                'label' => 'Localidad',
+                'label' => 'Localidad*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Ej: Baena, Luque, Castro del Río...'))
 
             ->add('provincia_empresa', TextType::class, array(
-                'label' => 'Provincia',
+                'label' => 'Provincia*',
                 'required' => true,
                 'attr' => array('maxlength' => 20),
                 'help' => 'Ej: Córdoba'))
@@ -55,13 +54,13 @@ class EmpresaType extends AbstractType
                 'help' => 'Ej: 14850'))
 
             ->add('telefono_empresa', NumberType::class, array(
-                'label' => 'Teléfono', 
+                'label' => 'Teléfono*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 9),
                 'help' => 'Ej: 957123456'))
 
             ->add('actividad_economica', TextareaType::class, array(
-                'label' => 'Actividad Económica',
+                'label' => 'Actividad Económica*',
                 'required' => true,
                 'attr' => array('maxlength' => 255)))
 

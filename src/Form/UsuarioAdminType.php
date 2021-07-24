@@ -21,7 +21,7 @@ class UsuarioAdminType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, array(
-                'label' => 'Correo electrónico', 
+                'label' => 'Correo electrónico*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 64)))
 
@@ -30,26 +30,26 @@ class UsuarioAdminType extends AbstractType
                 'invalid_message' => 'Ambas contraseñas deben coincidir.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Contraseña'],
-                'second_options' => ['label' => 'Confirmar Contraseña'],])
+                'first_options'  => ['label' => 'Contraseña*'],
+                'second_options' => ['label' => 'Confirmar Contraseña*'],])
 
             ->add('nombre', TextType::class, array(
-                'label' => 'Nombre', 
+                'label' => 'Nombre*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 20)))
 
             ->add('apellidos', TextType::class, array(
-                'label' => 'Apellidos', 
+                'label' => 'Apellidos*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 64)))
 
             ->add('telefono', NumberType::class, array(
-                'label' => 'Teléfono', 
+                'label' => 'Teléfono*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 9)))
            
             ->add('roles', ChoiceType::class, [
-                'label' => 'Tipo de usuario',
+                'label' => 'Tipo de usuario*',
                 'required' => true,
                 'multiple' => false,
                 'choices' => [

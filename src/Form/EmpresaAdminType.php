@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Empresa;
+use App\Entity\Usuario;
 use App\Entity\Empresario;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,46 +22,46 @@ class EmpresaAdminType extends AbstractType
         $builder    
 /*            ->add('id_usuario',NumberType::class, array(
                 'label' => 'Id Usuario',
-                'mapped' => false,
+                //'mapped' => false,
                 'required' => true,
                 'help' => 'ID del empresario al que pertenece la empresa'))
 */
 
             ->add('id_usuario', EntityType::class, array(
                 'class' => Empresario::class,
-                'label' => 'Id Empresario',
+                'label' => 'Id Empresario*',
                 'choice_label' => 'id',
-                'mapped' => false,
+                //'mapped' => false,
                 'required' => true,
                 'help' => 'Seleccionar el ID del empresario al que pertenece la empresa'))
 
 
             ->add('cif', TextType::class, array(
-                'label' => 'CIF',
+                'label' => 'CIF*',
                 'required' => true,
                 'attr' => array('maxlength' => 9),
                 'help' => 'Código de Identificación Fiscal (8 números y 1 letra)'))
 
             ->add('nombre_empresa', TextType::class, array(
-                'label' => 'Nombre',
+                'label' => 'Nombre*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Ej: Supermercados Corzo S.L.'))
                 
             ->add('direccion_empresa', TextType::class, array(
-                'label' => 'Dirección',
+                'label' => 'Dirección*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Dirección completa del callejero municipal'))
 
             ->add('localidad_empresa', TextType::class, array(
-                'label' => 'Localidad',
+                'label' => 'Localidad*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Ej: Baena, Luque, Castro del Río...'))
 
             ->add('provincia_empresa', TextType::class, array(
-                'label' => 'Provincia',
+                'label' => 'Provincia*',
                 'required' => true,
                 'attr' => array('maxlength' => 20),
                 'help' => 'Ej: Córdoba'))
@@ -72,13 +73,13 @@ class EmpresaAdminType extends AbstractType
                 'help' => 'Ej: 14850 (opcional)'))
 
             ->add('telefono_empresa', NumberType::class, array(
-                'label' => 'Teléfono', 
+                'label' => 'Teléfono*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 9),
                 'help' => 'Ej: 957123456'))
 
             ->add('actividad_economica', TextareaType::class, array(
-                'label' => 'Actividad Económica',
+                'label' => 'Actividad Económica*',
                 'required' => true,
                 'attr' => array('maxlength' => 255),
                 'help' => 'Ej: Venta de productos alimenticios'))

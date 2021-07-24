@@ -20,7 +20,7 @@ class ComercioType extends AbstractType
         $builder                
             ->add('id_empresa', EntityType::class, array(
                 'class' => Empresa::class,
-                'label' => 'Empresa',
+                'label' => 'Empresa*',
                 'choice_label' => 'nombre_empresa',
                 'required' => true,
                 'help' => 'Seleccionar la empresa'))
@@ -32,12 +32,12 @@ class ComercioType extends AbstractType
                 'help' => 'Código de Identificación Fiscal de la empresa a la que pertenece el comercio (8 números y 1 letra)'))
 */
             ->add('nombre_comercio', TextType::class, array(
-                'label' => 'Nombre del comercio',
+                'label' => 'Nombre del comercio*',
                 'required' => true,
                 'attr' => array('maxlength' => 64)))
                 
             ->add('direccion_comercio', TextType::class, array(
-                'label' => 'Dirección',
+                'label' => 'Dirección*',
                 'required' => true,
                 'attr' => array('maxlength' => 64),
                 'help' => 'Dirección completa del callejero municipal'))
@@ -49,7 +49,7 @@ class ComercioType extends AbstractType
                 'help' => 'Ej: 14850 (opcional)'))
 
             ->add('telefono_comercio', NumberType::class, array(
-                'label' => 'Teléfono', 
+                'label' => 'Teléfono*', 
                 'required' => true,
                 'attr' => array('maxlenght' => 9),
                 'help' => 'Ej: 957123456'))

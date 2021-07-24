@@ -19,18 +19,18 @@ class OfertaAdminType extends AbstractType
     {
         $builder
             ->add('descripcion', TextareaType::class, array(
-                'label' => 'Descripción',
+                'label' => 'Descripción*',
                 'required' => true,
                 'attr' => array('maxlength' => 255),
                 'help' => 'Ej: 20% de descuento en productos de limpieza'))
 
             ->add('fecha_inicio', DateTimeType::class, array(
-                'label' => 'Inicio de la oferta',
+                'label' => 'Inicio de la oferta*',
                 'widget' => 'choice',
                 'required' => true))
             
             ->add('fecha_fin', DateTimeType::class, array(
-                'label' => 'Fin de la oferta',
+                'label' => 'Fin de la oferta*',
                 'widget' => 'choice',
                 'required' => true))
 
@@ -41,13 +41,13 @@ class OfertaAdminType extends AbstractType
                 'help' => 'URL que aloja la imagen de la oferta (opcional)'))
 
             ->add('cif', TextType::class, array(
-                'label' => 'CIF',
+                'label' => 'CIF*',
                 'required' => true,
                 'attr' => array('maxlength' => 9),
                 'help' => 'Código de Identificación Fiscal de la empresa (8 números y 1 letra)'))
 
             ->add('id_comercio', NumberType::class, array(
-                'label' => 'Id Comercio',
+                'label' => 'Id Comercio*',
                 'required' => true,
                 'help' => 'Identificador del comercio al que pertenece la oferta'))
     

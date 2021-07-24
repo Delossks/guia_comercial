@@ -1836,14 +1836,20 @@ class AdministradorController extends AbstractController
     {
         $empresa = new Empresa();
         $empresario = new Empresario();
+        
         $form = $this->createForm(EmpresaAdminType::class, $empresa);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
 
+            //$id = $request->request->get('id_usuario');
+            //$id = $form->get('id_usuario');
+
             //Se obtiene el ID del empresario al que se le va a asignar la empresa
             $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+            //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $id));
             $empresa->setIdEmpresario($empresario);
 
             //Se guarda la empresa en la base de datos
@@ -2208,11 +2214,14 @@ class AdministradorController extends AbstractController
     public function registrarComercio(Request $request): Response
     {
         $comercio = new Comercio();
+        $empresa = new Empresa();
         $form = $this->createForm(ComercioAdminType::class, $comercio);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
+            $empresa = $em->getRepository(Empresa::class)->findOneBy(array('id' => $comercio->getIdEmpresa()));
             $comercio->setValidez(validez: 'pendiente');
+            $comercio->setCif($empresa->getCif());
 
             //Se guarda el comercio en la base de datos
             $em->persist($comercio);
@@ -2562,6 +2571,7 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/borrarPerfil.html.twig', [
             'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
+            'formulario' => $form->createView()
         ]);
     }
 }

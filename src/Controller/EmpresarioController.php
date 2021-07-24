@@ -1702,6 +1702,7 @@ class EmpresarioController extends AbstractController
 
         return $this->render('empresario/borrarPerfil.html.twig', [
             'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
+            'formulario' => $form->createView()
         ]);
     }
 }
