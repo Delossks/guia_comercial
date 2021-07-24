@@ -11,7 +11,10 @@ use App\Form\PerfilType;
 use App\Form\EmpresaType;
 use App\Entity\Empresario;
 use App\Form\ComercioType;
+use App\Form\ValidarOfertaType;
 use App\Form\OfertaConsultaType;
+use App\Form\ValidarEmpresaType;
+use App\Form\ValidarComercioType;
 use App\Form\ModificarUsuarioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -1000,11 +1003,55 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('/empresario/empresa/eliminar', name: 'eliminarEmpresaEmp')]
-    public function eliminarEmpresa(): Response
+    #[Route('/empresario/empresa/eliminar/{id}', name: 'eliminarEmpresaEmp')]
+    public function eliminarEmpresa(Request $request, $id): Response
     {
+        $empresa = new Empresa();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la empresa a eliminar
+        $empresa = $em->getRepository(Empresa::class)->find($id);
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Buscar los comercios de la empresa
+            $comercios = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $id));
+
+            //Buscar las ofertas de cada comercio
+            $ofertas = array();
+            for($i = 0; $i < sizeof($comercios); $i++) {
+                $aux = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $comercios[$i]->getId()));
+                if($aux !== null) {
+                    for ($j = 0; $j < sizeof($aux); $j++) {
+                        array_push($ofertas,$aux[$j]);
+                    }
+                }
+            }
+
+            //Eliminar las ofertas
+            for($i = 0; $i < sizeof($ofertas); $i++) {
+                $em->remove($ofertas[$i]);
+                $em->flush();
+            }
+
+            //Eliminar los comercios
+            for($i = 0; $i < sizeof($comercios); $i++) {
+                $em->remove($comercios[$i]);
+                $em->flush();
+            }
+
+            //Se elimina la empresa de la base de datos
+            $em->remove($empresa);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarEmpresaEmp');
+        }
+
         return $this->render('empresario/eliminarEmpresa.html.twig', [
-            'controller_name' => 'Eliminar Empresa',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1298,11 +1345,38 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('/empresario/comercio/eliminar', name: 'eliminarComercioEmp')]
-    public function eliminarComercio(): Response
+    #[Route('/empresario/comercio/eliminar/{id}', name: 'eliminarComercioEmp')]
+    public function eliminarComercio(Request $request, $id): Response
     {
+        $comercio = new Comercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a eliminar
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+        $form = $this->createForm(ValidarComercioType::class, $comercio);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Buscar las ofertas del comercio
+            $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+
+            //Eliminar las ofertas
+            for($i = 0; $i < sizeof($ofertas); $i++) {
+                $em->remove($ofertas[$i]);
+                $em->flush();
+            }
+
+            //Se elimina el comercio de la base de datos
+            $em->remove($comercio);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarComercioEmp');
+        }
+
         return $this->render('empresario/eliminarComercio.html.twig', [
-            'controller_name' => 'Eliminar Comercio',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 
@@ -1491,11 +1565,29 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('/empresario/oferta/eliminar', name: 'eliminarOfertaEmp')]
-    public function eliminarOferta(): Response
+    #[Route('/empresario/oferta/eliminar/{id}', name: 'eliminarOfertaEmp')]
+    public function eliminarOferta(Request $request, $id): Response
     {
+        $oferta = new Oferta();
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a eliminar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+        $form = $this->createForm(ValidarOfertaType::class, $oferta);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Se elimina la oferta de la base de datos
+            $em->remove($oferta);
+            $em->flush();
+
+            return $this->redirectToRoute(route: 'buscarOfertaEmp');
+        }
+
         return $this->render('empresario/eliminarOferta.html.twig', [
-            'controller_name' => 'Eliminar Oferta',
+            'controller_name' => '',
+            'formulario' => $form->createView()
         ]);
     }
 

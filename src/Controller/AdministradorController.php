@@ -561,34 +561,81 @@ class AdministradorController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
-            //Se elimina el usuario de la base de datos
-            $em->remove($usuario);
-            $em->flush();
-
             //Se elimina la tupla del tipo de usuario
             if ($usuario->esCliente()) {
                 $cliente = new Cliente();
-                $id_cliente = $request->request->get('id_usuario');
-                $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $id_cliente));
+                $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $id));
+
+                //Eliminar la tupla del cliente
                 $em->remove($cliente);
                 $em->flush();
             }
 
             if ($usuario->esEmpresario()) {
+
                 $empresario = new Empresario();
-                $id_empresario = $request->request->get('id_usuario');
-                $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $id_empresario));
+                $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $id));
+
+                //Buscar las empresas del empresario
+                $empresas = $em->getRepository(Empresa::class)->findBy(array('id_usuario' => $empresario->getId()));
+
+                //Buscar los comercios de cada empresa
+                $comercios = array();
+                for($i = 0; $i < sizeof($empresas); $i++) {
+                    $auxComercios = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $empresas[$i]->getId()));
+                    if ($auxComercios !== null) {
+                        for ($j = 0; $j < sizeof($auxComercios); $j++) {
+                            array_push($comercios,$auxComercios[$j]);
+                        }
+                    }
+                }
+
+                //Buscar las ofertas de cada comercio
+                $ofertas = array();
+                for($i = 0; $i < sizeof($comercios); $i++) {
+                    $aux = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $comercios[$i]->getId()));
+                    if($aux !== null) {
+                        for ($j = 0; $j < sizeof($aux); $j++) {
+                            array_push($ofertas,$aux[$j]);
+                        }
+                    }
+                }
+
+                //Eliminar las ofertas
+                for($i = 0; $i < sizeof($ofertas); $i++) {
+                    $em->remove($ofertas[$i]);
+                    $em->flush();
+                }
+
+                //Eliminar los comercios
+                for($i = 0; $i < sizeof($comercios); $i++) {
+                    $em->remove($comercios[$i]);
+                    $em->flush();
+                }
+
+                //Eliminar las empresas
+                for($i = 0; $i < sizeof($empresas); $i++) {
+                    $em->remove($empresas[$i]);
+                    $em->flush();
+                }
+
+                //Eliminar la tupla del empresario
                 $em->remove($empresario);
                 $em->flush();
             }
 
             if ($usuario->esAdministrador()) {
-                $administrador = new Cliente();
-                $id_administrador = $request->request->get('id_usuario');
-                $administrador = $em->getRepository(Administrador::class)->findOneBy(array('id_usuario' => $id_administrador));
+                $administrador = new Administrador();
+                $administrador = $em->getRepository(Administrador::class)->findOneBy(array('id_usuario' => $id));
+
+                //Eliminar la tupla del administrador
                 $em->remove($administrador);
                 $em->flush();
             }
+
+            //Se elimina el usuario de la base de datos
+            $em->remove($usuario);
+            $em->flush();
 
             return $this->redirectToRoute(route: 'buscarUsuario');
         }
@@ -1691,6 +1738,32 @@ class AdministradorController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
+            //Buscar los comercios de la empresa
+            $comercios = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $id));
+
+            //Buscar las ofertas de cada comercio
+            $ofertas = array();
+            for($i = 0; $i < sizeof($comercios); $i++) {
+                $aux = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $comercios[$i]->getId()));
+                if($aux !== null) {
+                    for ($j = 0; $j < sizeof($aux); $j++) {
+                        array_push($ofertas,$aux[$j]);
+                    }
+                }
+            }
+
+            //Eliminar las ofertas
+            for($i = 0; $i < sizeof($ofertas); $i++) {
+                $em->remove($ofertas[$i]);
+                $em->flush();
+            }
+
+            //Eliminar los comercios
+            for($i = 0; $i < sizeof($comercios); $i++) {
+                $em->remove($comercios[$i]);
+                $em->flush();
+            }
+
             //Se elimina la empresa de la base de datos
             $em->remove($empresa);
             $em->flush();
@@ -2054,6 +2127,15 @@ class AdministradorController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
+            //Buscar las ofertas del comercio
+            $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+
+            //Eliminar las ofertas
+            for($i = 0; $i < sizeof($ofertas); $i++) {
+                $em->remove($ofertas[$i]);
+                $em->flush();
+            }
 
             //Se elimina el comercio de la base de datos
             $em->remove($comercio);
@@ -2458,6 +2540,9 @@ class AdministradorController extends AbstractController
     #[Route('/administrador/perfil/borrar', name: 'borrarPerfilAdmin')]
     public function borrarPerfil(): Response
     {
+        //Hacer logout una vez que se resuelve la eliminación del perfil
+        //return $this->redirectToRoute(route: 'app_logout');
+
         return $this->render('administrador/borrarPerfil.html.twig', [
             'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
         ]);
