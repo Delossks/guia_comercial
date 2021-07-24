@@ -14,6 +14,7 @@ use App\Form\ComercioType;
 use App\Form\ValidarOfertaType;
 use App\Form\OfertaConsultaType;
 use App\Form\ValidarEmpresaType;
+use App\Form\ValidarUsuarioType;
 use App\Form\ValidarComercioType;
 use App\Form\ModificarUsuarioType;
 use Symfony\Component\HttpFoundation\Request;
@@ -1677,8 +1678,28 @@ class EmpresarioController extends AbstractController
     }
 
     #[Route('/empresario/perfil/borrar', name: 'borrarPerfilEmp')]
-    public function borrarPerfil(): Response
+    public function borrarPerfil(Request $request): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Obtener los datos del usuario
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $form = $this->createForm(ValidarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            //Se rechaza la validez del usuario, puesto que no se puede eliminar la información y cerrar la sesión de un usuario que no existe
+            $usuario->setValidez(validez: 'no');
+
+            $em->persist($usuario);
+            $em->flush();
+
+            //Se cierra la sesión
+            return $this->redirectToRoute(route: 'app_logout');
+        }
+
         return $this->render('empresario/borrarPerfil.html.twig', [
             'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
         ]);

@@ -6,4 +6,14 @@
 
 {{parent()}}
 
+<div class="container h-100 " style="margin-top:60px">
+    <div class="row h-100-justify-content-center align-items-center ">
+        <div class="col-6 bg-white rounded my-3 p-5">
+            <h3>¿Está seguro de eliminar su perfil? Si continúa, se perderá toda la información vinculada a su cuenta (Empresas, Comercios...) y se cerrará su sesión</h3>
+            {{form(formulario)}}
+            <button type="button" class="btn btn-default" onclick="location.href='{{path('administrador')}}'">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

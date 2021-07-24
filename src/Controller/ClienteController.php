@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Cliente;
 use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\PerfilType;
 use App\Form\ComercioType;
+use App\Form\ValidarUsuarioType;
 use App\Form\ModificarUsuarioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -320,10 +322,43 @@ class ClienteController extends AbstractController
     }
 
     #[Route('/cliente/perfil/borrar', name: 'borrarPerfilCli')]
-    public function borrarPerfil(): Response
+    public function borrarPerfil(Request $request): Response
     {
+        $usuario = new Usuario();
+        $em = $this->getDoctrine()->getManager();
+
+        //Obtener los datos del usuario
+        $usuario = $em->getRepository(Usuario::class)->find($this->getUser()->getId());
+        $form = $this->createForm(ValidarUsuarioType::class, $usuario);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            //Se rechaza la validez del usuario, puesto que no se puede eliminar la información y cerrar la sesión de un usuario que no existe
+            $usuario->setValidez(validez: 'no');
+
+            $em->persist($usuario);
+            $em->flush();
+/*
+            //Se elimina la tupla del tipo de usuario
+            $cliente = new Cliente();
+            $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+
+            //Eliminar la tupla del cliente
+            $em->remove($cliente);
+            $em->flush();
+
+            //Se elimina el usuario de la base de datos
+            $em->remove($usuario);
+            $em->flush();
+*/
+            //Se cierra la sesión
+            return $this->redirectToRoute(route: 'app_logout');
+        }
+
         return $this->render('cliente/borrarPerfil.html.twig', [
             'controller_name' => 'Esta es la página para borrar el perfil. CUIDADO',
+            'formulario' => $form->createView()
         ]);
     }
 }
