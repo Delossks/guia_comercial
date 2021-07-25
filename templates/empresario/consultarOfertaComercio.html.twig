@@ -1,0 +1,56 @@
+{% extends 'empresario/index.html.twig' %}
+
+{% block title %}Guía Comercial - Consultar Oferta{% endblock %}
+
+{% block body %}
+
+{{parent()}}
+
+<div id="informacionGeneral">
+{#
+        <div class="form-row">
+            <div id="campo_cif" class="form-group col-md-6">
+                {{ form_label(formulario.cif) }}
+                {{ form_widget(formulario.cif, {'attr':{'disabled':'disabled'} })}}
+            </div>    
+        </div>
+
+        <div class="form-row">
+            <div id="campo_id_comercio" class="form-group col-md-6">
+                {{ form_label(formulario.id_comercio) }}
+                {{ form_widget(formulario.id_comercio, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+#}
+        <div class="form-row">
+            <div id="campo_descripcion" class="form-group col-md-6">
+                {{ form_label(formulario.descripcion)}}
+                {{ form_widget(formulario.descripcion, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">    
+            <div id="campo_fecha_inicio" class="form-group col-md-6">
+                {{ form_label(formulario.fecha_inicio)}}
+                {{ form_widget(formulario.fecha_inicio, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_fecha_fin" class="form-group col-md-6">
+                {{ form_label(formulario.fecha_fin) }}
+                {{ form_widget(formulario.fecha_fin, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div id="campo_img_oferta" class="form-group col-md-6">
+                {{ form_label(formulario.img_oferta) }}
+                {{ form_widget(formulario.img_oferta, {'attr':{'disabled':'disabled'} })}}
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="location.href='{{path('buscarOfertaComercioEmp', {id: oferta.id})}}'">Volver</button>
+</div>
+
+{% endblock %}

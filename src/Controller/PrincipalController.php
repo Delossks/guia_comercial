@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Oferta;
 use App\Entity\Comercio;
 use App\Form\ComercioType;
+use App\Form\OfertaConsultaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -252,7 +254,42 @@ class PrincipalController extends AbstractController
 
         return $this->render('principal/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'comercio' => $comercio
+        ]);
+    }
+
+    #[Route('/oferta/buscar/{id}', name: 'buscarOferta')]
+    public function buscarOferta(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ofertas = "";
+
+        //Buscar todas las ofertas del comercio seleccionado
+        $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+
+        return $this->render('principal/buscarOferta.html.twig', [
+            'controller_name' => 'Ofertas del comercio',
+            'ofertas' => $ofertas,
+            'id' => $id
+        ]);
+    }
+
+    #[Route('/oferta/consultar/{id}', name: 'consultarOferta')]
+    public function consultarOferta($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a consultar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+
+        $form = $this->createForm(OfertaConsultaType::class, $oferta);
+
+        return $this->render('principal/consultarOferta.html.twig', [
+            'controller_name' => 'Datos de la oferta',
+            'formulario' => $form->createView(),
+            'oferta' => $oferta
         ]);
     }
 }

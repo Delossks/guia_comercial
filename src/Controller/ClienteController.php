@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Oferta;
 use App\Entity\Cliente;
 use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\PerfilType;
 use App\Form\ComercioType;
+use App\Form\OfertaConsultaType;
 use App\Form\ValidarUsuarioType;
 use App\Form\ModificarUsuarioType;
 use Symfony\Component\HttpFoundation\Request;
@@ -260,7 +262,42 @@ class ClienteController extends AbstractController
 
         return $this->render('cliente/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'comercio' => $comercio
+        ]);
+    }
+
+    #[Route('/cliente/oferta/buscar/{id}', name: 'buscarOfertaCli')]
+    public function buscarOferta(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ofertas = "";
+
+        //Buscar todas las ofertas del comercio seleccionado
+        $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+
+        return $this->render('cliente/buscarOferta.html.twig', [
+            'controller_name' => 'Ofertas del comercio',
+            'ofertas' => $ofertas,
+            'id' => $id
+        ]);
+    }
+
+    #[Route('/cliente/oferta/consultar/{id}', name: 'consultarOfertaCli')]
+    public function consultarOferta($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a consultar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+
+        $form = $this->createForm(OfertaConsultaType::class, $oferta);
+
+        return $this->render('cliente/consultarOferta.html.twig', [
+            'controller_name' => 'Datos de la oferta',
+            'formulario' => $form->createView(),
+            'oferta' => $oferta
         ]);
     }
 

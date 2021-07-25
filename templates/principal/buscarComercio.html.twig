@@ -1,6 +1,6 @@
 {% extends 'principal/index.html.twig' %}
 
-{% block title %}{{parent()}} - Buscar Comercio{% endblock %}
+{% block title %}Guía Comercial - Buscar Comercio{% endblock %}
 
 {% block body %}
 
@@ -30,7 +30,8 @@
         </div>
     </div>
     
-    <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button>
+    <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button> 
+    {# <button type="button" class="btn btn-primary" onclick="location.href='{{ path('buscarComercio')}}">Buscar</button> #}
     
 </div>
 
@@ -46,7 +47,7 @@
             type: "POST",
             cache: true,
             dataType: 'html',
-            url: "{{path('buscarComercioEmp')}}", 
+            url: "{{path('buscarComercio')}}", 
             data: {nombre_comercio: nombre_comercio, direccion_comercio: direccion_comercio, codigo_postal: codigo_postal, telefono_comercio: telefono_comercio},
             success: function(html)
             {
