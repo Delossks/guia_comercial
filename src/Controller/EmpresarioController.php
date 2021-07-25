@@ -1552,7 +1552,7 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
-    #[Route('empresacio/comercio/oferta/consultar/{id}', name: 'consultarOfertaComercioEmp')]
+    #[Route('empresario/comercio/oferta/consultar/{id}', name: 'consultarOfertaComercioEmp')]
     public function consultarOfertaComercio($id): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -1562,7 +1562,7 @@ class EmpresarioController extends AbstractController
 
         $form = $this->createForm(OfertaConsultaType::class, $oferta);
 
-        return $this->render('principal/consultarOferta.html.twig', [
+        return $this->render('empresario/consultarOfertaComercio.html.twig', [
             'controller_name' => 'Datos de la oferta',
             'formulario' => $form->createView(),
             'oferta' => $oferta

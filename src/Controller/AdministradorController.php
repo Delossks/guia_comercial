@@ -2090,7 +2090,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'comercio' => $comercio
         ]);
     }
 
@@ -2344,6 +2345,23 @@ class AdministradorController extends AbstractController
         ]);
     }
 
+    #[Route('administrador/comercio/oferta/buscar/{id}', name: 'buscarOfertaComercioAdmin')]
+    public function buscarOfertaComercio(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ofertas = "";
+
+        //Buscar todas las ofertas del comercio seleccionado
+        $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+
+        return $this->render('administrador/buscarOfertaComercio.html.twig', [
+            'controller_name' => 'Ofertas del comercio',
+            'ofertas' => $ofertas,
+            'id' => $id
+        ]);
+    }
+
     #[Route('/administrador/oferta/consultar/{id}', name: 'consultarOfertaAdmin')]
     public function consultarOferta($id): Response
     {
@@ -2357,6 +2375,23 @@ class AdministradorController extends AbstractController
         return $this->render('administrador/consultarOferta.html.twig', [
             'controller_name' => 'Datos de la oferta',
             'formulario' => $form->createView()
+        ]);
+    }
+
+    #[Route('administrador/comercio/oferta/consultar/{id}', name: 'consultarOfertaComercioAdmin')]
+    public function consultarOfertaComercio($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a consultar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+
+        $form = $this->createForm(OfertaConsultaType::class, $oferta);
+
+        return $this->render('administrador/consultarOfertaComercio.html.twig', [
+            'controller_name' => 'Datos de la oferta',
+            'formulario' => $form->createView(),
+            'oferta' => $oferta
         ]);
     }
 
