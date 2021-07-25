@@ -51,7 +51,7 @@
         </div>
 
         <button type="button" class="btn btn-info" onclick="location.href='{{path('buscarOfertaComercioEmp', {id: comercio.id})}}'">Ofertas</button>
-        <button type="button" class="btn btn-default" onclick="location.href='{{path('buscarComercioEmp')}}'">Volver</button>
+        <button type="button" class="btn btn-default" onclick="history.back()">Volver</button>
     </div>
 
 {% endblock %}

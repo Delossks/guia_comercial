@@ -1585,6 +1585,23 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
+    #[Route('empresario/comercio/emp/oferta/buscar/{id}', name: 'buscarOfertaComercioEmpresarioEmp')]
+    public function buscarOfertaComercioEmpresario(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ofertas = "";
+
+        //Buscar todas las ofertas del comercio seleccionado
+        $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+
+        return $this->render('empresario/buscarOfertaComercioEmpresario.html.twig', [
+            'controller_name' => 'Ofertas del comercio',
+            'ofertas' => $ofertas,
+            'id' => $id
+        ]);
+    }
+
     #[Route('/empresario/oferta/consultar/{id}', name: 'consultarOfertaEmp')]
     public function consultarOferta($id): Response
     {
@@ -1612,6 +1629,23 @@ class EmpresarioController extends AbstractController
         $form = $this->createForm(OfertaConsultaType::class, $oferta);
 
         return $this->render('empresario/consultarOfertaComercio.html.twig', [
+            'controller_name' => 'Datos de la oferta',
+            'formulario' => $form->createView(),
+            'oferta' => $oferta
+        ]);
+    }
+
+    #[Route('empresario/comercio/emp/oferta/consultar/{id}', name: 'consultarOfertaComercioEmpresarioEmp')]
+    public function consultarOfertaComercioEmpresario($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar la oferta a consultar
+        $oferta = $em->getRepository(Oferta::class)->find($id);
+
+        $form = $this->createForm(OfertaConsultaType::class, $oferta);
+
+        return $this->render('empresario/consultarOfertaComercioEmpresario.html.twig', [
             'controller_name' => 'Datos de la oferta',
             'formulario' => $form->createView(),
             'oferta' => $oferta
