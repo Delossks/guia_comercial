@@ -12,19 +12,20 @@
             </div>
             <ul class="nav navbar-nav">
                 <li {#class="active"#}><a href="{{path('empresario')}}">Inicio</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Empresas <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Empresas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('buscarEmpresaEmp')}}">Buscar empresa</a></li>
+                        <li><a href="{{path('buscarEmpresaEmp')}}">Mis Empresas</a></li>
                         <li><a href="{{path('registrarEmpresaEmp')}}">Registrar empresa</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Comercios <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Comercios <span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{path('buscarComercioEmpresarioEmp')}}">Mis Comercios</a></li>
                         <li><a href="{{path('buscarComercioEmp')}}">Buscar comercio</a></li>
                         <li><a href="{{path('registrarComercioEmp')}}">Registrar comercio</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Ofertas <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Ofertas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{path('empresarioOfertas')}}">Mis Ofertas</a></li>
                         <li><a href="{{path('buscarOfertaEmp')}}">Buscar oferta</a></li>

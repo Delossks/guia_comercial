@@ -51,6 +51,9 @@ class EmpresarioController extends AbstractController
         $empresas = "";
         $empresasTemp = "";
 
+        $empresario = new Empresario();
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+
         //Parámetros de búsqueda
         $nombre_empresa = $request->request->get('nombre_empresa');
         $direccion_empresa = $request->request->get('direccion_empresa');
@@ -949,8 +952,8 @@ class EmpresarioController extends AbstractController
         }
 
         else {
-            //Buscar todas las empresas
-            $empresasTemp = $em->getRepository(Empresa::class)->findBy(array(), array('nombre_empresa' => 'ASC'));
+            //Buscar todas las empresas que pertenecen al usuario actual
+            $empresasTemp = $em->getRepository(Empresa::class)->findBy(array('id_usuario' => $empresario->getId()), array('nombre_empresa' => 'ASC'));
         }
 
         $empresas = $empresasTemp;
@@ -1298,6 +1301,35 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
+    #[Route('/empresario/comercio/emp/buscar', name: 'buscarComercioEmpresarioEmp')]
+    public function buscarComercioEmpresario(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comercios = "";
+
+        //Buscar las empresas del usuario actual
+        $empresario = new Empresario();
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $empresas = $em->getRepository(Empresa::class)->findBy(array('id_usuario' => $empresario->getId()));
+        
+        //Buscar todos los comercios de cada empresa
+        $comercios = array();
+        for($i = 0; $i < sizeof($empresas); $i++) {
+            $aux = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $empresas[$i]->getId()));
+            if($aux !== null) {
+                for ($j = 0; $j < sizeof($aux); $j++) {
+                    array_push($comercios,$aux[$j]);
+                }
+            }
+        }
+
+        return $this->render('empresario/buscarComercioEmpresario.html.twig', [
+            'controller_name' => 'Mis Comercios',
+            'comercios' => $comercios
+        ]);
+    }
+
     #[Route('/empresario/comercio/consultar/{id}', name: 'consultarComercioEmp')]
     public function consultarComercio($id): Response
     {
@@ -1309,6 +1341,23 @@ class EmpresarioController extends AbstractController
         $form = $this->createForm(ComercioType::class, $comercio);
 
         return $this->render('empresario/consultarComercio.html.twig', [
+            'controller_name' => 'Datos del comercio',
+            'formulario' => $form->createView(),
+            'comercio' => $comercio
+        ]);
+    }
+
+    #[Route('/empresario/comercio/emp/consultar/{id}', name: 'consultarComercioEmpresarioEmp')]
+    public function consultarComercioEmpresario($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar el comercio a consultar
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+
+        $form = $this->createForm(ComercioType::class, $comercio);
+
+        return $this->render('empresario/consultarComercioEmpresario.html.twig', [
             'controller_name' => 'Datos del comercio',
             'formulario' => $form->createView(),
             'comercio' => $comercio
