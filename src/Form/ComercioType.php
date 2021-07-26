@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Empresa;
 use App\Entity\Comercio;
+use App\Entity\Empresario;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,6 +23,12 @@ class ComercioType extends AbstractType
             ->add('id_empresa', EntityType::class, array(
                 'class' => Empresa::class,
                 'label' => 'Empresa*',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('e')
+                        //->where('e.id_usuario LIKE :empresario')
+                        ->orderBy('e.nombre_empresa', 'ASC');
+                        //->setParameter('id_usuario',$empresario);
+                },
                 'choice_label' => 'nombre_empresa',
                 'required' => true,
                 'help' => 'Seleccionar la empresa'))
@@ -68,6 +76,7 @@ class ComercioType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comercio::class,
+            //'empresario' => true,
         ]);
     }
 }

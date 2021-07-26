@@ -1109,11 +1109,13 @@ class EmpresarioController extends AbstractController
                                                               ->andWhere('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.codigo_postal LIKE :codigo_postal')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1124,10 +1126,12 @@ class EmpresarioController extends AbstractController
                                                               ->where('c.nombre_comercio LIKE :nombre')
                                                               ->andWhere('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.codigo_postal LIKE :codigo_postal')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1138,10 +1142,12 @@ class EmpresarioController extends AbstractController
                                                               ->where('c.nombre_comercio LIKE :nombre')
                                                               ->andWhere('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1152,10 +1158,12 @@ class EmpresarioController extends AbstractController
                                                               ->where('c.nombre_comercio LIKE :nombre')
                                                               ->andWhere('c.codigo_postal LIKE :codigo_postal')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1166,10 +1174,12 @@ class EmpresarioController extends AbstractController
                                                               ->where('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.codigo_postal LIKE :codigo_postal')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1179,9 +1189,11 @@ class EmpresarioController extends AbstractController
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
                                                               ->where('c.nombre_comercio LIKE :nombre')
                                                               ->andWhere('c.direccion_comercio LIKE :direccion')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1191,9 +1203,11 @@ class EmpresarioController extends AbstractController
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
                                                               ->where('c.nombre_comercio LIKE :nombre')
                                                               ->andWhere('c.codigo_postal LIKE :codigo_postal')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1201,12 +1215,13 @@ class EmpresarioController extends AbstractController
         elseif((empty($nombre_comercio)) && !empty($direccion_comercio) && !empty($codigo_postal) && empty($telefono_comercio)){
             //Buscar Comercio por dirección y código postal
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
-                                                              ->andWhere('c.direccion_comercio LIKE :direccion')
+                                                              ->where('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.codigo_postal LIKE :codigo_postal')
-                                                              ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1216,9 +1231,11 @@ class EmpresarioController extends AbstractController
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
                                                               ->where('c.nombre_comercio LIKE :nombre')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1226,11 +1243,13 @@ class EmpresarioController extends AbstractController
         elseif((empty($nombre_comercio)) && !empty($direccion_comercio) && empty($codigo_postal) && !empty($telefono_comercio)){
             //Buscar Comercio por dirección y teléfono
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
-                                                              ->andWhere('c.direccion_comercio LIKE :direccion')
+                                                              ->where('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1238,11 +1257,13 @@ class EmpresarioController extends AbstractController
         elseif((empty($nombre_comercio)) && empty($direccion_comercio) && !empty($codigo_postal) && !empty($telefono_comercio)){
             //Buscar Comercio por código postal y teléfono
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
-                                                              ->andWhere('c.codigo_postal LIKE :codigo_postal')
+                                                              ->where('c.codigo_postal LIKE :codigo_postal')
                                                               ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1251,8 +1272,10 @@ class EmpresarioController extends AbstractController
             //Buscar Comercio por nombre
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
                                                               ->where('c.nombre_comercio LIKE :nombre')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1260,9 +1283,11 @@ class EmpresarioController extends AbstractController
         elseif((empty($nombre_comercio)) && !empty($direccion_comercio) && empty($codigo_postal) && empty($telefono_comercio)){
             //Buscar Comercio por dirección
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
-                                                              ->andWhere('c.direccion_comercio LIKE :direccion')
+                                                              ->where('c.direccion_comercio LIKE :direccion')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('direccion','%'.$direccion_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1270,9 +1295,11 @@ class EmpresarioController extends AbstractController
         elseif((empty($nombre_comercio)) && empty($direccion_comercio) && !empty($codigo_postal) && empty($telefono_comercio)){
             //Buscar Comercio por código postal
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
-                                                              ->andWhere('c.codigo_postal LIKE :codigo_postal')
+                                                              ->where('c.codigo_postal LIKE :codigo_postal')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('cp','%'.$codigo_postal.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
@@ -1280,16 +1307,18 @@ class EmpresarioController extends AbstractController
         elseif((empty($nombre_comercio)) && empty($direccion_comercio) && empty($codigo_postal) && !empty($telefono_comercio)){
             //Buscar Comercio por teléfono
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
-                                                              ->andWhere('c.telefono_empresa LIKE :telefono')
+                                                              ->where('c.telefono_empresa LIKE :telefono')
+                                                              ->andWhere('c.validez LIKE :validez')
                                                               ->orderBy('c.nombre_comercio', 'ASC')
                                                               ->setParameter('telefono','%'.$telefono_comercio.'%')
+                                                              ->setParameter('validez','sí')
                                                               ->getQuery()
                                                               ->getResult();
         }
 
         else {
             //Buscar todos los comercios
-            $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array(), array('nombre_comercio' => 'ASC'));
+            $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array('validez' => 'sí'), array('nombre_comercio' => 'ASC',));
             //$comerciosTemp = $em->getRepository(Comercio::class)->buscarComerciosEmpresario();
         }
 
@@ -1434,8 +1463,13 @@ class EmpresarioController extends AbstractController
     #[Route('/empresario/comercio/registrar', name: 'registrarComercioEmp')]
     public function registrarComercio(Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
         $comercio = new Comercio();
         $empresa = new Empresa();
+
+        //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        //$form = $this->createForm(ComercioType::class, $comercio, ['empresario' => $empresario->getId(),]);
+
         $form = $this->createForm(ComercioType::class, $comercio);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -1576,7 +1610,7 @@ class EmpresarioController extends AbstractController
         $ofertas = "";
 
         //Buscar todas las ofertas del comercio seleccionado
-        $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id));
+        $ofertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $id, 'validez' => 'sí'));
 
         return $this->render('empresario/buscarOfertaComercio.html.twig', [
             'controller_name' => 'Ofertas del comercio',
