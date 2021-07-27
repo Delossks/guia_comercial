@@ -8,6 +8,7 @@ use App\Entity\Usuario;
 use App\Entity\Comercio;
 use App\Form\PerfilType;
 use App\Form\ComercioType;
+use App\Entity\ClienteComercio;
 use App\Form\OfertaConsultaType;
 use App\Form\ValidarUsuarioType;
 use App\Form\ModificarUsuarioType;
@@ -333,6 +334,7 @@ class ClienteController extends AbstractController
     #[Route('/cliente/mis-ofertas', name: 'clienteOfertas')]
     public function clienteOfertas(): Response
     {
+
         return $this->render('cliente/ofertas.html.twig', [
             'controller_name' => 'Esta página muestra las Ofertas de comercios en los que se tienen las notificaciones activadas',
         ]);
@@ -341,9 +343,68 @@ class ClienteController extends AbstractController
     #[Route('/cliente/notificaciones', name: 'clienteNotificaciones')]
     public function notificaciones(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar las solicitudes de notificaciones que pertenecen al usuario actual
+        $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $notificaciones = $em->getRepository(ClienteComercio::class)->findBy(array('id_usuario' => $cliente->getId()));
+
+        //Buscar todos los comercios en los que el usuario tiene activadas las notificaciones
+        $comercios = array();
+        for($i = 0; $i < sizeof($notificaciones); $i++) {
+           $aux = $em->getRepository(Comercio::class)->findBy(array('id' => $notificaciones[$i]->getIdComercio()));
+           if($aux !== null) {
+               for ($j = 0; $j < sizeof($aux); $j++) {
+                   array_push($comercios,$aux[$j]);
+               }
+           }
+        }
+
         return $this->render('cliente/notificaciones.html.twig', [
             'controller_name' => 'Esta página muestra los comercios en los que se tienen las notificaciones activadas',
+            'comercios' => $comercios
         ]);
+    }
+
+    #[Route('/cliente/notificaciones/activar/{id}', name: 'clienteNotificacionesActivar')]
+    public function activarNotificaciones($id): Response
+    {
+        $notificacion = new ClienteComercio();
+        $em = $this->getDoctrine()->getManager();
+
+        //Datos de la solicitud de notificaciones
+        $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $notificacion->setIdUsuario($cliente);
+
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+        $notificacion->setCif($comercio);
+        $notificacion->setIdComercio($comercio);
+
+        //Se guarda la solicitud de notificaciones en la base de datos
+        $em->persist($notificacion);
+        $em->flush();
+
+        return $this->redirectToRoute(route: 'clienteNotificaciones');
+
+    }
+
+    #[Route('/cliente/notificaciones/desactivar/{id}', name: 'clienteNotificacionesDesactivar')]
+    public function desactivarNotificaciones($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Datos de la solicitud de notificaciones
+        $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $comercio = $em->getRepository(Comercio::class)->find($id);
+
+        //Buscar la solicitud de notificaciones a eliminar
+        $notificacion = $em->getRepository(ClienteComercio::class)->findOneBy(array('id_usuario' => $cliente->getId(), 'id_comercio' => $comercio->getId()));
+
+        //Se elimina la solicitud de notificaciones en la base de datos
+        $em->remove($notificacion);
+        $em->flush();
+
+        return $this->redirectToRoute(route: 'clienteNotificaciones');
     }
 
     #[Route('/cliente/perfil', name: 'verPerfilCli')]
