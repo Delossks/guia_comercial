@@ -408,10 +408,12 @@ class ClienteController extends AbstractController
         $notificacion->setCif($comercio);
         $notificacion->setIdComercio($comercio);
 
-        //Se guarda la solicitud de notificaciones en la base de datos
-        $em->persist($notificacion);
-        $em->flush();
-
+        //Si no existe una solicitud de notificaciones para el comercio, se guarda en la base de datos
+        $notifActiva = $em->getRepository(ClienteComercio::class)->findOneBy(array('id_usuario' => $cliente->getId(), 'id_comercio' => $comercio->getId()));
+        if ($notifActiva === null) {
+            $em->persist($notificacion);
+            $em->flush();
+        }
         return $this->redirectToRoute(route: 'clienteNotificaciones');
 
     }
@@ -428,9 +430,11 @@ class ClienteController extends AbstractController
         //Buscar la solicitud de notificaciones a eliminar
         $notificacion = $em->getRepository(ClienteComercio::class)->findOneBy(array('id_usuario' => $cliente->getId(), 'id_comercio' => $comercio->getId()));
 
-        //Se elimina la solicitud de notificaciones en la base de datos
-        $em->remove($notificacion);
-        $em->flush();
+        //Si existe la solicitud de notificaciones para el comercio, se elimina de la base de datos
+        if ($notificacion !== null) {
+            $em->remove($notificacion);
+            $em->flush();
+        }
 
         return $this->redirectToRoute(route: 'clienteNotificaciones');
     }
