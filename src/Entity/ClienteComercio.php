@@ -18,7 +18,7 @@ class ClienteComercio
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Cliente::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Cliente::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $id_usuario;

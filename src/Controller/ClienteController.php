@@ -334,9 +334,37 @@ class ClienteController extends AbstractController
     #[Route('/cliente/mis-ofertas', name: 'clienteOfertas')]
     public function clienteOfertas(): Response
     {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar solicitudes de notificaciones que pertenecen al usuario actual
+        $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $notificaciones = $em->getRepository(ClienteComercio::class)->findBy(array('id_usuario' => $cliente->getId()));
+
+        //Buscar todos los comercios en los que el usuario tiene activadas las notificaciones
+        $comercios = array();
+        for($i = 0; $i < sizeof($notificaciones); $i++) {
+           $aux = $em->getRepository(Comercio::class)->findBy(array('id' => $notificaciones[$i]->getIdComercio()));
+           if($aux !== null) {
+               for ($j = 0; $j < sizeof($aux); $j++) {
+                   array_push($comercios,$aux[$j]);
+               }
+           }
+        }
+
+        //Buscar todas las ofertas de los comercios en los que el usuario tiene activadas las notificaciones
+        $ofertas = array();
+        for($i = 0; $i < sizeof($comercios); $i++) {
+            $auxOfertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $comercios[$i]->getId()));
+            if($aux !== null) {
+                for ($j = 0; $j < sizeof($auxOfertas); $j++) {
+                    array_push($ofertas,$auxOfertas[$j]);
+                }
+            }
+        }
 
         return $this->render('cliente/ofertas.html.twig', [
             'controller_name' => 'Esta página muestra las Ofertas de comercios en los que se tienen las notificaciones activadas',
+            'ofertas' => $ofertas
         ]);
     }
 
