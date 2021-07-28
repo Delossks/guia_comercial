@@ -6,60 +6,94 @@
 
 {{parent()}}
 
-{# Barra de navegación #}
-
-{#
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Guía Comercial</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="{{path('empresario')}}">Inicio</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Empresas <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Buscar empresa</a></li>
-                        <li><a href="#">Registrar empresa</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Comercios <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Buscar comercio</a></li>
-                        <li><a href="#">Registrar comercio</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Mis Ofertas <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Buscar oferta</a></li>
-                        <li><a href="#">Registrar oferta</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Notificaciones</a></li>
-                <li class="active"><a href="{{path('ayudaEmpresario')}}">Ayuda</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Mi perfil</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Ver mi perfil</a></li>
-                        <li><a href="#">Editar mi perfil</a></li>
-                        <li><a href="#">Borrar mi perfil</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a></li>
-            </ul>
-        </div>
-    </nav>
-
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: grey;
+}
 </style>
 
-<div class="example-wrapper">
-    <h1>{{ controller_name }}! ✅</h1>
+<div class="container h-100 " style="margin-top:40px">
+
+    <button onclick="topFunction()" id="myBtn" title="Volver arriba">Subir</button>
+
+    <ul>
+        <li><a href="#Inicio">Inicio</a></li>
+        <li><a href="#Empresas">Empresas</a></li>
+        <li><a href="#Comercios">Comercios</a></li>
+        <li><a href="#Ofertas">Ofertas</a></li>
+        <li><a href="#Mi perfil">Mi perfil</a></li>
+        <li><a href="#Cerrar Sesión">Cerrar Sesión</a></li>
+    </ul>
+
+    <h3 id="Inicio">Inicio</h3>
+
+    <h3 id="Empresas">Empresas</h3>
+
+        <h4 id="Mis Empresas">Mis Empresas</h4>
+
+        <h4 id="Registrar empresa">Registrar empresa</h4>
+
+    <h3 id="Comercios">Comercios</h3>
+
+        <h4 id="Mis Comercios">Mis Comercios</h4>
+
+        <h4 id="Buscar comercio">Buscar comercio</h4>
+
+        <h4 id="Registrar comercio">Registrar comercio</h4>
+
+    <h3 id="Ofertas">Ofertas</h3>
+
+        <h4 id="Registrar oferta">Registrar oferta</h4>
+    
+    <h3 id="Mi perfil">Mi perfil</h3>
+
+        <h4 id="Ver mi perfil">Ver mi perfil</h4>
+
+        <h4 id="Editar mi perfil">Editar mi perfil</h4>
+
+        <h4 id="Borrar mi perfil">Borrar mi perfil</h4>
+    
+    <h3 id="Cerrar Sesión">Cerrar Sesión</h3>
 
 </div>
 
-#}
+<script>
+//Scrip para crear el botón de subir a la parte superior de la página
+var mybutton = document.getElementById("myBtn");
+
+// Se muestra el botón cuando el usuario baje de la parte superior de la página
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// Subir a la parte superior de la página al hacer click en el botón
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
 
 {% endblock %}

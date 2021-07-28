@@ -354,7 +354,7 @@ class ClienteController extends AbstractController
         //Buscar todas las ofertas de los comercios en los que el usuario tiene activadas las notificaciones
         $ofertas = array();
         for($i = 0; $i < sizeof($comercios); $i++) {
-            $auxOfertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $comercios[$i]->getId()));
+            $auxOfertas = $em->getRepository(Oferta::class)->findBy(array('id_comercio' => $comercios[$i]->getId(), 'validez' => 'sí'));
             if($aux !== null) {
                 for ($j = 0; $j < sizeof($auxOfertas); $j++) {
                     array_push($ofertas,$auxOfertas[$j]);

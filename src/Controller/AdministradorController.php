@@ -2555,7 +2555,7 @@ class AdministradorController extends AbstractController
     }
 
     #[Route('/administrador/perfil/editar', name: 'editarPerfilAdmin')]
-    public function editarPerfil(): Response
+    public function editarPerfil(Request $request): Response
     {
         $usuario = new Usuario();
         $em = $this->getDoctrine()->getManager();
