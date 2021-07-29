@@ -11,21 +11,21 @@
                 <a class="navbar-brand" href="#">Guía Comercial</a>
             </div>
             <ul class="nav navbar-nav">
-                <li {#class="active"#}><a href="{{path('empresario')}}">Inicio</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Empresas <span class="caret"></span></a>
+                <li {#class="active"#}><a href="{{path('empresario')}}"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-briefcase"><span class="glyphicon glyphicon-briefcase"></span> Empresas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{path('buscarEmpresaEmp')}}">Mis Empresas</a></li>
                         <li><a href="{{path('registrarEmpresaEmp')}}">Registrar empresa</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Comercios <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Comercios <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{path('buscarComercioEmpresarioEmp')}}">Mis Comercios</a></li>
                         <li><a href="{{path('buscarComercioEmp')}}">Buscar comercio</a></li>
                         <li><a href="{{path('registrarComercioEmp')}}">Registrar comercio</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Ofertas <span class="caret"></span></a>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tag"></span> Ofertas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {#<li><a href="{{path('empresarioOfertas')}}">Mis Ofertas</a></li>#}
                         {#<li><a href="{{path('buscarOfertaEmp')}}">Buscar oferta</a></li>#}
@@ -40,7 +40,7 @@
                     </ul>
                 </li>
                 #}
-                <li><a href="{{path('ayudaEmpresario')}}">Ayuda</a></li>
+                <li><a href="{{path('ayudaEmpresario')}}"><span class="glyphicon glyphicon-question-sign"></span> Ayuda</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Mi perfil</a>

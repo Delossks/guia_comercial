@@ -69,7 +69,6 @@
                 <th>Dirección</th>
                 <th>Código Postal</th>
                 <th>Teléfono</th>
-                <th>Web</th>
                 <th style="width:20%"></th>
             </tr>
         </thead>
@@ -82,7 +81,6 @@
                                     <td>{{comercio.direccionComercio}}</td>
                                     <td>{{comercio.codigoPostal}}</td>
                                     <td>{{comercio.telefonoComercio}}</td>
-                                    <td>{{comercio.webComercio}}</td>
                                     <td style="width:19%" align="center">                                   
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercioCli', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
                                     </td> 

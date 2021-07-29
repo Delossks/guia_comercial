@@ -976,7 +976,8 @@ class EmpresarioController extends AbstractController
 
         return $this->render('empresario/consultarEmpresa.html.twig', [
             'controller_name' => 'Datos de la empresa',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'empresa'=> $empresa
         ]);
     }
 
@@ -1355,6 +1356,20 @@ class EmpresarioController extends AbstractController
 
         return $this->render('empresario/buscarComercioEmpresario.html.twig', [
             'controller_name' => 'Mis Comercios',
+            'comercios' => $comercios
+        ]);
+    }
+
+    #[Route('/empresario/empresa/comercio/buscar/{id}', name: 'buscarComercioEmpresaEmp')]
+    public function buscarComercioEmpresa(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //Buscar todos los comercios de la empresa
+        $comercios = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $id), array('nombre_comercio' => 'ASC'));
+
+        return $this->render('empresario/buscarComercioEmpresa.html.twig', [
+            'controller_name' => 'Comercios de la empresa',
             'comercios' => $comercios
         ]);
     }
@@ -1842,8 +1857,8 @@ class EmpresarioController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
-            //Se rechaza la validez del usuario, puesto que no se puede eliminar la información y cerrar la sesión de un usuario que no existe
-            $usuario->setValidez(validez: 'no');
+            //Se cambia la validez del usuario a eliminado, puesto que no se puede eliminar la información y cerrar la sesión de un usuario que no existe
+            $usuario->setValidez(validez: 'eliminado');
 
             $em->persist($usuario);
             $em->flush();

@@ -31,7 +31,7 @@ class EmpresaAdminType extends AbstractType
                 'class' => Empresario::class,
                 'label' => 'Id Empresario*',
                 'choice_label' => 'id',
-                //'mapped' => false,
+                'mapped' => false,
                 'required' => true,
                 'help' => 'Seleccionar el ID del empresario al que pertenece la empresa'))
 

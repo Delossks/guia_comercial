@@ -493,24 +493,12 @@ class ClienteController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             
-            //Se rechaza la validez del usuario, puesto que no se puede eliminar la información y cerrar la sesión de un usuario que no existe
-            $usuario->setValidez(validez: 'no');
+            //Se cambia la validez del usuario a eliminado, puesto que no se puede eliminar la información y cerrar la sesión de un usuario que no existe
+            $usuario->setValidez(validez: 'eliminado');
 
             $em->persist($usuario);
             $em->flush();
-/*
-            //Se elimina la tupla del tipo de usuario
-            $cliente = new Cliente();
-            $cliente = $em->getRepository(Cliente::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
 
-            //Eliminar la tupla del cliente
-            $em->remove($cliente);
-            $em->flush();
-
-            //Se elimina el usuario de la base de datos
-            $em->remove($usuario);
-            $em->flush();
-*/
             //Se cierra la sesión
             return $this->redirectToRoute(route: 'app_logout');
         }
