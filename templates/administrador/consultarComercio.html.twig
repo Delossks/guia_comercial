@@ -9,8 +9,10 @@
 <div id="informacionGeneral" class="row h-100-justify-content-center align-items-center ">
     <div class="container h-100 " style="margin-top:60px">
         <div class="col-6 bg-white rounded my-3 p-5">
+
+        <h1 style="color:black"><center>Datos del Comercio<center></h1>
         
-        <div class="form-row">
+        <div class="form-row" style"margin-top:20px">
             <div id="campo_id_empresa" class="form-group col-md-7">
                 {{ form_label(formulario.id_empresa)}}
                 {{ form_widget(formulario.id_empresa, {'attr':{'disabled':'disabled'} })}}
@@ -70,4 +72,7 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block content %}
 {% endblock %}

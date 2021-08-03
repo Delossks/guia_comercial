@@ -8,6 +8,7 @@
 
 {% if comercios is not same as("") and comercios is not null and comercios is not empty %}
 <div class="container h-100 " style="margin-top:40px">
+    <h1 style="color:black"><center>Mis Comercios<center></h1>
     <table id="tbComercio" class="table table-hover table-sm">
         <thead style="border-bottom-style:2px solid #24a690;">
             <tr>
@@ -55,9 +56,12 @@
 
 {% else %}
 <div class="container h-100 " style="margin-top:40px">
-    <p style="text-align:center">No se ha encontrado ningun comercio que satisfaga los criterios seleccionados</p>
+    <p style="text-align:center">Actualmente no posee ningún comercio</p>
     <button type="button" class="btn btn-default" onclick="history.back()">Volver</button>
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block content %}
 {% endblock %}
