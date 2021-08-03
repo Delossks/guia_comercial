@@ -6,7 +6,9 @@
 
 {{parent()}}
 
-<div id="informacionGeneral">
+<div id="informacionGeneral" class="row h-100-justify-content-center align-items-center ">
+    <div class="container h-100 " style="margin-top:60px">
+        <div class="col-6 bg-white rounded my-3 p-5">
 
         <div class="form-row">
             <div id="campo_cif" class="form-group col-md-6">
@@ -78,8 +80,15 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-info" onclick="location.href='{{path('buscarComercioEmpresaAdmin', {id: empresa.id})}}'">Comercios</button>
-        <button type="button" class="btn btn-default" onclick="location.href='{{path('buscarEmpresaAdmin')}}'">Volver</button>
+        <div class="form-row">
+            <div id="botones" class="form-group col-md-6">
+                <button type="button" class="btn btn-info" onclick="location.href='{{path('buscarComercioEmpresaAdmin', {id: empresa.id})}}'">Comercios</button>
+                <button type="button" class="btn btn-default" onclick="location.href='{{path('buscarEmpresaAdmin')}}'">Volver</button>
+            </div>
+        </div>
+
+        </div>
     </div>
+</div>
 
 {% endblock %}

@@ -9,21 +9,25 @@
 <div class="container h-100 " style="margin-top:40px">
 
     <div class="form-row">
-        <div id="campo_fecha_inicio" class="form-group col-md-4">
-            <label>Fecha Inicio </label>
-            <input type="datetime" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="Fecha de inicio de la oferta a buscar" >
-        </div>
-        <div id="campo_fecha_fin" class="form-group col-md-8">
-            <label>Fecha Fin </label>
-            <input type="datetime" class="form-control" id="fecha_fin" name="fecha_fin" placeholder="Fecha de finalización de la oferta a buscar" >
-        </div>
-        <div id="campo_descripcion" class="form-group col-md-4">
+        <div id="campo_descripcion" class="form-group col-md-12">
             <label>Descripción </label>
             <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción de la oferta a buscar" >
         </div>
+        <div id="campo_fecha_inicio" class="form-group col-md-6">
+            <label>Fecha Inicio </label>
+            <input type="datetime" class="form-control" id="fecha_inicio" name="fecha_inicio" placeholder="Fecha de inicio de la oferta a buscar" >
+        </div>
+        <div id="campo_fecha_fin" class="form-group col-md-6">
+            <label>Fecha Fin </label>
+            <input type="datetime" class="form-control" id="fecha_fin" name="fecha_fin" placeholder="Fecha de finalización de la oferta a buscar" >
+        </div>
     </div>
-    
-    <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button>
+
+    <div class="form-row">
+        <div id="boton_buscar" class="form-group col-md-5">
+            <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button>
+        </div>
+    </div>
     
 </div>
 
@@ -96,7 +100,13 @@
             </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-default" onclick="history.back()">Volver</button>
+    <div class="container h-100 " style="margin-top:40px">
+    <div class="form-row">
+        <div id="boton_volver" class="form-group col-md-6">
+            <button type="button" class="btn btn-default" onclick="history.back()">Volver</button>
+        </div>
+    </div>
+    </div>
 </div>
 {% else %}
 <div class="container h-100 " style="margin-top:40px">
