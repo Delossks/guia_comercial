@@ -10,7 +10,9 @@
     <div class="container h-100 " style="margin-top:60px">
         <div class="col-6 bg-white rounded my-3 p-5">
         
-        <div class="form-row">
+        <h1 style="color:black"><center>Datos del Comercio<center></h1>
+
+        <div class="form-row" style="margin-top:20px">
             <div id="campo_id_empresa" class="form-group col-md-6">
                 {{ form_label(formulario.id_empresa)}}
                 {{ form_widget(formulario.id_empresa, {'attr':{'disabled':'disabled'} })}}
@@ -57,7 +59,7 @@
                 <button type="button" class="btn btn-info" onclick="location.href='{{path('buscarOfertaCli', {id: comercio.id})}}'">Ofertas</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='{{path('clienteNotificacionesActivar', {id: comercio.id})}}'">Activar Notificaciones</button>
                 <button type="button" class="btn btn-danger" onclick="location.href='{{path('clienteNotificacionesDesactivar', {id: comercio.id})}}'">Desactivar Notificaciones</button>
-                <button type="button" class="btn btn-default" onclick="location.href='{{path('buscarComercioCli')}}'">Volver</button>
+                <button type="button" class="btn btn-default" onclick="history.back()">Volver</button>
             </div>
         </div>
 
@@ -65,4 +67,7 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block content %}
 {% endblock %}

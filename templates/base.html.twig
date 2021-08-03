@@ -25,7 +25,7 @@
         {% block body %}
         {# Barra de navegación #}
         <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid" style="background-color:SlateBlue";>
+            <div class="container-fluid" style="background-color:SlateBlue;">
                 <div class="navbar-header">
                     <a style="color:white"; class="navbar-brand" href="#">Guía Comercial</a>
                 </div>
@@ -54,5 +54,10 @@
         #dropdown-item:focus { background-color: indigo; }
     </style>
         {% endblock %}
+
+        
     </body>
+        {% block content %}
+            <h1 style="color:black; margin-top:80px;"><center>Bienvenido a Guia Comercial<center></h1>
+        {% endblock %}
 </html>

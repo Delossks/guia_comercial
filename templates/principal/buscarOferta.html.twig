@@ -7,8 +7,11 @@
 {{parent()}}
 
 {% if ofertas is not same as("") and ofertas is not null and ofertas is not empty %}
-<div class="container h-100 " style="margin-top:40px">
-    <table id="tbOferta" class="table table-hover table-sm">
+<div class="container h-100 " style="margin-top:60px">
+
+    <h1 style="color:black"><center>Ofertas del Comercio<center></h1>
+
+    <table id="tbOferta" class="table table-hover table-sm" style="margin-top:20px">
         <thead style="border-bottom-style:2px solid #24a690;">
             <tr>
                 {#<th>CIF</th>#}
@@ -54,4 +57,7 @@
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block content %}
 {% endblock %}

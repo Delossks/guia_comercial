@@ -6,36 +6,41 @@
 
 {{parent()}}
 
-<div class="container h-100 " style="margin-top:40px">
+<div class="panel panel-default">
+    <div class="panel-heading"  style="background-color:DarkSlateBlue; border:DarkSlateBlue;">
 
-    <div class="form-row">
-        <div id="campo_nombre_comercio" class="form-group col-md-6">
-            <label>Nombre </label>
-            <input type="text" class="form-control" id="nombre_comercio" name="nombre_comercio" placeholder="Nombre del comercio a buscar" >
+        <div class="container h-100 " style="margin-top:40px">
+        <h1 style="color:white"><center>Buscar un Comercio<center></h1>
+        <div class="form-row">
+            <div id="campo_nombre_comercio" class="form-group col-md-6" style="color:white">
+                <label>Nombre </label>
+                <input type="text" class="form-control" id="nombre_comercio" name="nombre_comercio" placeholder="Nombre del comercio a buscar" >
+            </div>
+            <div id="campo_direccion_comercio" class="form-group col-md-6" style="color:white">
+                <label>Dirección </label>
+                <input type="text" class="form-control" id="direccion_comercio" name="direccion_comercio" placeholder="Dirección del comercio a buscar" >
+            </div>
         </div>
-        <div id="campo_direccion_comercio" class="form-group col-md-6">
-            <label>Dirección </label>
-            <input type="text" class="form-control" id="direccion_comercio" name="direccion_comercio" placeholder="Dirección del comercio a buscar" >
-        </div>
-    </div>
 
-    <div class="form-row">
-        <div id="campo_codigo_postal" class="form-group col-md-6">
-            <label>Código Postal </label>
-            <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" placeholder="Código postal del comercio a buscar" >
+        <div class="form-row">
+            <div id="campo_codigo_postal" class="form-group col-md-6" style="color:white">
+                <label>Código Postal </label>
+                <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" placeholder="Código postal del comercio a buscar" >
+            </div>
+            <div id="campo_telefono_comercio" class="form-group col-md-6" style="color:white">
+                <label>Teléfono </label>
+                <input type="text" class="form-control" id="telefono_comercio" name="telefono_comercio" placeholder="Teléfono del comercio a buscar" >
+            </div>
         </div>
-        <div id="campo_telefono_comercio" class="form-group col-md-6">
-            <label>Teléfono </label>
-            <input type="text" class="form-control" id="telefono_comercio" name="telefono_comercio" placeholder="Teléfono del comercio a buscar" >
+    
+        <div class="form-row">
+            <div id="boton_buscar" class="form-group col-md-5">
+                <button type="button" class="btn btn-primary" onclick="buscar();" style="background-color:SlateBlue; border:SlateBlue;">Buscar</button>
+            </div>
         </div>
     </div>
     
-    <div class="form-row">
-        <div id="boton_buscar" class="form-group col-md-5">
-            <button type="button" class="btn btn-primary" onclick="buscar();">Buscar</button>
-        </div>
-    </div>
-    
+</div>
 </div>
 
 <script>
@@ -110,4 +115,7 @@
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block content %}
 {% endblock %}
