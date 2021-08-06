@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Empresa;
 use App\Entity\Usuario;
 use App\Entity\Empresario;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,6 +31,14 @@ class EmpresaAdminType extends AbstractType
             ->add('id_usuario', EntityType::class, array(
                 'class' => Empresario::class,
                 'label' => 'Id Empresario*',
+                /*
+                'query_builder' => function (EntityRepository $er) use ($options){
+                    return $er->createQueryBuilder('e')
+                        ->where('e.id IN (?1)')
+                        ->orderBy('e.id_usuario', 'ASC')
+                        ->setParameter(1,$options['empresarios']);
+                },
+                */
                 'choice_label' => 'id',
                 'mapped' => false,
                 'required' => true,
@@ -104,6 +113,7 @@ class EmpresaAdminType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Empresa::class,
+            //'empresarios' => null,
         ]);
     }
 }

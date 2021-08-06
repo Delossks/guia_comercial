@@ -1837,7 +1837,11 @@ class AdministradorController extends AbstractController
     {
         $empresa = new Empresa();
         $empresario = new Empresario();
-        
+/*        
+        $em = $this->getDoctrine()->getManager();
+        $empresarios = $em->getRepository(Empresario::class)->findAll();
+        $form = $this->createForm(EmpresaAdminType::class, $empresa, ['empresarios' => $empresarios,]);
+*/
         $form = $this->createForm(EmpresaAdminType::class, $empresa);
         $form->handleRequest($request);
 
@@ -1849,9 +1853,9 @@ class AdministradorController extends AbstractController
             //$id = $form->get('id_usuario');
 
             //Se obtiene el ID del empresario al que se le va a asignar la empresa
-            $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+            //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
             //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $id));
-            $empresa->setIdEmpresario($empresario);
+            //$empresa->setIdEmpresario($empresario);
 
             //Se guarda la empresa en la base de datos
             $em->persist($empresa);
