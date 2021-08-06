@@ -43,7 +43,7 @@ class PerfilType extends AbstractType
             'widget' => 'text',
             'disabled' => true,
             'required' => true))
-/*       
+       
         ->add('roles', ChoiceType::class, [
             'label' => 'Tipo de usuario',
             'required' => true,
@@ -53,9 +53,9 @@ class PerfilType extends AbstractType
                 'Empresario' => 'ROLE_EMPRESARIO',
                 'Administrador' => 'ROLE_ADMINISTRADOR',],
             ])
-*/
+
         ;
-/*
+
         //Conversión para el campo de elección de roles
         $builder->get('roles')
             ->addModelTransformer(new CallbackTransformer(
@@ -68,7 +68,7 @@ class PerfilType extends AbstractType
                      return [$rolesString];
                 }
         ));
-*/
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
