@@ -12,6 +12,7 @@ use App\Entity\ClienteComercio;
 use App\Form\OfertaConsultaType;
 use App\Form\ValidarUsuarioType;
 use App\Form\ModificarUsuarioType;
+use App\Form\ComercioConsultaPublicoType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -288,7 +289,7 @@ class ClienteController extends AbstractController
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->find($id);
 
-        $form = $this->createForm(ComercioType::class, $comercio);
+        $form = $this->createForm(ComercioConsultaPublicoType::class, $comercio);
 
         return $this->render('cliente/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',

@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ComercioType extends AbstractType
+class ComercioConsultaPublicoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,11 +23,9 @@ class ComercioType extends AbstractType
             ->add('id_empresa', EntityType::class, array(
                 'class' => Empresa::class,
                 'label' => 'Empresa*',
-                'query_builder' => function (EntityRepository $er) use ($options){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('e')
-                        ->where('e.id_usuario = ?1')
-                        ->orderBy('e.nombre_empresa', 'ASC')
-                        ->setParameter(1,$options['empresario']);
+                        ->orderBy('e.nombre_empresa', 'ASC');
                 },
                 'choice_label' => 'nombre_empresa',
                 'required' => true,
@@ -70,7 +68,6 @@ class ComercioType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comercio::class,
-            'empresario' => null,
         ]);
     }
 }

@@ -17,6 +17,7 @@ use App\Form\ValidarEmpresaType;
 use App\Form\ValidarUsuarioType;
 use App\Form\ValidarComercioType;
 use App\Form\ModificarUsuarioType;
+use App\Form\ComercioConsultaPublicoType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -1382,7 +1383,7 @@ class EmpresarioController extends AbstractController
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->find($id);
 
-        $form = $this->createForm(ComercioType::class, $comercio);
+        $form = $this->createForm(ComercioConsultaPublicoType::class, $comercio);
 
         return $this->render('empresario/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',
@@ -1399,7 +1400,9 @@ class EmpresarioController extends AbstractController
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->find($id);
 
-        $form = $this->createForm(ComercioType::class, $comercio);
+        //Se envía información del usuario actual al formulario de registro para filtrar las empresas que pertenecen al empresario
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $form = $this->createForm(ComercioType::class, $comercio, ['empresario' => $empresario->getId(),]);
 
         return $this->render('empresario/consultarComercioEmpresario.html.twig', [
             'controller_name' => 'Datos del comercio',
@@ -1417,7 +1420,10 @@ class EmpresarioController extends AbstractController
 
         //Buscar el comercio a modificar
         $comercio = $em->getRepository(Comercio::class)->find($id);
-        $form = $this->createForm(ComercioType::class, $comercio);
+
+        //Se envía información del usuario actual al formulario de registro para filtrar las empresas que pertenecen al empresario
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $form = $this->createForm(ComercioType::class, $comercio, ['empresario' => $empresario->getId(),]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -1482,10 +1488,10 @@ class EmpresarioController extends AbstractController
         $comercio = new Comercio();
         $empresa = new Empresa();
 
-        //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
-        //$form = $this->createForm(ComercioType::class, $comercio, ['empresario' => $empresario->getId(),]);
+        //Se envía información del usuario actual al formulario de registro para filtrar las empresas que pertenecen al empresario
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $form = $this->createForm(ComercioType::class, $comercio, ['empresario' => $empresario->getId(),]);
 
-        $form = $this->createForm(ComercioType::class, $comercio);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
@@ -1710,7 +1716,23 @@ class EmpresarioController extends AbstractController
 
         //Buscar la oferta a modificar
         $oferta = $em->getRepository(Oferta::class)->find($id);
-        $form = $this->createForm(OfertaType::class, $oferta);
+
+        //Buscar las empresas del usuario actual
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $empresas = $em->getRepository(Empresa::class)->findBy(array('id_usuario' => $empresario->getId()));
+        
+        //Buscar todos los comercios de cada empresa para el filtro de comercios que pertenecen al usuario actual
+        $comercios = array();
+        for($i = 0; $i < sizeof($empresas); $i++) {
+            $aux = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $empresas[$i]->getId()));
+            if($aux !== null) {
+                for ($j = 0; $j < sizeof($aux); $j++) {
+                    array_push($comercios,$aux[$j]);
+                }
+            }
+        }
+
+        $form = $this->createForm(OfertaType::class, $oferta, ['comercios' => $comercios,]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -1764,7 +1786,25 @@ class EmpresarioController extends AbstractController
     {
         $oferta = new Oferta();
         $comercio = new Comercio();
-        $form = $this->createForm(OfertaType::class, $oferta);
+
+        //Buscar las empresas del usuario actual
+        $em = $this->getDoctrine()->getManager();
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id_usuario' => $this->getUser()->getId()));
+        $empresas = $em->getRepository(Empresa::class)->findBy(array('id_usuario' => $empresario->getId()));
+        
+        //Buscar todos los comercios de cada empresa para el filtro de comercios que pertenecen al usuario actual
+        $comercios = array();
+        for($i = 0; $i < sizeof($empresas); $i++) {
+            $aux = $em->getRepository(Comercio::class)->findBy(array('id_empresa' => $empresas[$i]->getId()));
+            if($aux !== null) {
+                for ($j = 0; $j < sizeof($aux); $j++) {
+                    array_push($comercios,$aux[$j]);
+                }
+            }
+        }
+
+        $form = $this->createForm(OfertaType::class, $oferta, ['comercios' => $comercios,]);
+
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();

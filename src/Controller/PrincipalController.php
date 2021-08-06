@@ -6,6 +6,7 @@ use App\Entity\Oferta;
 use App\Entity\Comercio;
 use App\Form\ComercioType;
 use App\Form\OfertaConsultaType;
+use App\Form\ComercioConsultaPublicoType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -280,7 +281,7 @@ class PrincipalController extends AbstractController
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->find($id);
 
-        $form = $this->createForm(ComercioType::class, $comercio);
+        $form = $this->createForm(ComercioConsultaPublicoType::class, $comercio);
 
         return $this->render('principal/consultarComercio.html.twig', [
             'controller_name' => 'Datos del comercio',

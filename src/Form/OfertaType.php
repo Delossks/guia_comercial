@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Oferta;
 use App\Entity\Empresa;
 use App\Entity\Comercio;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,6 +23,12 @@ class OfertaType extends AbstractType
             ->add('id_comercio', EntityType::class, array(
                 'class' => Comercio::class,
                 'label' => 'Comercio*',
+                'query_builder' => function (EntityRepository $er) use ($options){
+                    return $er->createQueryBuilder('c')
+                        ->where('c.id_empresa IN (?1)')
+                        ->orderBy('c.nombre_comercio', 'ASC')
+                        ->setParameter(1,$options['comercios']);
+                },
                 'choice_label' => 'nombre_comercio',
                 'required' => true,
                 'help' => 'Seleccionar el comercio al que pertenece la oferta'))
@@ -62,6 +69,7 @@ class OfertaType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Oferta::class,
+            'comercios' => null,
         ]);
     }
 }
