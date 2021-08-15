@@ -320,7 +320,8 @@ class PrincipalController extends AbstractController
         return $this->render('principal/consultarOferta.html.twig', [
             'controller_name' => 'Datos de la oferta',
             'formulario' => $form->createView(),
-            'oferta' => $oferta
+            'oferta' => $oferta,
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 }

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -72,11 +73,22 @@ class EmpresaType extends AbstractType
 
             //->add('validez')
 
-            ->add('logotipo', UrlType::class, array(
+            ->add('logotipo', FileType::class, array(
                 'label' => 'Logotipo',
                 'required' => false,
+                'mapped' => false,
+                /*'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'application/jpg',
+                            'application/png',
+                        ],
+                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
+                    ])
+                ],*/
                 'attr' => array('maxlength' => 255),
-                'help' => 'URL que aloja la imagen de la empresa (opcional)'))
+                /*'help' => 'URL que aloja la imagen de la empresa (opcional)'*/))
 
             //->add('id_usuario')
 

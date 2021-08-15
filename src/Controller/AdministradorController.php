@@ -29,7 +29,10 @@ use App\Form\ModificarComercioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 //Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Administrador
@@ -1695,7 +1698,8 @@ class AdministradorController extends AbstractController
         return $this->render('administrador/consultarEmpresa.html.twig', [
             'controller_name' => 'Datos de la empresa',
             'formulario' => $form->createView(),
-            'empresa'=> $empresa
+            'empresa'=> $empresa,
+            'logotipo' => $empresa->getLogotipo()
         ]);
     }
 
@@ -1722,7 +1726,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/modificarEmpresa.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'logotipo' => $empresa->getLogotipo()
         ]);
     }
 
@@ -1774,7 +1779,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/eliminarEmpresa.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'logotipo' => $empresa->getLogotipo()
         ]);
     }
 
@@ -1801,7 +1807,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/validarEmpresa.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'logotipo' => $empresa->getLogotipo()
         ]);
     }
 
@@ -1829,6 +1836,7 @@ class AdministradorController extends AbstractController
         return $this->render('administrador/rechazarEmpresa.html.twig', [
             'controller_name' => '',
             'formulario' => $form->createView(),
+            'logotipo' => $empresa->getLogotipo()
         ]);
     }
 
@@ -1846,6 +1854,36 @@ class AdministradorController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            /** @var UploadedFile $logotipo */
+            $logotipo = $form->get('logotipo')->getData();
+
+            //La imagen es un atributo opcional. Si se ha subido un archivo al formulario, se procesa
+            if ($logotipo) {
+                $originalFilename = pathinfo($logotipo->getClientOriginalName(), PATHINFO_FILENAME);
+
+                //Se necesita para incluir el nombre del archivo como parte de la ruta de manera segura
+                $slugger = new AsciiSlugger();
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$logotipo->guessExtension();
+
+                //Obtener la ruta para guardar en la base de datos
+                $newFilenameRoute = '\uploads\images\\'.$newFilename;
+
+                //Mover el archivo a la carpeta donde se almacenan las imágenes
+                try {
+                    $logotipo->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new \Exception('Ha ocurrido un error');
+                }
+
+                //Se actualiza el atributo de la imagen para almacenar la ruta en la que se guarda la imagen, en lugar de guardar la imagen en la base de datos
+                $empresa->setLogotipo($newFilenameRoute);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
 
@@ -2393,7 +2431,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/consultarOferta.html.twig', [
             'controller_name' => 'Datos de la oferta',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 
@@ -2410,7 +2449,8 @@ class AdministradorController extends AbstractController
         return $this->render('administrador/consultarOfertaComercio.html.twig', [
             'controller_name' => 'Datos de la oferta',
             'formulario' => $form->createView(),
-            'oferta' => $oferta
+            'oferta' => $oferta,
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 
@@ -2437,7 +2477,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/modificarOferta.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 
@@ -2463,7 +2504,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/eliminarOferta.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 
@@ -2490,7 +2532,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/validarOferta.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 
@@ -2517,7 +2560,8 @@ class AdministradorController extends AbstractController
 
         return $this->render('administrador/rechazarOferta.html.twig', [
             'controller_name' => '',
-            'formulario' => $form->createView()
+            'formulario' => $form->createView(),
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 
@@ -2528,9 +2572,38 @@ class AdministradorController extends AbstractController
         $form = $this->createForm(OfertaAdminType::class, $oferta);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            
+            /** @var UploadedFile $img_oferta */
+            $img_oferta = $form->get('img_oferta')->getData();
+
+            //La imagen es un atributo opcional. Si se ha subido un archivo al formulario, se procesa
+            if ($img_oferta) {
+                $originalFilename = pathinfo($img_oferta->getClientOriginalName(), PATHINFO_FILENAME);
+
+                //Se necesita para incluir el nombre del archivo como parte de la ruta de manera segura
+                $slugger = new AsciiSlugger();
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$img_oferta->guessExtension();
+
+                //Obtener la ruta para guardar en la base de datos
+                $newFilenameRoute = '\uploads\images\\'.$newFilename;
+
+                //Mover el archivo a la carpeta donde se almacenan las imágenes
+                try {
+                    $img_oferta->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new \Exception('Ha ocurrido un error');
+                }
+
+                //Se actualiza el atributo de la imagen para almacenar la ruta en la que se guarda la imagen, en lugar de guardar la imagen en la base de datos
+                $oferta->setImgOferta($newFilenameRoute);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $oferta->setValidez(validez: 'pendiente');
-            //$oferta->setIdOferta();
             $em->persist($oferta);
             $em->flush();
             $this->addFlash(type: 'exito', message: 'La oferta se ha registrado correctamente');

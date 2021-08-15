@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -48,12 +49,29 @@ class OfertaType extends AbstractType
                 'widget' => 'choice',
                 'required' => true))
 
+            ->add('img_oferta', FileType::class, array(
+                'label' => 'Imagen Oferta',
+                'mapped' => false,
+                'required' => false,
+                /*'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'application/jpg',
+                            'application/png',
+                        ],
+                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
+                    ])
+                ],*/
+                'attr' => array('maxlength' => 255),
+                /*'help' => 'URL que aloja la imagen de la oferta (opcional)'*/))
+/*          
             ->add('img_oferta', UrlType::class, array(
                 'label' => 'Logotipo',
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la oferta (opcional)'))
-/*                
+
             ->add('cif', EntityType::class, array(
                 'class' => Empresa::class,
                 'label' => 'Empresa',

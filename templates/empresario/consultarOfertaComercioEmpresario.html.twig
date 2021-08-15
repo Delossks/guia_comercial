@@ -27,8 +27,13 @@
 
         <div class="form-row">
             <div id="campo_img_oferta" class="form-group col-md-6">
-                {{ form_label(formulario.img_oferta) }}
-                {{ form_widget(formulario.img_oferta, {'attr':{'disabled':'disabled'} })}}
+                {# {{ form_label(formulario.img_oferta) }}
+                {{ form_widget(formulario.img_oferta, {'attr':{'disabled':'disabled'} })}} 
+                {# <img src="<?php echo formulario.img_oferta; ?>" /> #}
+                {# <img src="<?php echo $img_oferta; ?>" /> #}
+                {# <img src='formulario.img_oferta' /> #}
+                <img src="{{img_oferta}}" /> 
+                {# <img src='\uploads\images\prueba-oferta-61190911b7bdc.jpg' /> #}
             </div>
         </div>
 

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,11 +35,22 @@ class OfertaAdminType extends AbstractType
                 'widget' => 'choice',
                 'required' => true))
 
-            ->add('img_oferta', UrlType::class, array(
+            ->add('img_oferta', FileType::class, array(
                 'label' => 'Imagen Oferta',
                 'required' => false,
+                'mapped' => false,
+                /*'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'application/jpg',
+                            'application/png',
+                        ],
+                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
+                    ])
+                ],*/
                 'attr' => array('maxlength' => 255),
-                'help' => 'URL que aloja la imagen de la oferta (opcional)'))
+                /*'help' => 'URL que aloja la imagen de la oferta (opcional)'*/))
 
             ->add('cif', TextType::class, array(
                 'label' => 'CIF*',

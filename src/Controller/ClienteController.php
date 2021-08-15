@@ -328,7 +328,8 @@ class ClienteController extends AbstractController
         return $this->render('cliente/consultarOferta.html.twig', [
             'controller_name' => 'Datos de la oferta',
             'formulario' => $form->createView(),
-            'oferta' => $oferta
+            'oferta' => $oferta,
+            'img_oferta' => $oferta->getImgOferta()
         ]);
     }
 

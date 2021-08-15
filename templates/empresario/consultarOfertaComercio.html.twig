@@ -27,8 +27,9 @@
 
         <div class="form-row">
             <div id="campo_img_oferta" class="form-group col-md-6">
-                {{ form_label(formulario.img_oferta) }}
-                {{ form_widget(formulario.img_oferta, {'attr':{'disabled':'disabled'} })}}
+                {# {{ form_label(formulario.img_oferta) }}
+                {{ form_widget(formulario.img_oferta, {'attr':{'disabled':'disabled'} })}} #}
+                <img src="{{img_oferta}}" /> 
             </div>
         </div>
 

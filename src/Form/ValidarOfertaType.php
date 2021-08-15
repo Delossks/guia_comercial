@@ -53,7 +53,7 @@ class ValidarOfertaType extends AbstractType
                 'required' => true))
 
             ->add('img_oferta', UrlType::class, array(
-                'label' => 'Logotipo',
+                'label' => 'Imagen',
                 'disabled' => true,
                 'required' => false,
                 'attr' => array('maxlength' => 255)))
