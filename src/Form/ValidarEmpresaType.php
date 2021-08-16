@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Empresa;
 use App\Entity\Empresario;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -28,6 +29,12 @@ class ValidarEmpresaType extends AbstractType
             ->add('id_usuario', EntityType::class, array(
                 'class' => Empresario::class,
                 'label' => 'Id Empresario',
+                'query_builder' => function (EntityRepository $er) use ($options){
+                    return $er->createQueryBuilder('e')
+                        ->where('e.id = ?1')
+                        ->orderBy('e.id', 'ASC')
+                        ->setParameter(1,$options['empresario']);
+                },
                 'choice_label' => 'id',
                 'mapped' => false,
                 'disabled' => true,
@@ -102,6 +109,7 @@ class ValidarEmpresaType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Empresa::class,
+            'empresario' => null,
         ]);
     }
 }

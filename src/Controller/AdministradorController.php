@@ -1692,8 +1692,8 @@ class AdministradorController extends AbstractController
 
         //Buscar la empresa a consultar
         $empresa = $em->getRepository(Empresa::class)->find($id);
-
-        $form = $this->createForm(EmpresaAdminType::class, $empresa);
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa, ['empresario' => $empresario->getId(),]);
 
         return $this->render('administrador/consultarEmpresa.html.twig', [
             'controller_name' => 'Datos de la empresa',
@@ -1717,6 +1717,12 @@ class AdministradorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $empresa->setValidez(validez: 'pendiente');
 
+            //Obtener el campo del ID de usuario del formulario
+            $empresario = $form->get('id_usuario')->getData();
+            if ($empresario) {
+                $empresa->setIdEmpresario($empresario);
+            }
+
             //Se actualiza la empresa en la base de datos
             $em->persist($empresa);
             $em->flush();
@@ -1739,7 +1745,8 @@ class AdministradorController extends AbstractController
 
         //Buscar la empresa a eliminar
         $empresa = $em->getRepository(Empresa::class)->find($id);
-        $form = $this->createForm(ValidarEmpresaType::class, $empresa);
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa, ['empresario' => $empresario->getId(),]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -1792,7 +1799,8 @@ class AdministradorController extends AbstractController
 
         //Buscar la empresa a validar
         $empresa = $em->getRepository(Empresa::class)->find($id);
-        $form = $this->createForm(ValidarEmpresaType::class, $empresa);
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa, ['empresario' => $empresario->getId(),]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -1820,7 +1828,8 @@ class AdministradorController extends AbstractController
 
         //Buscar la empresa a validar
         $empresa = $em->getRepository(Empresa::class)->find($id);
-        $form = $this->createForm(ValidarEmpresaType::class, $empresa);
+        $empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
+        $form = $this->createForm(ValidarEmpresaType::class, $empresa, ['empresario' => $empresario->getId(),]);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -1845,11 +1854,7 @@ class AdministradorController extends AbstractController
     {
         $empresa = new Empresa();
         $empresario = new Empresario();
-/*        
-        $em = $this->getDoctrine()->getManager();
-        $empresarios = $em->getRepository(Empresario::class)->findAll();
-        $form = $this->createForm(EmpresaAdminType::class, $empresa, ['empresarios' => $empresarios,]);
-*/
+
         $form = $this->createForm(EmpresaAdminType::class, $empresa);
         $form->handleRequest($request);
 
@@ -1887,13 +1892,11 @@ class AdministradorController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $empresa->setValidez(validez: 'pendiente');
 
-            //$id = $request->request->get('id_usuario');
-            //$id = $form->get('id_usuario');
-
-            //Se obtiene el ID del empresario al que se le va a asignar la empresa
-            //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $empresa->getIdEmpresario()));
-            //$empresario = $em->getRepository(Empresario::class)->findOneBy(array('id' => $id));
-            //$empresa->setIdEmpresario($empresario);
+            //Obtener el campo del ID de usuario del formulario
+            $empresario = $form->get('id_usuario')->getData();
+            if ($empresario) {
+                $empresa->setIdEmpresario($empresario);
+            }
 
             //Se guarda la empresa en la base de datos
             $em->persist($empresa);
