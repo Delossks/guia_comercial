@@ -10,6 +10,7 @@
     <div class="panel-heading"  style="background-color:DarkSlateBlue; border:DarkSlateBlue;">
         <div class="container h-100 " style="margin-top:40px">
         <h1 style="color:white"><center>Buscar una Empresa<center></h1>
+        <body onload="buscar();">
         <div class="form-row">
             <div id="campo_nombre_empresa" class="form-group col-md-6" style="color:white">
                 <label>Nombre </label>
@@ -81,9 +82,6 @@
     }
 </script>
 
-{# {{dump(empresas)}} #}
-
-
 {% if empresas is not same as("") and empresas is not null and empresas is not empty %}
 <div class="container h-100 " style="margin-top:40px">
     <table id="tbEmpresa" class="table table-hover table-sm" style="border: 10px ridge SlateBlue;">
@@ -99,7 +97,6 @@
                 <th>Teléfono</th>
                 <th>Actividad Económica</th>
                 <th>Web</th>
-                {# <th>ID Empresario</th> #}
                 <th>Validez</th>
                 <th style="width:20%"></th>
             </tr>
@@ -119,7 +116,6 @@
                                     <td>{{empresa.telefonoEmpresa}}</td>
                                     <td>{{empresa.actividadEconomica}}</td>
                                     <td>{{empresa.webEmpresa}}</td>
-                                    {# <td>{{empresa.idEmpresario}}</td> #}
                                     <td>{{empresa.validez}}</td>
                                     <td style="width:19%" align="center">                                   
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('validarEmpresa', {id: empresa.id})}}'"><img height="24px" src="{{ asset('images/checks.png') }}" title="Validar"/></button>

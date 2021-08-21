@@ -10,6 +10,7 @@
   
     <div class="container h-100" style="margin-top:40px">
     <h1 style="color:white"><center>Buscar un Comercio<center></h1>
+    <body onload="buscar();">
         <div class="form-row">
             <div id="campo_nombre_comercio" class="form-group col-md-6" style="color:white">
                 <label>Nombre </label>
@@ -35,7 +36,6 @@
         <div class="form-row">
             <div id="boton_buscar" class="form-group col-md-5">
                 <button type="button" class="btn btn-primary" onclick="buscar();" style="background-color:SlateBlue; border:SlateBlue;">Buscar</button>
-                {# <button type="button" class="btn btn-primary" onclick="location.href='{{ path('buscarComercio')}}">Buscar</button> #}
             </div>
         </div> 
 
@@ -47,7 +47,7 @@
     function buscar(){
         nombre_comercio = $("#nombre_comercio").val();
         direccion_comercio = $("#direccion_comercio").val();
-        codigo_postal = $("#cp_comercio").val();
+        codigo_postal = $("#codigo_postal").val();
         telefono_comercio = $("#telefono_comercio").val();
         $("#comerciosEncontrados").empty();
         $.ajax
