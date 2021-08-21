@@ -225,8 +225,7 @@ class PrincipalController extends AbstractController
         }
 
         elseif((empty($nombre_comercio)) && !empty($direccion_comercio) && empty($codigo_postal) && empty($telefono_comercio)){
-            //Buscar Comercio por dirección
-            //$comerciosTemp = $em->getRepository(Comercio::class)->findBy(array('direccion_comercio' => $direccion_comercio, 'validez' => 'sí'));          
+            //Buscar Comercio por dirección       
             $comerciosTemp = $em->getRepository(Comercio::class)->createQueryBuilder('c')
                                                               ->where('c.direccion_comercio LIKE :direccion')
                                                               ->andWhere('c.validez LIKE :validez')

@@ -18,19 +18,7 @@ class OfertaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Oferta::class);
     }
-/* 
-    CORREGIR ERRORES EN ESTA FUNCIÓN
 
-    public function buscarOfertasEmpresario()
-    {
-        return $this->getEntityManager()
-            ->createQuery(dql: '
-                SELECT oferta.cif, oferta.id_comercio, oferta.descripcion, oferta.fecha_inicio, oferta.fecha_fin, oferta.img_oferta
-                FROM App:Oferta oferta, App:Comercio comercio, App:Empresa empresa, App:Empresario empresario
-                WHERE oferta.cif = comercio.cif AND oferta.id_comercio = comercio.id_comercio AND comercio.cif = empresa.cif
-                AND empresa.id_usuario = empresario.id_usuario')->getResult();
-    }
-*/
     // /**
     //  * @return Oferta[] Returns an array of Oferta objects
     //  */

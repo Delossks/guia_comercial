@@ -35,8 +35,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-//Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Administrador
-//#[IsGranted(ROLE_ADMINISTRADOR)]
 class AdministradorController extends AbstractController
 {
     #[Route('/administrador', name: 'administrador')]
@@ -54,7 +52,7 @@ class AdministradorController extends AbstractController
             'controller_name' => 'Esta es la página de ayuda para el Administrador',
         ]);
     }
-
+/*
     #[Route('/administrador/cs/crear', name: 'crearCopiaSeguridad')]
     public function crearCopiaSeguridad(): Response
     {
@@ -70,7 +68,7 @@ class AdministradorController extends AbstractController
             'controller_name' => 'Esta es la página para restaurar una copia de seguridad',
         ]);
     }
-
+*/
     #[Route('/administrador/usuario/buscar', name: 'buscarUsuario')]
     public function buscarUsuario(Request $request): Response
     {
@@ -515,7 +513,6 @@ class AdministradorController extends AbstractController
 
         //Buscar el usuario a consultar
         $usuario = $em->getRepository(Usuario::class)->find($id);
-
         $form = $this->createForm(PerfilType::class, $usuario);
 
         return $this->render('administrador/consultarUsuario.html.twig', [
@@ -2145,7 +2142,6 @@ class AdministradorController extends AbstractController
 
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->find($id);
-
         $form = $this->createForm(ComercioConsultaType::class, $comercio);
 
         return $this->render('administrador/consultarComercio.html.twig', [
@@ -2616,22 +2612,6 @@ class AdministradorController extends AbstractController
         return $this->render('administrador/registrarOferta.html.twig', [
             'controller_name' => '',
             'formulario' => $form->createView()
-        ]);
-    }
-
-    #[Route('/administrador/mis-ofertas', name: 'administradorOfertas')]
-    public function clienteOfertas(): Response
-    {
-        return $this->render('administrador/ofertas.html.twig', [
-            'controller_name' => 'Esta página muestra las Ofertas de comercios en los que se tienen las notificaciones activadas',
-        ]);
-    }
-
-    #[Route('/administrador/notificaciones', name: 'administradorNotificaciones')]
-    public function notificaciones(): Response
-    {
-        return $this->render('administrador/notificaciones.html.twig', [
-            'controller_name' => 'Esta página muestra los comercios en los que se tienen las notificaciones activadas',
         ]);
     }
 

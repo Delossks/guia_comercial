@@ -20,12 +20,6 @@ class ValidarEmpresaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder    
-/*            ->add('id_usuario',NumberType::class, array(
-                'label' => 'Id Usuario',
-                'mapped' => false,
-                'required' => true))
-*/
-
             ->add('id_usuario', EntityType::class, array(
                 'class' => Empresario::class,
                 'label' => 'Id Empresario',

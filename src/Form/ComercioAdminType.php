@@ -24,13 +24,7 @@ class ComercioAdminType extends AbstractType
                 'choice_label' => 'nombre_empresa',
                 'required' => true,
                 'help' => 'Seleccionar la empresa'))
-/*
-            ->add('cif', TextType::class, array(
-                'label' => 'CIF',
-                'required' => true,
-                'attr' => array('maxlength' => 9),
-                'help' => 'Código de Identificación Fiscal de la empresa a la que pertenece el comercio (8 números y 1 letra)'))
-*/
+
             ->add('nombre_comercio', TextType::class, array(
                 'label' => 'Nombre',
                 'required' => true,
@@ -59,12 +53,7 @@ class ComercioAdminType extends AbstractType
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL de la página web del comercio (opcional)'))
-/*            
-            ->add('id_empresa', NumberType::class, array(
-                'label' => 'Id Empresa', 
-                'required' => true,
-                'help' => 'Identificador de la empresa a la que pertenece el comercio'))
-*/
+
             ->add('Registrar', type: SubmitType::class)
         ;
     }

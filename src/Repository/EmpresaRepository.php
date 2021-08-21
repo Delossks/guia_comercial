@@ -19,16 +19,6 @@ class EmpresaRepository extends ServiceEntityRepository
         parent::__construct($registry, Empresa::class);
     }
 
-    public function buscarEmpresasEmpresario()
-    {
-        return $this->getEntityManager()
-            ->createQuery(dql: '
-                SELECT empresa.cif, empresa.nombre_empresa, empresa.direccion_empresa, empresa.localidad_empresa, empresa.provincia_empresa, empresa.cp_empresa,
-                empresa.telefono_empresa, empresa.actividad_economica, empresa.web_empresa, empresa.logotipo
-                FROM App:Empresa empresa, App:Empresario empresario
-                WHERE empresa.id_usuario = empresario.id_usuario')->getResult();
-    }
-
     // /**
     //  * @return Empresa[] Returns an array of Empresa objects
     //  */

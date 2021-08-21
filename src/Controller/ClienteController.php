@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-//Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Cliente
-//#[IsGranted(ROLE_CLIENTE)]
 class ClienteController extends AbstractController
 {
     #[Route('/cliente', name: 'cliente')]

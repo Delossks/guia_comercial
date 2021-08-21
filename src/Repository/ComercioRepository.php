@@ -19,25 +19,6 @@ class ComercioRepository extends ServiceEntityRepository
         parent::__construct($registry, Comercio::class);
     }
 
-    //Buscar todos los comercios de un empresario
-    public function buscarComerciosEmpresario()
-    {
-        return $this->getEntityManager()
-            ->createQuery(dql: '
-                SELECT comercio.cif, comercio.nombre_comercio, comercio.direccion_comercio, comercio.codigo_postal, comercio.telefono_comercio, comercio.web_comercio
-                FROM App:Comercio comercio, App:Empresa empresa, App:Empresario empresario
-                WHERE comercio.cif = empresa.cif AND empresa.id_usuario = empresario.id_usuario')->getResult();
-    }
-
-    //Buscar todos los comercios mostrando sólo la información pública
-    public function buscarComercios()
-    {
-        return $this->getEntityManager()
-            ->createQuery(dql: '
-                SELECT comercio.nombre_comercio, comercio.direccion_comercio, comercio.codigo_postal, comercio.telefono_comercio, comercio.web_comercio
-                FROM App:Comercio comercio')->getResult();
-    }
-
     // /**
     //  * @return Comercio[] Returns an array of Comercio objects
     //  */

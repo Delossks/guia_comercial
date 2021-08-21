@@ -32,25 +32,18 @@
                 </li>
                 <li class="dropdown"><a id="dropdown-item" style="color:white"; class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tag"></span> Ofertas <span class="caret"></span></a>
                     <ul class="dropdown-menu" style="background-color:SlateBlue";>
-                        {#<li><a id="dropdown-item" href="{{path('administradorOfertas')}}">Mis Ofertas</a></li>#}
                         <li><a id="dropdown-item" style="color:white"; href="{{path('buscarOfertaAdmin')}}">Buscar oferta</a></li>
                         <li><a id="dropdown-item" style="color:white"; href="{{path('registrarOfertaAdmin')}}">Registrar oferta</a></li>
                     </ul>
                 </li>
                 {#
-                <li class="dropdown"><a id="dropdown-item" class="dropdown-toggle" data-toggle="dropdown" href="#">Notificaciones <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a id="dropdown-item" href="{{path('administradorNotificaciones')}}">Notificaciones activadas</a></li>
-                        <li><a id="dropdown-item" href="{{path('buscarComercioAdmin')}}">Buscar un comercio</a></li>
-                    </ul>
-                </li>
-                #}
                 <li class="dropdown"><a id="dropdown-item" style="color:white"; class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-hdd"></span> Copias de seguridad <span class="caret"></span></a>
                     <ul class="dropdown-menu" style="background-color:SlateBlue";>
                         <li><a id="dropdown-item" style="color:white"; href="{{path('crearCopiaSeguridad')}}">Crear copia de seguridad</a></li>
                         <li><a id="dropdown-item" style="color:white"; href="{{path('restaurarCopiaSeguridad')}}">Restaurar copia de seguridad</a></li>
                     </ul>
                 </li>
+                #}
                 <li class="option"><a id="dropdown-item" style="color:white"; href="{{path('ayudaAdministrador')}}"><span class="glyphicon glyphicon-question-sign"></span> Ayuda</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -47,14 +47,6 @@ class OfertaConsultaType extends AbstractType
                 'required' => false,
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL que aloja la imagen de la oferta (opcional)'))
-/*                
-            ->add('cif', EntityType::class, array(
-                'class' => Empresa::class,
-                'label' => 'Empresa',
-                'choice_label' => 'nombre_empresa',
-                'required' => true,
-                'help' => 'Seleccionar la empresa'))
-*/
         ;
     }
 

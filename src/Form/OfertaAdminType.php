@@ -39,18 +39,7 @@ class OfertaAdminType extends AbstractType
                 'label' => 'Imagen Oferta',
                 'required' => false,
                 'mapped' => false,
-                /*'constraints' => [
-                    new File([
-                        'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'application/jpg',
-                            'application/png',
-                        ],
-                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
-                    ])
-                ],*/
-                'attr' => array('maxlength' => 255),
-                /*'help' => 'URL que aloja la imagen de la oferta (opcional)'*/))
+                'attr' => array('maxlength' => 255),))
 
             ->add('cif', TextType::class, array(
                 'label' => 'CIF*',

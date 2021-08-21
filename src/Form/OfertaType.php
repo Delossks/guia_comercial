@@ -53,32 +53,8 @@ class OfertaType extends AbstractType
                 'label' => 'Imagen Oferta',
                 'mapped' => false,
                 'required' => false,
-                /*'constraints' => [
-                    new File([
-                        'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'application/jpg',
-                            'application/png',
-                        ],
-                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
-                    ])
-                ],*/
-                'attr' => array('maxlength' => 255),
-                /*'help' => 'URL que aloja la imagen de la oferta (opcional)'*/))
-/*          
-            ->add('img_oferta', UrlType::class, array(
-                'label' => 'Logotipo',
-                'required' => false,
-                'attr' => array('maxlength' => 255),
-                'help' => 'URL que aloja la imagen de la oferta (opcional)'))
+                'attr' => array('maxlength' => 255),))
 
-            ->add('cif', EntityType::class, array(
-                'class' => Empresa::class,
-                'label' => 'Empresa',
-                'choice_label' => 'nombre_empresa',
-                'required' => true,
-                'help' => 'Seleccionar la empresa'))
-*/
             ->add('Registrar', type: SubmitType::class)
         ;
     }

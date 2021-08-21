@@ -19,14 +19,6 @@ class ValidarOfertaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-/*        
-            ->add('cif', EntityType::class, array(
-                'class' => Empresa::class,
-                'label' => 'Empresa',
-                'choice_label' => 'nombre_empresa',
-                'disabled' => true,
-                'required' => true))
-*/
             ->add('id_comercio', EntityType::class, array(
                 'class' => Comercio::class,
                 'label' => 'Comercio',

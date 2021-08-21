@@ -29,8 +29,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use \Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-//Quitar el comentario de la siguiente línea para que todos los métodos requieran que un usuario esté logeado como Empresario
-//#[IsGranted(ROLE_EMPRESARIO)]
 class EmpresarioController extends AbstractController
 {
     #[Route('/empresario', name: 'empresario')]
@@ -53,7 +51,6 @@ class EmpresarioController extends AbstractController
     public function buscarEmpresa(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        //$empresas = $em->getRepository(Empresa::class)->buscarEmpresasEmpresario();
         $empresas = "";
         $empresasTemp = "";
 
@@ -977,7 +974,6 @@ class EmpresarioController extends AbstractController
 
         //Buscar la empresa a consultar
         $empresa = $em->getRepository(Empresa::class)->find($id);
-
         $form = $this->createForm(EmpresaType::class, $empresa);
 
         return $this->render('empresario/consultarEmpresa.html.twig', [
@@ -1131,7 +1127,6 @@ class EmpresarioController extends AbstractController
     public function buscarComercio(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-
         $comercios = "";
         $comerciosTemp = "";
 
@@ -1359,7 +1354,6 @@ class EmpresarioController extends AbstractController
         else {
             //Buscar todos los comercios
             $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array('validez' => 'sí'), array('nombre_comercio' => 'ASC',));
-            //$comerciosTemp = $em->getRepository(Comercio::class)->buscarComerciosEmpresario();
         }
 
         $comercios = $comerciosTemp;
@@ -1420,7 +1414,6 @@ class EmpresarioController extends AbstractController
 
         //Buscar el comercio a consultar
         $comercio = $em->getRepository(Comercio::class)->find($id);
-
         $form = $this->createForm(ComercioConsultaPublicoType::class, $comercio);
 
         return $this->render('empresario/consultarComercio.html.twig', [
@@ -1556,8 +1549,6 @@ class EmpresarioController extends AbstractController
     public function buscarOferta(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        //$ofertas = $em->getRepository(Oferta::class)->buscarOfertasEmpresario();
-
         $ofertas = "";
         $ofertasTemp = "";
 
@@ -1682,7 +1673,6 @@ class EmpresarioController extends AbstractController
     public function buscarOfertaComercioEmpresario(Request $request, $id): Response
     {
         $em = $this->getDoctrine()->getManager();
-
         $ofertas = "";
 
         //Buscar todas las ofertas del comercio seleccionado
@@ -1702,7 +1692,6 @@ class EmpresarioController extends AbstractController
 
         //Buscar la oferta a consultar
         $oferta = $em->getRepository(Oferta::class)->find($id);
-
         $form = $this->createForm(OfertaConsultaType::class, $oferta);
 
         return $this->render('empresario/consultarOferta.html.twig', [
@@ -1719,7 +1708,6 @@ class EmpresarioController extends AbstractController
 
         //Buscar la oferta a consultar
         $oferta = $em->getRepository(Oferta::class)->find($id);
-
         $form = $this->createForm(OfertaConsultaType::class, $oferta);
 
         return $this->render('empresario/consultarOfertaComercio.html.twig', [
@@ -1737,7 +1725,6 @@ class EmpresarioController extends AbstractController
 
         //Buscar la oferta a consultar
         $oferta = $em->getRepository(Oferta::class)->find($id);
-
         $form = $this->createForm(OfertaConsultaType::class, $oferta);
 
         return $this->render('empresario/consultarOfertaComercioEmpresario.html.twig', [
@@ -1897,22 +1884,6 @@ class EmpresarioController extends AbstractController
         return $this->render('empresario/registrarOferta.html.twig', [
             'controller_name' => '',
             'formulario' => $form->createView()
-        ]);
-    }
-
-    #[Route('/empresario/mis-ofertas', name: 'empresarioOfertas')]
-    public function clienteOfertas(): Response
-    {
-        return $this->render('empresario/ofertas.html.twig', [
-            'controller_name' => 'Esta página muestra las Ofertas de comercios en los que se tienen las notificaciones activadas',
-        ]);
-    }
-
-    #[Route('/empresario/notificaciones', name: 'empresarioNotificaciones')]
-    public function notificaciones(): Response
-    {
-        return $this->render('empresario/notificaciones.html.twig', [
-            'controller_name' => 'Esta página muestra los comercios en los que se tienen las notificaciones activadas',
         ]);
     }
 

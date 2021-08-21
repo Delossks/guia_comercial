@@ -71,26 +71,11 @@ class EmpresaType extends AbstractType
                 'attr' => array('maxlength' => 255),
                 'help' => 'URL de la página web de la empresa (opcional)'))
 
-            //->add('validez')
-
             ->add('logotipo', FileType::class, array(
                 'label' => 'Logotipo',
                 'required' => false,
                 'mapped' => false,
-                /*'constraints' => [
-                    new File([
-                        'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'application/jpg',
-                            'application/png',
-                        ],
-                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
-                    ])
-                ],*/
-                'attr' => array('maxlength' => 255),
-                /*'help' => 'URL que aloja la imagen de la empresa (opcional)'*/))
-
-            //->add('id_usuario')
+                'attr' => array('maxlength' => 255),))
 
             ->add('Registrar', type: SubmitType::class)
         ;

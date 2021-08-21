@@ -22,24 +22,9 @@ class EmpresaAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder    
-/*            ->add('id_usuario',NumberType::class, array(
-                'label' => 'Id Usuario',
-                //'mapped' => false,
-                'required' => true,
-                'help' => 'ID del empresario al que pertenece la empresa'))
-*/
-
             ->add('id_usuario', EntityType::class, array(
                 'class' => Empresario::class,
                 'label' => 'Id Empresario*',
-                /*
-                'query_builder' => function (EntityRepository $er) use ($options){
-                    return $er->createQueryBuilder('e')
-                        ->where('e.id IN (?1)')
-                        ->orderBy('e.id_usuario', 'ASC')
-                        ->setParameter(1,$options['empresarios']);
-                },
-                */
                 'choice_label' => 'id',
                 'mapped' => false,
                 'required' => true,
@@ -104,18 +89,7 @@ class EmpresaAdminType extends AbstractType
                 'label' => 'Logotipo',
                 'required' => false,
                 'mapped' => false,
-                /*'constraints' => [
-                    new File([
-                        'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'application/jpg',
-                            'application/png',
-                        ],
-                        'mimeTypesMessage' => 'Seleccione un tipo de archivo válido (JPG, PNG)',
-                    ])
-                ],*/
-                'attr' => array('maxlength' => 255),
-                /*'help' => 'URL que aloja la imagen de la empresa (opcional)'*/))
+                'attr' => array('maxlength' => 255),))
 
             ->add('Registrar', type: SubmitType::class)
         ;
@@ -125,7 +99,6 @@ class EmpresaAdminType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Empresa::class,
-            //'empresarios' => null,
         ]);
     }
 }
