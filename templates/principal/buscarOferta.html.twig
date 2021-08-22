@@ -14,11 +14,9 @@
     <table id="tbOferta" class="table table-hover table-sm" style="border: 10px ridge SlateBlue;">
         <thead style="border-bottom-style:2px solid #24a690;">
             <tr>
-                {#<th>CIF</th>#}
                 <th>Descripción</th>
                 <th>Fecha Inicio</th>
                 <th>Fecha Fin</th>
-                {#<th>Imagen</th>#}
                 <th style="width:20%"></th>
             </tr>
         </thead>
@@ -27,11 +25,9 @@
                     <div class="scrollit">
                             {% for oferta in ofertas %}
                                 <tr id ='{{oferta.id}}'>
-                                    {#<td>{{oferta.cif}}</td>#}
                                     <td>{{oferta.descripcion}}</td>
                                     <td>{{oferta.fechaInicio | date('d-m-Y  h:m:s')}}</td>
                                     <td>{{oferta.fechaFin | date('d-m-Y  h:m:s')}}</td>
-                                    {#<td>{{oferta.imgOferta}}</td>#}
                                     <td style="width:19%" align="center">                                   
                                         <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarOferta', {id: oferta.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
                                     </td> 

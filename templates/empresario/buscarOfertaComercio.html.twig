@@ -48,7 +48,7 @@
 {% else %}
 <div class="container h-100 " style="margin-top:40px">
     <p style="text-align:center">No se ha encontrado ninguna oferta para este comercio</p>
-    <button type="button" class="btn btn-default" onclick="location.href='{{path('buscarComercioEmp')}}'">Volver a la lista de Comercios</button>
+    <button type="button" class="btn btn-default" onclick="history.back()">Volver a la lista de Comercios</button>
 </div>
 {% endif %}
 

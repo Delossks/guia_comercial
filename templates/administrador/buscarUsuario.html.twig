@@ -78,9 +78,6 @@
     }
 </script>
 
-{# {{dump(usuarios)}} #}
-
-
 {% if usuarios is not same as("") and usuarios is not null and usuarios is not empty %}
 <div class="container h-100 " style="margin-top:40px">
     <table id="tbUsuario" class="table table-hover table-sm" style="border: 10px ridge SlateBlue;">
@@ -88,7 +85,6 @@
             <tr>
                 <th>ID</th>
                 <th>Email</th>
-                {# <th>Rol</th> #}
                 <th>Nombre</th>
                 <th>Apellidos</th>
                 <th>Teléfono</th>
@@ -104,7 +100,6 @@
                                 <tr id ='{{usuario.id}}'>
                                     <td>{{usuario.id}}</td>
                                     <td>{{usuario.email}}</td>
-                                    {# <td>{{usuario.roles}}</td> #}
                                     <td>{{usuario.nombre}}</td>
                                     <td>{{usuario.apellidos}}</td>
                                     <td>{{usuario.telefono}}</td>
