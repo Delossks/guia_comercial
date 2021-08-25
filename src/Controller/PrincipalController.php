@@ -266,6 +266,8 @@ class PrincipalController extends AbstractController
         }
 
         $comercios = $comerciosTemp;
+        $session = $request->getSession();
+        $session->set('comercios', $comercios);
 
         return $this->render('principal/buscarComercio.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',

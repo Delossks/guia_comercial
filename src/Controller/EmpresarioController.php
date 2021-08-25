@@ -258,7 +258,7 @@ class EmpresarioController extends AbstractController
                                                               ->getResult();
         }
 
-        if((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
+        elseif((empty($nombre_empresa)) && !empty($direccion_empresa) && !empty($localidad_empresa) && !empty($provincia_empresa) && !empty($cp_empresa) && empty($telefono_empresa)){
             //Buscar Empresa por dirección, localidad, provincia y código postal
             $empresasTemp = $em->getRepository(Empresa::class)->createQueryBuilder('e')
                                                               ->where('e.direccion_empresa LIKE :direccion')
