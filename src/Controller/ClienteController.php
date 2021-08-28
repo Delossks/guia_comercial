@@ -28,6 +28,17 @@ class ClienteController extends AbstractController
         ]);
     }
 
+    #[Route('/cliente/comercioBuscar', name: 'comercioBuscarCli')]
+    public function comercioBuscar(Request $request): Response
+    {
+        $comercios = "";
+
+        return $this->render('cliente/buscarComercio.html.twig', [
+            'controller_name' => 'Esta es la página para buscar un Comercio',
+            'comercios' => $comercios
+        ]);
+    }
+
     #[Route('/ayuda_cliente', name: 'ayudaCliente')]
     public function ayudaUsuarioCliente(): Response
     {
@@ -273,7 +284,7 @@ class ClienteController extends AbstractController
 
         $comercios = $comerciosTemp;
 
-        return $this->render('cliente/buscarComercio.html.twig', [
+        return $this->render('cliente/comerciosEncontrados.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
             'comercios' => $comercios
         ]);

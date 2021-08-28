@@ -22,6 +22,17 @@ class PrincipalController extends AbstractController
         ]);
     }
 
+    #[Route('/comercioBuscar', name: 'comercioBuscarPublico')]
+    public function comercioBuscar(Request $request): Response
+    {
+        $comercios = "";
+
+        return $this->render('principal/buscarComercio.html.twig', [
+            'controller_name' => 'Esta es la página para buscar un Comercio',
+            'comercios' => $comercios
+        ]);
+    }
+
     #[Route('/ayuda', name: 'ayudaPublico')]
     public function ayudaUsuarioPublico(): Response
     {
@@ -265,11 +276,7 @@ class PrincipalController extends AbstractController
             $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array('validez' => 'sí'), array('nombre_comercio' => 'ASC'));
         }
 
-        $comercios = $comerciosTemp;
-        $session = $request->getSession();
-        $session->set('comercios', $comercios);
-
-        return $this->render('principal/buscarComercio.html.twig', [
+        return $this->render('principal/comerciosEncontrados.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
             'comercios' => $comercios
         ]);

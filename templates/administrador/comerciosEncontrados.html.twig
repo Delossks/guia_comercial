@@ -1,6 +1,6 @@
-{% extends 'principal/index.html.twig' %}
+{% extends 'administrador/index.html.twig' %}
 
-{% block title %}Guía Comercial - Buscar Comercio{% endblock %}
+{% block title %}{{parent()}} - Buscar Comercio{% endblock %}
 
 {% block body %}
 
@@ -11,11 +11,14 @@
     <table id="tbComercio" class="table table-hover table-sm" style="border: 10px ridge SlateBlue;">
         <thead style="border-bottom-style:2px solid #24a690;">
             <tr>
+                <th>ID</th>
                 <th>Nombre</th>
+                <th>CIF</th>
                 <th>Dirección</th>
                 <th>Código Postal</th>
                 <th>Teléfono</th>
                 <th>Web</th>
+                <th>Validez</th>
                 <th style="width:20%"></th>
             </tr>
         </thead>
@@ -24,21 +27,30 @@
                     <div class="scrollit">
                             {% for comercio in comercios %}
                                 <tr id ='{{comercio.id}}'>
+                                    <td>{{comercio.id}}</td>
                                     <td>{{comercio.nombreComercio}}</td>
+                                    <td>{{comercio.cif}}</td>
                                     <td>{{comercio.direccionComercio}}</td>
                                     <td>{{comercio.codigoPostal}}</td>
                                     <td>{{comercio.telefonoComercio}}</td>
                                     <td>{{comercio.webComercio}}</td>
-                                    <td style="width:19%" align="center">
-                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercio', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
+                                    <td>{{comercio.validez}}</td>
+                                    <td style="width:19%" align="center">                                   
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('validarComercio', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/checks.png') }}" title="Validar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('rechazarComercio', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/delete2.png') }}" title="Rechazar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('consultarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/about.png') }}" title="Consultar"/></button>
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('modificarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/contract.png') }}" title="Modificar"/></button> 
+                                        <button type="button" class="btn btn-link" onclick="location.href='{{ path('eliminarComercioAdmin', {id: comercio.id})}}'"><img height="24px" src="{{ asset('images/garbage.png') }}" title="Eliminar"/></button>
                                     </td> 
                                 </tr>
                             {% endfor %}
+                        </table>
                     </div>
                </td>
             </tr>
         </tbody>
     </table>
+    
     <div class="container h-100 " style="margin-top:40px">
     <div class="form-row">
         <div id="boton_volver" class="form-group col-md-6">
@@ -46,12 +58,15 @@
         </div>
     </div>
     </div>
+    
 </div>
 {% else %}
+
 <div class="container h-100 " style="margin-top:40px">
     <p style="text-align:center">No se ha encontrado ningun comercio que satisfaga los criterios seleccionados</p>
     <button type="button" class="btn btn-default" onclick="history.back()">Volver</button>
 </div>
+
 {% endif %}
 
 {% endblock %}

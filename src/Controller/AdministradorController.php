@@ -45,6 +45,50 @@ class AdministradorController extends AbstractController
         ]);
     }
 
+    #[Route('/administrador/usuarioBuscar', name: 'usuarioBuscarAdmin')]
+    public function usuarioBuscar(Request $request): Response
+    {
+        $usuarios = "";
+
+        return $this->render('administrador/buscarUsuario.html.twig', [
+            'controller_name' => 'Esta es la página para buscar un Usuario',
+            'usuarios' => $usuarios
+        ]);
+    }
+
+    #[Route('/administrador/empresaBuscar', name: 'empresaBuscarAdmin')]
+    public function empresaBuscar(Request $request): Response
+    {
+        $empresas = "";
+
+        return $this->render('administrador/buscarEmpresa.html.twig', [
+            'controller_name' => 'Esta es la página para buscar una Empresa',
+            'empresas' => $empresas
+        ]);
+    }
+
+    #[Route('/administrador/comercioBuscar', name: 'comercioBuscarAdmin')]
+    public function comercioBuscar(Request $request): Response
+    {
+        $comercios = "";
+
+        return $this->render('administrador/buscarComercio.html.twig', [
+            'controller_name' => 'Esta es la página para buscar un Comercio',
+            'comercios' => $comercios
+        ]);
+    }
+
+    #[Route('/administrador/ofertaBuscar', name: 'ofertaBuscarAdmin')]
+    public function ofertaBuscar(Request $request): Response
+    {
+        $ofertas = "";
+
+        return $this->render('administrador/buscarOferta.html.twig', [
+            'controller_name' => 'Esta es la página para buscar una Oferta',
+            'ofertas' => $ofertas
+        ]);
+    }
+
     #[Route('/administrador/ayuda_administrador', name: 'ayudaAdministrador')]
     public function ayudaAdministrador(): Response
     {
@@ -87,7 +131,7 @@ class AdministradorController extends AbstractController
         //Búsquedas según los parámetros introducidos
         if(!(empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, nombre, apellidos, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
@@ -105,7 +149,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por email, nombre, apellidos y teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
@@ -121,7 +165,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, nombre, apellidos y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
@@ -137,7 +181,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por email, nombre y apellidos
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
@@ -151,7 +195,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, nombre, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.telefono LIKE :telefono')
@@ -167,7 +211,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por email, nombre y teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.telefono LIKE :telefono')
@@ -181,7 +225,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, nombre y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->andWhere('u.validez LIKE :validez')
@@ -195,7 +239,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por email y nombre
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.nombre LIKE :nombre')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -207,7 +251,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, apellidos, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.telefono LIKE :telefono')
@@ -223,7 +267,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por email, apellidos y teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.telefono LIKE :telefono')
@@ -237,7 +281,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, apellidos y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.validez LIKE :validez')
@@ -251,7 +295,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por email y apellidos
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -263,7 +307,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por email, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->andWhere('u.validez LIKE :validez')
@@ -277,7 +321,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por email y teléfono 
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -289,7 +333,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por email y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->andWhere('u.validez LIKE :validez')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -301,7 +345,7 @@ class AdministradorController extends AbstractController
 
         elseif(!(empty($email)) && empty($nombre) && empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por email
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.email LIKE :email')
                                                               ->orderBy('u.apellidos', 'ASC')
                                                               ->setParameter('email','%'.$email.'%')
@@ -311,7 +355,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por nombre, apellidos, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.telefono LIKE :telefono')
@@ -327,7 +371,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por nombre, apellidos y teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.telefono LIKE :telefono')
@@ -341,7 +385,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por nombre, apellidos y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.validez LIKE :validez')
@@ -355,7 +399,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por nombre y apellidos
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -367,7 +411,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por nombre, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->andWhere('u.validez LIKE :validez')
@@ -381,7 +425,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por nombre y teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -393,7 +437,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por nombre y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->andWhere('u.validez LIKE :validez')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -405,7 +449,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && !empty($nombre) && empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por nombre
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.nombre LIKE :nombre')
                                                               ->orderBy('u.apellidos', 'ASC')
                                                               ->setParameter('nombre','%'.$nombre.'%')
@@ -415,7 +459,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por apellidos, teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->andWhere('u.validez LIKE :validez')
@@ -429,7 +473,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && !empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por apellidos y teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -441,7 +485,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por apellidos y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.apellidos LIKE :apellidos')
                                                               ->andWhere('u.validez LIKE :validez')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -453,7 +497,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && !empty($apellidos) && empty($telefono) && empty($validez)){
             //Buscar Usuario por apellidos
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->andWhere('u.apellidos LIKE :apellidos')
                                                               ->orderBy('u.apellidos', 'ASC')
                                                               ->setParameter('apellidos','%'.$apellidos.'%')
@@ -463,7 +507,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && !empty($validez)){
             //Buscar Usuario por teléfono y validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.telefono LIKE :telefono')
                                                               ->andWhere('u.validez LIKE :validez')
                                                               ->orderBy('u.apellidos', 'ASC')
@@ -475,7 +519,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && empty($apellidos) && !empty($telefono) && empty($validez)){
             //Buscar Usuario por teléfono
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->andWhere('u.telefono LIKE :telefono')
                                                               ->orderBy('u.apellidos', 'ASC')
                                                               ->setParameter('telefono','%'.$telefono.'%')
@@ -485,7 +529,7 @@ class AdministradorController extends AbstractController
 
         elseif((empty($email)) && empty($nombre) && empty($apellidos) && empty($telefono) && !empty($validez)){
             //Buscar Usuario por validez
-            $empresasTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
+            $usuariosTemp = $em->getRepository(Usuario::class)->createQueryBuilder('u')
                                                               ->where('u.validez LIKE :validez')
                                                               ->orderBy('u.apellidos', 'ASC')
                                                               ->setParameter('validez','%'.$validez.'%')
@@ -500,7 +544,7 @@ class AdministradorController extends AbstractController
 
         $usuarios = $usuariosTemp;
 
-        return $this->render('administrador/buscarUsuario.html.twig', [
+        return $this->render('administrador/usuariosEncontrados.html.twig', [
             'controller_name' => 'Buscar un Usuario',
             'usuarios' => $usuarios
         ]);
@@ -1676,7 +1720,7 @@ class AdministradorController extends AbstractController
 
         $empresas = $empresasTemp;
 
-        return $this->render('administrador/buscarEmpresa.html.twig', [
+        return $this->render('administrador/empresasEncontradas.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Empresa',
             'empresas' => $empresas
         ]);
@@ -2115,7 +2159,7 @@ class AdministradorController extends AbstractController
 
         $comercios = $comerciosTemp;
 
-        return $this->render('administrador/buscarComercio.html.twig', [
+        return $this->render('administrador/comerciosEncontrados.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
             'comercios' => $comercios
         ]);
@@ -2395,7 +2439,7 @@ class AdministradorController extends AbstractController
 
         $ofertas = $ofertasTemp;
 
-        return $this->render('administrador/buscarOferta.html.twig', [
+        return $this->render('administrador/ofertasEncontradas.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Oferta',
             'ofertas' => $ofertas
         ]);

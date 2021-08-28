@@ -39,6 +39,28 @@ class EmpresarioController extends AbstractController
         ]);
     }
 
+    #[Route('/empresario/comercioBuscar', name: 'comercioBuscarEmp')]
+    public function comercioBuscar(Request $request): Response
+    {
+        $comercios = "";
+
+        return $this->render('empresario/buscarComercio.html.twig', [
+            'controller_name' => 'Esta es la página para buscar un Comercio',
+            'comercios' => $comercios
+        ]);
+    }
+
+    #[Route('/empresario/empresaBuscar', name: 'empresaBuscarEmp')]
+    public function empresaBuscar(Request $request): Response
+    {
+        $empresas = "";
+
+        return $this->render('empresario/buscarEmpresa.html.twig', [
+            'controller_name' => 'Esta es la página para buscar una Empresa',
+            'empresas' => $empresas
+        ]);
+    }
+
     #[Route('/ayuda_empresario', name: 'ayudaEmpresario')]
     public function ayudaUsuarioEmpresario(): Response
     {
@@ -961,7 +983,7 @@ class EmpresarioController extends AbstractController
 
         $empresas = $empresasTemp;
 
-        return $this->render('empresario/buscarEmpresa.html.twig', [
+        return $this->render('empresario/empresasEncontradas.html.twig', [
             'controller_name' => 'Esta es la página para buscar una Empresa',
             'empresas' => $empresas
         ]);
@@ -1358,7 +1380,7 @@ class EmpresarioController extends AbstractController
 
         $comercios = $comerciosTemp;
 
-        return $this->render('empresario/buscarComercio.html.twig', [
+        return $this->render('empresario/comerciosEncontrados.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
             'comercios' => $comercios
         ]);
