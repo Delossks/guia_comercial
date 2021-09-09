@@ -276,6 +276,8 @@ class PrincipalController extends AbstractController
             $comerciosTemp = $em->getRepository(Comercio::class)->findBy(array('validez' => 'sí'), array('nombre_comercio' => 'ASC'));
         }
 
+        $comercios = $comerciosTemp;
+
         return $this->render('principal/comerciosEncontrados.html.twig', [
             'controller_name' => 'Esta es la página para buscar un Comercio',
             'comercios' => $comercios
